@@ -1,13 +1,7 @@
 package dev.hekmyr.olids.api.service;
 
-import dev.hekmyr.olids.api.dto.RentalPropertyDTO;
-import dev.hekmyr.olids.api.dto.UserCreateDTO;
-import dev.hekmyr.olids.api.dto.UserDTO;
-import dev.hekmyr.olids.api.dto.UserUpdateDTO;
-import dev.hekmyr.olids.api.entity.Accessibility;
-import dev.hekmyr.olids.api.entity.Amenity;
-import dev.hekmyr.olids.api.entity.RentalProperty;
-import dev.hekmyr.olids.api.entity.User;
+import dev.hekmyr.olids.api.dto.*;
+import dev.hekmyr.olids.api.entity.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -24,6 +18,7 @@ public class DbService {
       .addAnnotatedClass(Amenity.class)
       .addAnnotatedClass(RentalProperty.class)
       .addAnnotatedClass(User.class)
+      .addAnnotatedClass(BillingInformation.class)
       .buildSessionFactory();
   }
 
@@ -139,6 +134,26 @@ public class DbService {
       var user = session.get(User.class, id);
       return new UserDTO(user);
     } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    } finally {
+      session.close();
+    }
+  }
+
+  public BillingInformationDTO addBillingInformation(
+    BillingInformationCreateDTO dto
+  ) {
+    var session = this.sessionFactory.openSession();
+    var tx = session.getTransaction();
+    var entity = new BillingInformation(dto);
+    try {
+      tx.begin();
+      session.persist(entity);
+      tx.commit();
+      return new BillingInformationDTO(entity);
+    } catch (Exception e) {
+      tx.rollback();
       e.printStackTrace();
       return null;
     } finally {

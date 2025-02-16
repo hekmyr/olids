@@ -52,4 +52,11 @@ public class Controller {
   ) {
     return ResponseEntity.ok(new DbService().updateUser(id, dto));
   }
+
+  @PostMapping("/user/billing-information")
+  public ResponseEntity<BillingInformationDTO> billingInformation(
+    @RequestBody BillingInformationCreateDTO dto
+  ) {
+    return ResponseEntity.ok(new DbService().addBillingInformation(dto));
+  }
 }

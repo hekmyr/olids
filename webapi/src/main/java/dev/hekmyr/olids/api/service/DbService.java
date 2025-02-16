@@ -4,6 +4,8 @@ import dev.hekmyr.olids.api.dto.RentalPropertyDTO;
 import dev.hekmyr.olids.api.entity.Accessibility;
 import dev.hekmyr.olids.api.entity.Amenity;
 import dev.hekmyr.olids.api.entity.RentalProperty;
+import java.util.List;
+import java.util.UUID;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -43,6 +45,26 @@ public class DbService {
       return null;
     } finally {
       session.close();
+    }
+  }
+
+  public RentalProperty findProperty(UUID id) {
+    try (var session = this.sessionFactory.openSession()) {
+      return session.get(RentalProperty.class, id);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public List<RentalProperty> allProperties() {
+    try (var session = this.sessionFactory.openSession()) {
+      return session
+        .createQuery("from RentalProperty", RentalProperty.class)
+        .getResultList();
+    } catch (Exception e) {
+      e.printStackTrace();
+      return null;
     }
   }
 }

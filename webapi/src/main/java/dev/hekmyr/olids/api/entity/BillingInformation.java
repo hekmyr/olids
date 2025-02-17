@@ -1,6 +1,7 @@
 package dev.hekmyr.olids.api.entity;
 
 import dev.hekmyr.olids.api.dto.BillingInformationCreateDTO;
+import dev.hekmyr.olids.api.dto.BillingInformationUpdateDTO;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -40,6 +41,14 @@ public class BillingInformation {
     this.dateCreated = LocalDateTime.now();
     this.dateUpdated = LocalDateTime.now();
   }
+
+  public BillingInformation(BillingInformationUpdateDTO dto) {
+      this.cardNumber = dto.getCardNumber();
+      this.monthExpiration = dto.getMonthExpiration();
+      this.yearExpiration = dto.getYearExpiration();
+      this.dateCreated = LocalDateTime.now();
+      this.dateUpdated = LocalDateTime.now();
+    }
 
   public UUID getId() {
     return id;

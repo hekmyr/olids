@@ -59,4 +59,12 @@ public class Controller {
   ) {
     return ResponseEntity.ok(new DbService().addBillingInformation(dto));
   }
+
+  @PutMapping("/user/billing-information/{id}")
+  public ResponseEntity<BillingInformationDTO> updateBillingInformation(
+    @PathVariable UUID id,
+    @RequestBody BillingInformationUpdateDTO dto
+  ) {
+    return ResponseEntity.ok(new DbService().updateBillingInformation(id, dto));
+  }
 }

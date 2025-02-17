@@ -160,4 +160,36 @@ public class DbService {
       session.close();
     }
   }
+
+  public BillingInformationDTO updateBillingInformation(
+    UUID id,
+    BillingInformationUpdateDTO dto
+  ) {
+    var session = this.sessionFactory.openStatelessSession();
+    var tx = session.getTransaction();
+    var hql =
+      "UPDATE BillingInformation b SET " +
+      "b.cardNumber = :cardNumber, " +
+      "b.monthExpiration = :monthExpiration, " +
+      "b.yearExpiration = :yearExpiration " +
+      "WHERE b.id = :id";
+    try {
+      tx.begin();
+      session
+        .createMutationQuery(hql)
+        .setParameter("cardNumber", dto.getCardNumber())
+        .setParameter("monthExpiration", dto.getMonthExpiration())
+        .setParameter("yearExpiration", dto.getYearExpiration())
+        .setParameter("id", id)
+        .executeUpdate();
+      tx.commit();
+      return new BillingInformationDTO(id, dto);
+    } catch (Exception e) {
+      tx.rollback();
+      e.printStackTrace();
+      return null;
+    } finally {
+      session.close();
+    }
+  }
 }

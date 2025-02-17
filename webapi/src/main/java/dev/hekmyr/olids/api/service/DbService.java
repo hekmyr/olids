@@ -105,7 +105,7 @@ public class DbService {
         "u.dateUpdated = :dateUpdated " +
         "WHERE u.id = :id";
       session
-        .createQuery(hql)
+        .createMutationQuery(hql)
         .setParameter("lastName", dto.getLastName())
         .setParameter("firstName", dto.getFirstName())
         .setParameter("email", dto.getEmail())

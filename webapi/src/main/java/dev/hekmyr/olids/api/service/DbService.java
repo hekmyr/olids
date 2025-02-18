@@ -192,4 +192,21 @@ public class DbService {
       session.close();
     }
   }
+
+  public BillingInformationDTO getBillingInformation(UUID id) {
+    var session = this.sessionFactory.openSession();
+    var tx = session.getTransaction();
+    try {
+      tx.begin();
+      var entity = session.get(BillingInformation.class, id);
+      tx.commit();
+      return new BillingInformationDTO(entity);
+    } catch (Exception e) {
+      tx.rollback();
+      e.printStackTrace();
+      return null;
+    } finally {
+      session.close();
+    }
+  }
 }

@@ -67,4 +67,11 @@ public class Controller {
   ) {
     return ResponseEntity.ok(new DbService().updateBillingInformation(id, dto));
   }
+
+  @GetMapping("/user/billing-information/{id}")
+  public ResponseEntity<BillingInformationDTO> getBillingInformation(
+    @PathVariable UUID id
+  ) {
+    return ResponseEntity.ok(new DbService().getBillingInformation(id));
+  }
 }

@@ -33,6 +33,8 @@ public class BillingInformation {
   @Column(name = "date_updated")
   private LocalDateTime dateUpdated;
 
+  public BillingInformation() {}
+
   public BillingInformation(BillingInformationCreateDTO dto) {
     this.userId = dto.getUserId();
     this.cardNumber = dto.getCardNumber();

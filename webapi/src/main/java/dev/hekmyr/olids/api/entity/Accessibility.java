@@ -14,31 +14,31 @@ public class Accessibility {
   @Column(columnDefinition = "UUID DEFAULT gen_random_uuid()")
   private UUID id;
 
-  @Column(name = "toilet_grab_bar")
+  @Column(name = "toilet_grab_bar", nullable = false)
   private boolean toiletGrabBarAvailable;
 
-  @Column(name = "shower_grab_bar")
+  @Column(name = "shower_grab_bar", nullable = false)
   private boolean showerGrabBarAvailable;
 
-  @Column(name = "step_free_shower")
+  @Column(name = "step_free_shower", nullable = false)
   private boolean stepFreeShowerAvailable;
 
-  @Column(name = "shower_bath_chair")
+  @Column(name = "shower_bath_chair", nullable = false)
   private boolean showerBathChairAvailable;
 
-  @Column(name = "step_free_bedroom_access")
+  @Column(name = "step_free_bedroom_access", nullable = false)
   private boolean stepFreeBedroomAccessAvailable;
 
-  @Column(name = "wide_bedroom_entrance")
+  @Column(name = "wide_bedroom_entrance", nullable = false)
   private boolean wideBedroomEntranceAvailable;
 
-  @Column(name = "step_free_access")
+  @Column(name = "step_free_access", nullable = false)
   private boolean stepFreeAccessAvailable;
 
-  @Column(name = "date_created")
+  @Column(name = "date_created", nullable = false)
   private LocalDateTime dateCreated;
 
-  @Column(name = "date_updated")
+  @Column(name = "date_updated", nullable = false)
   private LocalDateTime dateUpdated;
 
   public Accessibility() {}

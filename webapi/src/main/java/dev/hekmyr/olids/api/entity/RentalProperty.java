@@ -15,16 +15,16 @@ public class RentalProperty implements Serializable {
   @Column(columnDefinition = "UUID DEFAULT gen_random_uuid()")
   private UUID id;
 
-  @Column(name = "accessibility_id")
-  private UUID accessibilityId;
+  @OneToOne
+  private Accessibility accessibility;
 
-  @Column(name = "amenity_id")
-  private UUID aminityId;
+  @OneToOne
+  private Amenity amenity;
 
-  @Column
+  @Column(name = "name", nullable = false)
   private String name;
 
-  @Column
+  @Column(name = "is_listed", nullable = false)
   private boolean listed;
 
   @Column(name = "listed_at")
@@ -33,39 +33,39 @@ public class RentalProperty implements Serializable {
   @Column(name = "price_per_night")
   private int pricePerNight;
 
-  @Column
+  @Column(name = "beds", nullable = false)
   private int beds;
 
-  @Column
+  @Column(name = "bedrooms", nullable = false)
   private int bedrooms;
 
-  @Column
+  @Column(name = "bathrooms", nullable = false)
   private int bathrooms;
 
-  @Column
+  @Column(name = "street", nullable = false)
   private String street;
 
-  @Column
+  @Column(name = "number", nullable = false)
   private String number;
 
-  @Column(name = "postal_code")
+  @Column(name = "postal_code", nullable = false)
   private String postalCode;
 
-  @Column(name = "date_created")
+  @Column(name = "date_created", nullable = false)
   private LocalDateTime dateCreated;
 
-  @Column(name = "date_updated")
+  @Column(name = "date_updated", nullable = false)
   private LocalDateTime dateUpdated;
 
   public RentalProperty() {}
 
   public RentalProperty(
     RentalPropertyDTO model,
-    UUID amenityId,
-    UUID accessibilityId
+    Amenity amenity,
+    Accessibility accessibility
   ) {
-    this.aminityId = amenityId;
-    this.accessibilityId = accessibilityId;
+    this.amenity = amenity;
+    this.accessibility = accessibility;
     this.name = model.getName();
     this.listed = model.isListed();
     this.listedAt = this.listed ? LocalDateTime.now() : null;
@@ -88,20 +88,20 @@ public class RentalProperty implements Serializable {
     this.id = id;
   }
 
-  public UUID getAccessibilityId() {
-    return accessibilityId;
+  public Accessibility getAccessibility() {
+    return accessibility;
   }
 
-  public void setAccessibilityId(UUID accessibilityId) {
-    this.accessibilityId = accessibilityId;
+  public void setAccessibility(Accessibility accessibility) {
+    this.accessibility = accessibility;
   }
 
-  public UUID getAminityId() {
-    return aminityId;
+  public Amenity getAmenity() {
+    return amenity;
   }
 
-  public void setAminityId(UUID aminityId) {
-    this.aminityId = aminityId;
+  public void setAmenity(Amenity amenity) {
+    this.amenity = amenity;
   }
 
   public String getName() {
@@ -116,7 +116,7 @@ public class RentalProperty implements Serializable {
     return listed;
   }
 
-  public void setListed(Boolean listed) {
+  public void setListed(boolean listed) {
     this.listed = listed;
   }
 
@@ -128,35 +128,35 @@ public class RentalProperty implements Serializable {
     this.listedAt = listedAt;
   }
 
-  public Integer getPricePerNight() {
+  public int getPricePerNight() {
     return pricePerNight;
   }
 
-  public void setPricePerNight(Integer pricePerNight) {
+  public void setPricePerNight(int pricePerNight) {
     this.pricePerNight = pricePerNight;
   }
 
-  public Integer getBeds() {
+  public int getBeds() {
     return beds;
   }
 
-  public void setBeds(Integer beds) {
+  public void setBeds(int beds) {
     this.beds = beds;
   }
 
-  public Integer getBedrooms() {
+  public int getBedrooms() {
     return bedrooms;
   }
 
-  public void setBedrooms(Integer bedrooms) {
+  public void setBedrooms(int bedrooms) {
     this.bedrooms = bedrooms;
   }
 
-  public Integer getBathrooms() {
+  public int getBathrooms() {
     return bathrooms;
   }
 
-  public void setBathrooms(Integer bathrooms) {
+  public void setBathrooms(int bathrooms) {
     this.bathrooms = bathrooms;
   }
 

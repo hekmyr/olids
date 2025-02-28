@@ -14,40 +14,40 @@ public class Amenity {
   @Column(columnDefinition = "UUID DEFAULT gen_random_uuid()")
   private UUID id;
 
-  @Column(name = "air_conditioning")
+  @Column(name = "air_conditioning", nullable = false)
   private boolean airConditioningAvailable;
 
-  @Column(name = "terrace")
+  @Column(name = "terrace", nullable = false)
   private boolean terraceAvailable;
 
-  @Column(name = "garden")
+  @Column(name = "garden", nullable = false)
   private boolean gardenAvailable;
 
-  @Column(name = "pool")
+  @Column(name = "pool", nullable = false)
   private boolean poolAvailable;
 
-  @Column(name = "hot_tub")
+  @Column(name = "hot_tub", nullable = false)
   private boolean hotTubAvailable;
 
-  @Column(name = "ev_charger")
+  @Column(name = "ev_charger", nullable = false)
   private boolean evChargerAvailable;
 
-  @Column(name = "indoor_fireplace")
+  @Column(name = "indoor_fireplace", nullable = false)
   private boolean indoorFireplaceAvailable;
 
-  @Column(name = "outdoor_fireplace")
+  @Column(name = "outdoor_fireplace", nullable = false)
   private boolean outdoorFireplaceAvailable;
 
-  @Column(name = "dedicated_workspace")
+  @Column(name = "dedicated_workspace", nullable = false)
   private boolean dedicatedWorkspaceAvailable;
 
-  @Column(name = "gym")
+  @Column(name = "gym", nullable = false)
   private boolean gymAvailable;
 
-  @Column(name = "date_created")
+  @Column(name = "date_created", nullable = false)
   private LocalDateTime dateCreated;
 
-  @Column(name = "date_updated")
+  @Column(name = "date_updated", nullable = false)
   private LocalDateTime dateUpdated;
 
   public Amenity() {}

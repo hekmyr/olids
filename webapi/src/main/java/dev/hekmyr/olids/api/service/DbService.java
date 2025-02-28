@@ -32,11 +32,7 @@ public class DbService {
       tx.begin();
       session.persist(amenity);
       session.persist(accessibility);
-      rentalProperty = new RentalProperty(
-        model,
-        amenity.getId(),
-        accessibility.getId()
-      );
+      rentalProperty = new RentalProperty(model, amenity, accessibility);
       session.persist(rentalProperty);
       tx.commit();
       return new RentalPropertyDTO(rentalProperty, amenity, accessibility);
@@ -146,7 +142,8 @@ public class DbService {
   ) {
     var session = this.sessionFactory.openSession();
     var tx = session.getTransaction();
-    var entity = new BillingInformation(dto);
+    var user = session.get(User.class, dto.getUserId());
+    var entity = new BillingInformation(dto, user);
     try {
       tx.begin();
       session.persist(entity);

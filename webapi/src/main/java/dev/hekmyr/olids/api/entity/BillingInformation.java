@@ -15,28 +15,28 @@ public class BillingInformation {
   @Column(columnDefinition = "UUID DEFAULT gen_random_uuid()")
   private UUID id;
 
-  @Column(name = "user_id")
-  private UUID userId;
+  @ManyToOne(optional = false)
+  private User user;
 
-  @Column(name = "card_number")
+  @Column(name = "card_number", nullable = false)
   private String cardNumber;
 
-  @Column(name = "month_expiration")
+  @Column(name = "month_expiration", nullable = false)
   private int monthExpiration;
 
-  @Column(name = "year_expiration")
+  @Column(name = "year_expiration", nullable = false)
   private int yearExpiration;
 
-  @Column(name = "date_created")
+  @Column(name = "date_created", nullable = false)
   private LocalDateTime dateCreated;
 
-  @Column(name = "date_updated")
+  @Column(name = "date_updated", nullable = false)
   private LocalDateTime dateUpdated;
 
   public BillingInformation() {}
 
-  public BillingInformation(BillingInformationCreateDTO dto) {
-    this.userId = dto.getUserId();
+  public BillingInformation(BillingInformationCreateDTO dto, User user) {
+    this.user = user;
     this.cardNumber = dto.getCardNumber();
     this.monthExpiration = dto.getMonthExpiration();
     this.yearExpiration = dto.getYearExpiration();
@@ -45,12 +45,12 @@ public class BillingInformation {
   }
 
   public BillingInformation(BillingInformationUpdateDTO dto) {
-      this.cardNumber = dto.getCardNumber();
-      this.monthExpiration = dto.getMonthExpiration();
-      this.yearExpiration = dto.getYearExpiration();
-      this.dateCreated = LocalDateTime.now();
-      this.dateUpdated = LocalDateTime.now();
-    }
+    this.cardNumber = dto.getCardNumber();
+    this.monthExpiration = dto.getMonthExpiration();
+    this.yearExpiration = dto.getYearExpiration();
+    this.dateCreated = LocalDateTime.now();
+    this.dateUpdated = LocalDateTime.now();
+  }
 
   public UUID getId() {
     return id;
@@ -60,12 +60,12 @@ public class BillingInformation {
     this.id = id;
   }
 
-  public UUID getUserId() {
-    return userId;
+  public User getUser() {
+    return user;
   }
 
-  public void setUserId(UUID userId) {
-    this.userId = userId;
+  public void setUser(User user) {
+    this.user = user;
   }
 
   public String getCardNumber() {

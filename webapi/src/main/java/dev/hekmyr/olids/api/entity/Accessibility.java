@@ -48,7 +48,8 @@ public class Accessibility {
     this.showerGrabBarAvailable = model.isShowerGrabBarAvailable();
     this.stepFreeShowerAvailable = model.isStepFreeShowerAvailable();
     this.showerBathChairAvailable = model.isShowerBathChairAvailable();
-    this.stepFreeBedroomAccessAvailable = model.isStepFreeBedroomAccessAvailable();
+    this.stepFreeBedroomAccessAvailable =
+      model.isStepFreeBedroomAccessAvailable();
     this.wideBedroomEntranceAvailable = model.isWideBedroomEntranceAvailable();
     this.stepFreeAccessAvailable = model.isStepFreeAccessAvailable();
     this.dateCreated = LocalDateTime.now();

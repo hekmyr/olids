@@ -1,6 +1,6 @@
-package dev.hekmyr.olids.api;
+package dev.hekmyr.olids.api.controller;
 
-import dev.hekmyr.olids.api.auth.UserDetailsManagerImpl;
+import dev.hekmyr.olids.api.Constant;
 import dev.hekmyr.olids.api.dto.*;
 import dev.hekmyr.olids.api.entity.RentalProperty;
 import dev.hekmyr.olids.api.model.MessageResponseModel;
@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping(Constant.API_V1_ENDPOINT)
 public class Controller {
 
   @GetMapping("/ping")
@@ -34,30 +34,6 @@ public class Controller {
   @GetMapping("/rental-properties")
   public ResponseEntity<List<RentalProperty>> rentalProperties() {
     return ResponseEntity.ok(new DbService().allProperties());
-  }
-
-  @PostMapping("/public/sign-up")
-  public ResponseEntity<?> signUp(@RequestBody UserCreateDTO dto) {
-    try {
-      var responseDTO = new UserDetailsManagerImpl().createUser(dto);
-      return ResponseEntity.ok(responseDTO);
-    } catch (Exception e) {
-      e.printStackTrace();
-      return ResponseEntity.internalServerError().build();
-    }
-  }
-
-  @GetMapping("/user/{id}")
-  public ResponseEntity<UserDTO> getUser(@PathVariable UUID id) {
-    return ResponseEntity.ok(new DbService().findUser(id));
-  }
-
-  @PutMapping("/user/{id}")
-  public ResponseEntity<UserDTO> updateUser(
-    @PathVariable UUID id,
-    @RequestBody UserUpdateDTO dto
-  ) {
-    return ResponseEntity.ok(new DbService().updateUser(id, dto));
   }
 
   @PostMapping("/user/billing-information")

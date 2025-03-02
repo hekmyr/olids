@@ -3,6 +3,7 @@ package dev.hekmyr.olids.api.dto;
 public class UserCreateDTO {
 
   private String email;
+  private String password;
 
   public String getEmail() {
     return email;
@@ -10,5 +11,13 @@ public class UserCreateDTO {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
   }
 }

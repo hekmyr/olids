@@ -13,7 +13,11 @@ public class DbService {
   private SessionFactory sessionFactory;
 
   public DbService() {
-    this.sessionFactory = new Configuration()
+    this.sessionFactory = buildSessionFactory();
+  }
+
+  public static SessionFactory buildSessionFactory() {
+    return new Configuration()
       .addAnnotatedClass(Accessibility.class)
       .addAnnotatedClass(Amenity.class)
       .addAnnotatedClass(RentalProperty.class)
@@ -62,24 +66,6 @@ public class DbService {
     } catch (Exception e) {
       e.printStackTrace();
       return null;
-    }
-  }
-
-  public UserDTO createUser(UserCreateDTO dto) {
-    var session = this.sessionFactory.openSession();
-    var tx = session.getTransaction();
-    var user = new User(dto);
-    try {
-      tx.begin();
-      session.persist(user);
-      tx.commit();
-      return new UserDTO(user);
-    } catch (Exception e) {
-      tx.rollback();
-      e.printStackTrace();
-      return null;
-    } finally {
-      session.close();
     }
   }
 

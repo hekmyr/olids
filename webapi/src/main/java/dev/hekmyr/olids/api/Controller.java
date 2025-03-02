@@ -1,5 +1,6 @@
 package dev.hekmyr.olids.api;
 
+import dev.hekmyr.olids.api.auth.UserDetailsManagerImpl;
 import dev.hekmyr.olids.api.dto.*;
 import dev.hekmyr.olids.api.entity.RentalProperty;
 import dev.hekmyr.olids.api.model.MessageResponseModel;
@@ -35,9 +36,15 @@ public class Controller {
     return ResponseEntity.ok(new DbService().allProperties());
   }
 
-  @PostMapping("/sign-up")
-  public ResponseEntity<UserDTO> signUp(@RequestBody UserCreateDTO dto) {
-    return ResponseEntity.ok(new DbService().createUser(dto));
+  @PostMapping("/public/sign-up")
+  public ResponseEntity<?> signUp(@RequestBody UserCreateDTO dto) {
+    try {
+      var responseDTO = new UserDetailsManagerImpl().createUser(dto);
+      return ResponseEntity.ok(responseDTO);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return ResponseEntity.internalServerError().build();
+    }
   }
 
   @GetMapping("/user/{id}")

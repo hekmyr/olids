@@ -14,21 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(Constant.API_V1_ENDPOINT)
 public class Controller {
 
-  @GetMapping("/ping")
-  public ResponseEntity<MessageResponseModel> ping() {
-    return ResponseEntity.ok(new MessageResponseModel("pong"));
-  }
-
-  @GetMapping("/rental-property/{id}")
-  public ResponseEntity<RentalProperty> rentalProperty(@PathVariable UUID id) {
-    return ResponseEntity.ok(new DbService().findProperty(id));
-  }
-
-  @GetMapping("/rental-properties")
-  public ResponseEntity<List<RentalProperty>> rentalProperties() {
-    return ResponseEntity.ok(new DbService().allProperties());
-  }
-
   @PostMapping("/user/billing-information")
   public ResponseEntity<BillingInformationDTO> billingInformation(
     @RequestBody BillingInformationCreateDTO dto

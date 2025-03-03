@@ -19,13 +19,6 @@ public class Controller {
     return ResponseEntity.ok(new MessageResponseModel("pong"));
   }
 
-  @PostMapping("/rental-property")
-  public ResponseEntity<RentalPropertyDTO> rentalProperty(
-    @RequestBody RentalPropertyDTO model
-  ) {
-    return ResponseEntity.ok(new DbService().saveProperty(model));
-  }
-
   @GetMapping("/rental-property/{id}")
   public ResponseEntity<RentalProperty> rentalProperty(@PathVariable UUID id) {
     return ResponseEntity.ok(new DbService().findProperty(id));

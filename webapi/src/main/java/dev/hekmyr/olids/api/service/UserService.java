@@ -13,14 +13,14 @@ public class UserService {
 
   private static Logger log = LoggerFactory.getLogger(UserService.class);
 
-  public static UserDTO loadUserByUsername(String username) {
+  public static User loadUserByUsername(String username) {
     var sessionFactory = DbService.buildSessionFactory();
     try (var session = sessionFactory.openSession()) {
       var entity = session
         .createSelectionQuery("from User where email = :email", User.class)
         .setParameter("email", username)
         .getSingleResultOrNull();
-      return new UserDTO(entity);
+      return entity;
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -34,8 +34,13 @@ public class UserService {
     return getAuthentication().getName();
   }
 
-  public static UserDTO getAuthenticatedUserDTO() {
+  public static User getAuthenticatedUser() {
     return UserService.loadUserByUsername(getAuthenticatedUsername());
+  }
+
+  public static UserDTO getAuthenticatedUserDTO() {
+    var entity = UserService.loadUserByUsername(getAuthenticatedUsername());
+    return new UserDTO(entity);
   }
 
   public static UserDTO updateUser(String username, UserUpdateDTO dto) {

@@ -2,7 +2,8 @@ package dev.hekmyr.olids.api.controller;
 
 import dev.hekmyr.olids.api.Constant;
 import dev.hekmyr.olids.api.dto.*;
-import dev.hekmyr.olids.api.service.DbService;
+import dev.hekmyr.olids.api.service.BillingInformationService;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,25 +12,35 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(Constant.API_V1_ENDPOINT + "/billing-information")
 public class BillingInformationController {
 
-  @PostMapping("/")
+  @PostMapping
   public ResponseEntity<BillingInformationDTO> billingInformation(
     @RequestBody BillingInformationCreateDTO dto
   ) {
-    return ResponseEntity.ok(new DbService().addBillingInformation(dto));
+    var entity = BillingInformationService.addBillingInformation(dto);
+    return ResponseEntity.ok(new BillingInformationDTO(entity));
   }
 
-  @PutMapping("/{id}")
+  @PutMapping
   public ResponseEntity<BillingInformationDTO> updateBillingInformation(
-    @PathVariable UUID id,
     @RequestBody BillingInformationUpdateDTO dto
   ) {
-    return ResponseEntity.ok(new DbService().updateBillingInformation(id, dto));
+    var updatedDTO = BillingInformationService.updateBillingInformation(dto);
+    return ResponseEntity.ok(updatedDTO);
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<BillingInformationDTO> getBillingInformation(
     @PathVariable UUID id
   ) {
-    return ResponseEntity.ok(new DbService().getBillingInformation(id));
+    var entity = BillingInformationService.getBillingInformation(id);
+    return ResponseEntity.ok(new BillingInformationDTO(entity));
+  }
+
+  @GetMapping("/all")
+  public ResponseEntity<
+    List<BillingInformationDTO>
+  > getAllBillingInformations() {
+    var collection = BillingInformationService.getAllBillingInformation();
+    return ResponseEntity.ok(collection);
   }
 }

@@ -1,11 +1,24 @@
 package dev.hekmyr.olids.api.dto;
 
+import java.util.UUID;
+
 public class BillingInformationUpdateDTO {
 
+  private UUID id;
   private String cardNumber;
+  private int monthExpiration;
+  private int yearExpiration;
 
   public String getCardNumber() {
     return cardNumber;
+  }
+
+  public void setId(UUID id) {
+    this.id = id;
+  }
+
+  public UUID getId() {
+    return id;
   }
 
   public void setCardNumber(String cardNumber) {
@@ -27,7 +40,4 @@ public class BillingInformationUpdateDTO {
   public void setYearExpiration(int yearExpiration) {
     this.yearExpiration = yearExpiration;
   }
-
-  private int monthExpiration;
-  private int yearExpiration;
 }

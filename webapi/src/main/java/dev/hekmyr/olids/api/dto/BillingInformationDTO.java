@@ -17,8 +17,8 @@ public class BillingInformationDTO {
     this.yearExpiration = entity.getYearExpiration();
   }
 
-  public BillingInformationDTO(UUID id, BillingInformationUpdateDTO dto) {
-    this.id = id;
+  public BillingInformationDTO(BillingInformationUpdateDTO dto) {
+    this.id = dto.getId();
     this.cardNumber = dto.getCardNumber();
     this.monthExpiration = dto.getMonthExpiration();
     this.yearExpiration = dto.getYearExpiration();

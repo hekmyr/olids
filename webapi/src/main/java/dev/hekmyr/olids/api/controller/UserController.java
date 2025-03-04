@@ -3,8 +3,7 @@ package dev.hekmyr.olids.api.controller;
 import dev.hekmyr.olids.api.Constant;
 import dev.hekmyr.olids.api.dto.UserDTO;
 import dev.hekmyr.olids.api.dto.UserUpdateDTO;
-import dev.hekmyr.olids.api.service.DbService;
-import java.util.UUID;
+import dev.hekmyr.olids.api.service.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,16 +16,16 @@ public class UserController {
     return ResponseEntity.ok("You are authenticated!\n");
   }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<UserDTO> getUser(@PathVariable UUID id) {
-    return ResponseEntity.ok(new DbService().findUser(id));
+  @GetMapping
+  public ResponseEntity<UserDTO> getUser() {
+    var userDTO = UserService.getAuthenticatedUserDTO();
+    return ResponseEntity.ok(userDTO);
   }
 
-  @PutMapping("/{id}")
-  public ResponseEntity<UserDTO> updateUser(
-    @PathVariable UUID id,
-    @RequestBody UserUpdateDTO dto
-  ) {
-    return ResponseEntity.ok(new DbService().updateUser(id, dto));
+  @PutMapping
+  public ResponseEntity<UserDTO> updateUser(@RequestBody UserUpdateDTO dto) {
+    var username = UserService.getAuthenticatedUsername();
+    var userDTO = UserService.updateUser(username, dto);
+    return ResponseEntity.ok(userDTO);
   }
 }

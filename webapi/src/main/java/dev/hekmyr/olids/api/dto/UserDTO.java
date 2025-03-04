@@ -2,11 +2,9 @@ package dev.hekmyr.olids.api.dto;
 
 import dev.hekmyr.olids.api.entity.User;
 import java.time.LocalDate;
-import java.util.UUID;
 
 public class UserDTO {
 
-  private UUID id;
   private String lastName;
   private String firstName;
   private String email;
@@ -19,7 +17,6 @@ public class UserDTO {
   public UserDTO() {}
 
   public UserDTO(User model) {
-    this.id = model.getId();
     this.lastName = model.getLastName();
     this.firstName = model.getFirstName();
     this.email = model.getEmail();
@@ -30,8 +27,7 @@ public class UserDTO {
     this.birthDate = model.getBirthDate();
   }
 
-  public UserDTO(UUID id, UserUpdateDTO model) {
-    this.id = id;
+  public UserDTO(UserUpdateDTO model) {
     this.lastName = model.getLastName();
     this.firstName = model.getFirstName();
     this.email = model.getEmail();
@@ -40,14 +36,6 @@ public class UserDTO {
     this.number = model.getNumber();
     this.postalCode = model.getPostalCode();
     this.birthDate = model.getBirthDate();
-  }
-
-  public UUID getId() {
-    return id;
-  }
-
-  public void setId(UUID id) {
-    this.id = id;
   }
 
   public String getLastName() {

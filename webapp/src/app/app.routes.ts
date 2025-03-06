@@ -26,7 +26,7 @@ export const routes: Routes = [
     title: 'Contact'
   },
   {
-    path: 'FAQ',
+    path: 'faq',
     component: FaqPage,
     title: 'FAQ'
   },

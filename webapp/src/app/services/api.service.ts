@@ -6,12 +6,14 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = "http://localhost:8080/api/v1";
+  private apiUrl = 'http://localhost:8080/api/v1';
 
-  constructor(private http :HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   public signIn(username: String, password: String): Observable<Object> {
-    const headers = new HttpHeaders({'Authorization': 'Basic ' + btoa(username + ':' + password)});
+    const headers = new HttpHeaders({
+      Authorization: 'Basic ' + btoa(username + ':' + password)
+    });
     return this.http.get(`${this.apiUrl}/user/sign-in`, {
       headers: headers,
       responseType: 'text',

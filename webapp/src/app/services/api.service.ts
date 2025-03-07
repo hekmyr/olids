@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { SignUpDTO } from '../dto/sign-up-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -19,5 +20,9 @@ export class ApiService {
       responseType: 'text',
       withCredentials: true
     });
+  }
+
+  public signUp(body: SignUpDTO): Observable<Object> {
+    return this.http.post(`${this.apiUrl}/public/sign-up`, body);
   }
 }

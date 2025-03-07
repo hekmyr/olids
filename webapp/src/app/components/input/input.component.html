@@ -1,0 +1,6 @@
+<label>{{ label() }}</label>
+<input
+  [type]="getType()"
+  class="outline-none border-[#6A6A6A] border-2 rounded-sm w-full p-1"
+  [formControl]="control"
+  (input)="onChange()" />

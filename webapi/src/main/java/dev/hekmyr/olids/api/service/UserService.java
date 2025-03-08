@@ -4,14 +4,10 @@ import dev.hekmyr.olids.api.dto.UserDTO;
 import dev.hekmyr.olids.api.dto.UserUpdateDTO;
 import dev.hekmyr.olids.api.entity.User;
 import java.time.LocalDateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public class UserService {
-
-  private static Logger log = LoggerFactory.getLogger(UserService.class);
 
   public static User loadUserByUsername(String username) {
     var sessionFactory = DbService.buildSessionFactory();
@@ -46,7 +42,6 @@ public class UserService {
   public static UserDTO updateUser(String username, UserUpdateDTO dto) {
     var session = DbService.buildSessionFactory().openSession();
     var tx = session.getTransaction();
-    log.info("Im in here!");
     try {
       tx.begin();
       var hql =
@@ -78,10 +73,8 @@ public class UserService {
       return new UserDTO(dto);
     } catch (Exception e) {
       tx.rollback();
-      e.printStackTrace();
       throw new RuntimeException(e);
     } finally {
-      log.info("Im out here!");
       session.close();
     }
   }

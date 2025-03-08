@@ -13,8 +13,7 @@ import java.util.UUID;
 public class User {
 
   @Id
-  @GeneratedValue
-  @Column(columnDefinition = "UUID DEFAULT gen_random_uuid()")
+  @GeneratedValue(generator = "UUID")
   private UUID id;
 
   @Column(name = "last_name")

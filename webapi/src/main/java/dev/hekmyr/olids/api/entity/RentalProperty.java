@@ -11,8 +11,7 @@ import java.util.UUID;
 public class RentalProperty implements Serializable {
 
   @Id
-  @GeneratedValue
-  @Column(columnDefinition = "UUID DEFAULT gen_random_uuid()")
+  @GeneratedValue(generator = "UUID")
   private UUID id;
 
   @OneToOne

@@ -10,8 +10,7 @@ import java.util.UUID;
 public class Accessibility {
 
   @Id
-  @GeneratedValue
-  @Column(columnDefinition = "UUID DEFAULT gen_random_uuid()")
+  @GeneratedValue(generator = "UUID")
   private UUID id;
 
   @Column(name = "toilet_grab_bar", nullable = false)

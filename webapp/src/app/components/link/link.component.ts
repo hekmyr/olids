@@ -16,6 +16,6 @@ export class LinkComponent {
   public link = input<string>();
 
   public getLink(): string {
-    return this.link() || "#";
+    return this.link() || '#';
   }
 }

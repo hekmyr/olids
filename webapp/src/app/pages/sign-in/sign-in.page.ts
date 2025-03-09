@@ -1,32 +1,10 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { ApiService } from '../../services/api.service';
+import { Component } from '@angular/core';
+import { SignInCardComponent } from '../../components/sign/sign-in-card/sign-in-card.component';
+import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
 
 @Component({
   selector: 'app-sign-in',
-  imports: [ReactiveFormsModule],
+  imports: [NavBarComponent, SignInCardComponent],
   templateUrl: './sign-in.page.html'
 })
-export class SignInPage {
-  private fb = inject(FormBuilder);
-  private api = inject(ApiService);
-  public signInForm = this.fb.nonNullable.group({
-    username: [''],
-    password: ['']
-  });
-  public signIn(): void {
-    const username = this.signInForm.get('username')?.value;
-    const password = this.signInForm.get('password')?.value;
-    if (!username) {
-      let err = new Error('Undefined username is not allowed');
-      throw err;
-    }
-    if (!password) {
-      let err = new Error('Undefined password is not allowed');
-      throw err;
-    }
-    this.api
-      .signIn(username, password)
-      .subscribe((data) => console.log('INFO', data, document.cookie));
-  }
-}
+export class SignInPage {}

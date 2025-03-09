@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { SignInDTO } from '../dto/sign-in-dto';
 import { SignUpDTO } from '../dto/sign-up-dto';
 
 @Injectable({
@@ -11,9 +12,9 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  public signIn(username: String, password: String): Observable<Object> {
+  public signIn(body: SignInDTO): Observable<Object> {
     const headers = new HttpHeaders({
-      Authorization: 'Basic ' + btoa(username + ':' + password)
+      Authorization: 'Basic ' + btoa(body.getEmail + ':' + body.getPassword)
     });
     return this.http.get(`${this.apiUrl}/user/sign-in`, {
       headers: headers,

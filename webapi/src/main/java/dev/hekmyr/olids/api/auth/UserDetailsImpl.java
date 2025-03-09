@@ -14,6 +14,9 @@ public class UserDetailsImpl implements UserDetails {
   public UserDetailsImpl() {}
 
   public UserDetailsImpl(User entity) {
+    if (entity == null) {
+      throw new IllegalArgumentException("User entity cannot be null");
+    }
     username = entity.getEmail();
     password = entity.getPassword();
   }

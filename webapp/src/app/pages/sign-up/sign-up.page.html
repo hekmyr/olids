@@ -1,20 +1,4 @@
 <div class="bg-[#F0EFEB] h-full min-h-svh overflow-auto">
   <app-nav-bar />
-  <div class="bg-white w-fit p-4 mx-auto my-18 rounded-lg flex relative">
-    <app-side-img [url]="imageUrl" />
-    <div class="px-32">
-      <app-link class="absolute right-[16px] top-[8px]" text="Connexion" link="/sign-in" />
-      <form class="flex flex-col gap-4 w-[260px] mx-auto my-20">
-        <h1 class="text-xl font-bold font-[Averia_Serif_Libre] underline">
-          Inscription
-        </h1>
-        <app-input label="Email" (value)="setEmail($event)" />
-        <app-input
-          type="password"
-          label="Mot de passe"
-          (value)="setPassword($event)" />
-        <app-button (submit)="submit()" type="submit" text="Créer un compte" />
-      </form>
-    </div>
-  </div>
+  <app-sign-up-card />
 </div>

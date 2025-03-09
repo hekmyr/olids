@@ -4,12 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import dev.hekmyr.olids.api.model.MessageResponseModel;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class PublicControllerTests {
 
-  private final PublicController publicController = new PublicController();
+  @Autowired
+  private PublicController publicController;
 
   @Test
   public void testPing_Success() {

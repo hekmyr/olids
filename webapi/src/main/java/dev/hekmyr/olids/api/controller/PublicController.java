@@ -15,6 +15,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(Constant.API_V1_ENDPOINT + "/public")
 public class PublicController {
 
+  private final UserDetailsManagerImpl userDetailsManagerImpl;
+
+  PublicController(UserDetailsManagerImpl userDetailsManagerImpl) {
+    this.userDetailsManagerImpl = userDetailsManagerImpl;
+  }
+
   @GetMapping("/ping")
   public ResponseEntity<MessageResponseModel> ping() {
     return ResponseEntity.ok(new MessageResponseModel("pong"));
@@ -23,7 +29,7 @@ public class PublicController {
   @PostMapping("/sign-up")
   public ResponseEntity<?> signUp(@RequestBody UserCreateDTO dto) {
     try {
-      var responseDTO = new UserDetailsManagerImpl().createUser(dto);
+      var responseDTO = userDetailsManagerImpl.createUser(dto);
       return ResponseEntity.ok(responseDTO);
     } catch (Exception e) {
       e.printStackTrace();

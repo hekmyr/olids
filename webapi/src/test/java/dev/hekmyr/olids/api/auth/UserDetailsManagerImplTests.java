@@ -5,14 +5,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import dev.hekmyr.olids.api.dto.UserCreateDTO;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootTest
 public class UserDetailsManagerImplTests {
 
-  private final UserDetailsManagerImpl userDetailsManagerImpl =
-    new UserDetailsManagerImpl();
+  @Autowired
+  private UserDetailsManagerImpl userDetailsManagerImpl;
 
   @Test
   public void testCreateUser_Success() throws Exception {

@@ -11,13 +11,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthenticationProviderImpl implements AuthenticationProvider {
 
+  private final UserDetailsManagerImpl userDetailsManagerImpl;
+
+  AuthenticationProviderImpl(UserDetailsManagerImpl userDetailsManagerImpl) {
+    this.userDetailsManagerImpl = userDetailsManagerImpl;
+  }
+
   @Override
   public Authentication authenticate(Authentication authentication)
     throws AuthenticationException {
-    var userManager = new UserDetailsManagerImpl();
     var username = authentication.getName();
     var rawPassword = authentication.getCredentials();
-    var userDetails = userManager.loadUserByUsername(username);
+    var userDetails = userDetailsManagerImpl.loadUserByUsername(username);
     var encodedPassword = userDetails.getPassword();
     System.out.println();
     if (

@@ -47,6 +47,23 @@ public class RentalPropertyDTO {
     this.accessibility = new AccessibilityDTO(accessibility);
   }
 
+  public RentalPropertyDTO(RentalProperty rentalProperty) {
+    this.name = rentalProperty.getName();
+    this.listed = rentalProperty.isListed();
+    this.id = rentalProperty.getId();
+    this.pricePerNight = rentalProperty.getPricePerNight();
+    this.beds = rentalProperty.getBeds();
+    this.bedrooms = rentalProperty.getBedrooms();
+    this.bathrooms = rentalProperty.getBathrooms();
+    this.street = rentalProperty.getStreet();
+    this.number = rentalProperty.getNumber();
+    this.postalCode = rentalProperty.getPostalCode();
+    this.amenity = new AmenityDTO(rentalProperty.getAmenity());
+    this.accessibility = new AccessibilityDTO(
+      rentalProperty.getAccessibility()
+    );
+  }
+
   public UUID getId() {
     return id;
   }

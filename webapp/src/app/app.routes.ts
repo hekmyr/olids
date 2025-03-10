@@ -11,6 +11,11 @@ import { ReservationsPage } from './pages/reservations/reservations.page';
 
 export const routes: Routes = [
   {
+    path: '',
+    component: RentalPropertiesPage,
+    title: 'Rental properties'
+  },
+  {
     path: 'about',
     component: AboutPage,
     title: 'Sign in'
@@ -29,11 +34,6 @@ export const routes: Routes = [
     path: 'faq',
     component: FaqPage,
     title: 'FAQ'
-  },
-  {
-    path: 'all',
-    component: RentalPropertiesPage,
-    title: 'Rental properties'
   },
   {
     path: 'property',

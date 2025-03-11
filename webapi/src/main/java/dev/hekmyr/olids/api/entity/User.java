@@ -6,6 +6,7 @@ import dev.hekmyr.olids.api.dto.UserUpdateDTO;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -15,6 +16,9 @@ public class User {
   @Id
   @GeneratedValue(generator = "UUID")
   private UUID id;
+
+  @OneToMany(mappedBy = "userId")
+  private List<Reservation> reservations;
 
   @Column(name = "last_name")
   private String lastName;

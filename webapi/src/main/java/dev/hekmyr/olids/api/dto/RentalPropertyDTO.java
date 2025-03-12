@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import dev.hekmyr.olids.api.entity.Accessibility;
 import dev.hekmyr.olids.api.entity.Amenity;
 import dev.hekmyr.olids.api.entity.RentalProperty;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 public class RentalPropertyDTO {

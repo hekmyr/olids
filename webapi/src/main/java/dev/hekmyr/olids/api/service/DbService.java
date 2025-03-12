@@ -25,29 +25,6 @@ public class DbService {
       .buildSessionFactory();
   }
 
-  public RentalPropertyDTO saveProperty(RentalPropertyDTO model) {
-    var session = this.sessionFactory.openSession();
-    var tx = session.getTransaction();
-    var amenity = new Amenity(model.getAmenity());
-    var accessibility = new Accessibility(model.getAccessibility());
-    RentalProperty rentalProperty;
-    try {
-      tx.begin();
-      session.persist(amenity);
-      session.persist(accessibility);
-      rentalProperty = new RentalProperty(model, amenity, accessibility);
-      session.persist(rentalProperty);
-      tx.commit();
-      return new RentalPropertyDTO(rentalProperty, amenity, accessibility);
-    } catch (Exception e) {
-      tx.rollback();
-      e.printStackTrace();
-      return null;
-    } finally {
-      session.close();
-    }
-  }
-
   public RentalProperty findProperty(UUID id) {
     try (var session = this.sessionFactory.openSession()) {
       return session.get(RentalProperty.class, id);

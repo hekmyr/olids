@@ -6,6 +6,7 @@ import dev.hekmyr.olids.api.dto.UserUpdateDTO;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,8 +18,8 @@ public class User {
   @GeneratedValue(generator = "UUID")
   private UUID id;
 
-  @OneToMany(mappedBy = "userId")
-  private List<Reservation> reservations;
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Reservation> reservations = new ArrayList<>();
 
   @Column(name = "last_name")
   private String lastName;
@@ -182,5 +183,24 @@ public class User {
 
   public void setNumber(String number) {
     this.number = number;
+  }
+
+  public void addReservation(Reservation reservation) {
+    reservations.add(reservation);
+    reservation.setUser(this);
+  }
+
+  public void removeReservation(Reservation reservation) {
+    reservations.remove(reservation);
+    reservation.setUser(null);
+  }
+
+  // Getters and setters
+  public List<Reservation> getReservations() {
+    return reservations;
+  }
+
+  public void setReservations(List<Reservation> reservations) {
+    this.reservations = reservations;
   }
 }

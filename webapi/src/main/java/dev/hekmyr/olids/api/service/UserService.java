@@ -3,11 +3,21 @@ package dev.hekmyr.olids.api.service;
 import dev.hekmyr.olids.api.dto.UserDTO;
 import dev.hekmyr.olids.api.dto.UserUpdateDTO;
 import dev.hekmyr.olids.api.entity.User;
+import dev.hekmyr.olids.api.intf.repository.UserRepository;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserService {
+
+  private final UserRepository userRepository;
+
+  UserService(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
   public static User loadUserByUsername(String username) {
     var sessionFactory = DbService.buildSessionFactory();
@@ -37,6 +47,10 @@ public class UserService {
   public static UserDTO getAuthenticatedUserDTO() {
     var entity = UserService.loadUserByUsername(getAuthenticatedUsername());
     return new UserDTO(entity);
+  }
+
+  public UUID getAuthenticatedUserId() {
+    return userRepository.findIdByEmail(getAuthenticatedUsername());
   }
 
   public static UserDTO updateUser(String username, UserUpdateDTO dto) {

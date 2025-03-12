@@ -12,7 +12,13 @@ public class ReservationDetail {
   @GeneratedValue(generator = "UUID")
   private UUID id;
 
-  private UUID reservationId;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "reservation_id")
+  private Reservation reservation;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "rental_property_id")
+  private RentalProperty rentalProperty;
 
   @Column(name = "price_per_night", nullable = false)
   private float pricePerNight;
@@ -26,6 +32,10 @@ public class ReservationDetail {
   @Column(name = "date_created", nullable = false)
   private LocalDateTime dateCreated;
 
+  @Column(name = "date_updated", nullable = false)
+  private LocalDateTime dateUpdated;
+
+  // Getters and setters
   public UUID getId() {
     return id;
   }
@@ -34,12 +44,20 @@ public class ReservationDetail {
     this.id = id;
   }
 
-  public UUID getReservationId() {
-    return reservationId;
+  public Reservation getReservation() {
+    return reservation;
   }
 
-  public void setReservationId(UUID reservationId) {
-    this.reservationId = reservationId;
+  public void setReservation(Reservation reservation) {
+    this.reservation = reservation;
+  }
+
+  public RentalProperty getRentalProperty() {
+    return rentalProperty;
+  }
+
+  public void setRentalProperty(RentalProperty rentalProperty) {
+    this.rentalProperty = rentalProperty;
   }
 
   public float getPricePerNight() {
@@ -81,7 +99,4 @@ public class ReservationDetail {
   public void setDateUpdated(LocalDateTime dateUpdated) {
     this.dateUpdated = dateUpdated;
   }
-
-  @Column(name = "date_updated", nullable = false)
-  private LocalDateTime dateUpdated;
 }

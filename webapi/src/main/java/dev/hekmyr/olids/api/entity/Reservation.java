@@ -1,6 +1,8 @@
 package dev.hekmyr.olids.api.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,11 +14,35 @@ public class Reservation {
   @GeneratedValue(generator = "UUID")
   private UUID id;
 
-  private UUID userId;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id")
+  private User user;
 
-  @OneToMany(mappedBy = "reservationId")
-  private List<ReservationDetail> reservationDetails;
+  @OneToMany(
+    mappedBy = "reservation",
+    cascade = CascadeType.ALL,
+    orphanRemoval = true
+  )
+  private List<ReservationDetail> details = new ArrayList<>();
 
+  @Column(name = "date_created", nullable = false)
+  private LocalDateTime dateCreated;
+
+  @Column(name = "date_updated", nullable = false)
+  private LocalDateTime dateUpdated;
+
+  // Add methods for managing the relationship
+  public void addDetail(ReservationDetail detail) {
+    details.add(detail);
+    detail.setReservation(this);
+  }
+
+  public void removeDetail(ReservationDetail detail) {
+    details.remove(detail);
+    detail.setReservation(null);
+  }
+
+  // Getters and setters
   public UUID getId() {
     return id;
   }
@@ -25,21 +51,35 @@ public class Reservation {
     this.id = id;
   }
 
-  public UUID getUserId() {
-    return userId;
+  public User getUser() {
+    return user;
   }
 
-  public void setUserId(UUID userId) {
-    this.userId = userId;
+  public void setUser(User user) {
+    this.user = user;
   }
 
-  public List<ReservationDetail> getReservationDetails() {
-    return reservationDetails;
+  public List<ReservationDetail> getDetails() {
+    return details;
   }
 
-  public void setReservationDetails(
-    List<ReservationDetail> reservationDetails
-  ) {
-    this.reservationDetails = reservationDetails;
+  public void setDetails(List<ReservationDetail> details) {
+    this.details = details;
+  }
+
+  public LocalDateTime getDateCreated() {
+    return dateCreated;
+  }
+
+  public void setDateCreated(LocalDateTime dateCreated) {
+    this.dateCreated = dateCreated;
+  }
+
+  public LocalDateTime getDateUpdated() {
+    return dateUpdated;
+  }
+
+  public void setDateUpdated(LocalDateTime dateUpdated) {
+    this.dateUpdated = dateUpdated;
   }
 }

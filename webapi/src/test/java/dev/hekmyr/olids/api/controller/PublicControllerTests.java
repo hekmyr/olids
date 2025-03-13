@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import dev.hekmyr.olids.api.auth.UserDetailsManagerImpl;
 import dev.hekmyr.olids.api.dto.RentalPropertyDTO;
+import dev.hekmyr.olids.api.dto.RentalPropertyRequestDTO;
 import dev.hekmyr.olids.api.dto.UserCreateDTO;
 import dev.hekmyr.olids.api.dto.UserDTO;
 import dev.hekmyr.olids.api.entity.Accessibility;
@@ -87,15 +88,22 @@ public class PublicControllerTests {
   @Test
   void testRentalProperties_Success() {
     addNewRentalProperty();
-    var rentalPropertiesDTOs = publicController.rentalProperties().getBody();
+    var requestDTO = new RentalPropertyRequestDTO();
+    var rentalPropertiesDTOs = publicController
+      .rentalProperties(requestDTO)
+      .getBody();
     assertEquals(1, rentalPropertiesDTOs.size());
 
     addNewRentalProperty();
-    rentalPropertiesDTOs = publicController.rentalProperties().getBody();
+    rentalPropertiesDTOs = publicController
+      .rentalProperties(requestDTO)
+      .getBody();
     assertEquals(2, rentalPropertiesDTOs.size());
 
     addNewRentalProperty();
-    rentalPropertiesDTOs = publicController.rentalProperties().getBody();
+    rentalPropertiesDTOs = publicController
+      .rentalProperties(requestDTO)
+      .getBody();
     assertEquals(3, rentalPropertiesDTOs.size());
   }
 

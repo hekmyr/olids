@@ -27,6 +27,7 @@ public class RentalPropertyDTO {
   private String street;
   private String number;
   private String postalCode;
+  private List<LocalDate> unavailableDays;
 
   public RentalPropertyDTO() {}
 
@@ -160,5 +161,13 @@ public class RentalPropertyDTO {
 
   public void setPostalCode(String postalCode) {
     this.postalCode = postalCode;
+  }
+
+  public List<LocalDate> getUnavailableDays() {
+    return unavailableDays;
+  }
+
+  public void setUnavailableDays(List<LocalDate> unavailableDays) {
+    this.unavailableDays = unavailableDays;
   }
 }

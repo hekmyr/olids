@@ -3,9 +3,11 @@ package dev.hekmyr.olids.api.controller;
 import dev.hekmyr.olids.api.Constant;
 import dev.hekmyr.olids.api.auth.UserDetailsManagerImpl;
 import dev.hekmyr.olids.api.dto.RentalPropertyDTO;
+import dev.hekmyr.olids.api.dto.RentalPropertyRequestDTO;
 import dev.hekmyr.olids.api.dto.UserCreateDTO;
 import dev.hekmyr.olids.api.intf.repository.RentalPropertyRepository;
 import dev.hekmyr.olids.api.model.MessageResponseModel;
+import dev.hekmyr.olids.api.service.RentalPropertyService;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +19,16 @@ public class PublicController {
 
   private final UserDetailsManagerImpl userDetailsManagerImpl;
   private final RentalPropertyRepository rentalPropertyRepository;
+  private final RentalPropertyService rentalPropertyService;
 
   PublicController(
     UserDetailsManagerImpl userDetailsManagerImpl,
-    RentalPropertyRepository rentalPropertyRepository
+    RentalPropertyRepository rentalPropertyRepository,
+    RentalPropertyService rentalPropertyService
   ) {
     this.userDetailsManagerImpl = userDetailsManagerImpl;
     this.rentalPropertyRepository = rentalPropertyRepository;
+    this.rentalPropertyService = rentalPropertyService;
   }
 
   @GetMapping("/ping")
@@ -51,7 +56,9 @@ public class PublicController {
   }
 
   @GetMapping("/rental-properties")
-  public ResponseEntity<List<RentalPropertyDTO>> rentalProperties() {
-    return ResponseEntity.ok(rentalPropertyRepository.findAllDTOs());
+  public ResponseEntity<List<RentalPropertyDTO>> rentalProperties(
+    @RequestBody RentalPropertyRequestDTO dto
+  ) {
+    return ResponseEntity.ok(rentalPropertyService.findAvailableDTOs(dto));
   }
 }

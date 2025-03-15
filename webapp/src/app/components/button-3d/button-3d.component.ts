@@ -1,11 +1,15 @@
 import { Component, input, output } from '@angular/core';
 
 @Component({
-  selector: 'app-button',
+  selector: 'app-button-3d',
   imports: [],
   template: `
     <button
-      class="text-white bg-[#A94A4A] w-full rounded-sm py-1 cursor-pointer hover:bg-[#B95A5A] transition-colors duration-200"
+      class="text-white bg-[#A94A4A] w-full rounded-sm py-1 cursor-pointer
+             shadow-[0_6px_0_#883939] hover:shadow-[0_4px_0_#883939]
+             hover:translate-y-[2px] active:shadow-[0_2px_0_#883939] active:translate-y-[4px]
+             transition-all duration-150 font-medium tracking-wide relative
+             border-b-4 border-[#883939] hover:bg-[#B95A5A]"
       [type]="getType()"
       (click)="onClick()"
       [disabled]="disabled()">
@@ -13,7 +17,7 @@ import { Component, input, output } from '@angular/core';
     </button>
   `
 })
-export class ButtonComponent {
+export class Button3dComponent {
   public text = input.required<string>();
   public type = input<string>();
   public disabled = input<boolean>();

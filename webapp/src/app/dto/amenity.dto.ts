@@ -1,39 +1,81 @@
 export class AmenityDTO {
-  id: string;
-  airConditioningAvailable: boolean;
-  terraceAvailable: boolean;
-  gardenAvailable: boolean;
-  poolAvailable: boolean;
-  hotTubAvailable: boolean;
-  evChargerAvailable: boolean;
-  indoorFireplaceAvailable: boolean;
-  outdoorFireplaceAvailable: boolean;
-  dedicatedWorkspaceAvailable: boolean;
-  gymAvailable: boolean;
 
   constructor(
-    id: string,
-    airConditioningAvailable: boolean,
-    terraceAvailable: boolean,
-    gardenAvailable: boolean,
-    poolAvailable: boolean,
-    hotTubAvailable: boolean,
-    evChargerAvailable: boolean,
-    indoorFireplaceAvailable: boolean,
-    outdoorFireplaceAvailable: boolean,
-    dedicatedWorkspaceAvailable: boolean,
-    gymAvailable: boolean
+    private _id: string,
+    private _airConditioningAvailable: boolean,
+    private _terraceAvailable: boolean,
+    private _gardenAvailable: boolean,
+    private _poolAvailable: boolean,
+    private _hotTubAvailable: boolean,
+    private _evChargerAvailable: boolean,
+    private _indoorFireplaceAvailable: boolean,
+    private _outdoorFireplaceAvailable: boolean,
+    private _dedicatedWorkspaceAvailable: boolean,
+    private _gymAvailable: boolean
   ) {
-    this.id = id;
-    this.airConditioningAvailable = airConditioningAvailable;
-    this.terraceAvailable = terraceAvailable;
-    this.gardenAvailable = gardenAvailable;
-    this.poolAvailable = poolAvailable;
-    this.hotTubAvailable = hotTubAvailable;
-    this.evChargerAvailable = evChargerAvailable;
-    this.indoorFireplaceAvailable = indoorFireplaceAvailable;
-    this.outdoorFireplaceAvailable = outdoorFireplaceAvailable;
-    this.dedicatedWorkspaceAvailable = dedicatedWorkspaceAvailable;
-    this.gymAvailable = gymAvailable;
+  }
+
+  public get id(): string {
+    return this._id;
+  }
+  public get airConditioningAvailable(): boolean {
+    return this._airConditioningAvailable
+  }
+  public set airConditioningAvailable(value: boolean) {
+    this._airConditioningAvailable = value
+  }
+  public get terraceAvailable(): boolean {
+    return this._terraceAvailable
+  }
+  public set terraceAvailable(value: boolean) {
+    this._terraceAvailable = value
+  }
+  public get gardenAvailable(): boolean {
+    return this._gardenAvailable
+  }
+  public set gardenAvailable(value: boolean) {
+    this._gardenAvailable = value
+  }
+  public get poolAvailable(): boolean {
+    return this._poolAvailable
+  }
+  public set poolAvailable(value: boolean) {
+    this._poolAvailable = value;
+  }
+  public get hotTubAvailable(): boolean {
+    return this._hotTubAvailable
+  }
+  public set hotTubAvailable(value: boolean) {
+    this._hotTubAvailable = value
+  }
+  public get evChargerAvailable(): boolean {
+    return this._evChargerAvailable
+  }
+  public set evChargerAvailable(value: boolean) {
+    this.evChargerAvailable = value
+  }
+  public get indoorFireplaceAvailable(): boolean {
+    return this._indoorFireplaceAvailable
+  }
+  public set indoorFireplaceAvailable(value: boolean) {
+    this._indoorFireplaceAvailable = value
+  }
+  public get outdoorFireplaceAvailable(): boolean {
+    return this._outdoorFireplaceAvailable
+  }
+  public set outdoorFireplaceAvailable(value: boolean) {
+    this._outdoorFireplaceAvailable = value
+  }
+  public get dedicatedWorkspaceAvailable(): boolean {
+    return this._dedicatedWorkspaceAvailable
+  }
+  public set dedicatedWorkspaceAvailable(value: boolean) {
+    this.dedicatedWorkspaceAvailable = value
+  }
+  public get gymAvailable(): boolean {
+    return this.gymAvailable
+  }
+  public set gymAvailable(value: boolean) {
+    this._gymAvailable = value
   }
 }

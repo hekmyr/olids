@@ -3,109 +3,118 @@ import { AmenityDTO } from './amenity.dto';
 
 export class RentalPropertyDTO {
   constructor(
-    private id: string,
-    private accessibility: AccessibilityDTO,
-    private amenity: AmenityDTO,
-    private name: string,
-    private listed: boolean,
-    private pricePerNight: number,
-    private beds: number,
-    private bedrooms: number,
-    private bathrooms: number,
-    private street: string,
-    private number: string,
-    private postalCode: string
+    private _id: string,
+    private _accessibility: AccessibilityDTO,
+    private _amenity: AmenityDTO,
+    private _name: string,
+    private _description: string,
+    private _listed: boolean,
+    private _pricePerNight: number,
+    private _beds: number,
+    private _bedrooms: number,
+    private _bathrooms: number,
+    private _street: string,
+    private _number: string,
+    private _postalCode: string
   ) {}
 
-  public get getId(): string {
-    return this.id;
+  public get id(): string {
+    return this._id;
   }
 
-  public get getAccessibility(): AccessibilityDTO {
-    return this.accessibility;
+  public get accessibility(): AccessibilityDTO {
+    return this._accessibility;
   }
 
-  public set setAccessibility(accessibility: AccessibilityDTO) {
-    this.accessibility = accessibility;
+  public set accessibility(accessibility: AccessibilityDTO) {
+    this._accessibility = accessibility;
   }
 
-  public get getAmenity(): AmenityDTO {
-    return this.amenity;
+  public get amenity(): AmenityDTO {
+    return this._amenity;
   }
 
-  public set setAmenity(amenity: AmenityDTO) {
-    this.amenity = amenity;
+  public set amenity(amenity: AmenityDTO) {
+    this._amenity = amenity;
   }
 
-  public get getName(): string {
-    return this.name;
+  public get name(): string {
+    return this._name;
   }
 
-  public set setName(name: string) {
-    this.name = name;
+  public set name(name: string) {
+    this._name = name;
   }
 
-  public get getListed(): boolean {
-    return this.listed;
+  public get description(): string {
+    return this._description;
   }
 
-  public set setListed(listed: boolean) {
-    this.listed = listed;
+  public set description(description: string) {
+    this._description = description;
   }
 
-  public get getPricePerNight(): number {
-    return this.pricePerNight;
+  public get listed(): boolean {
+    return this._listed;
   }
 
-  public set setPricePerNight(pricePerNight: number) {
-    this.pricePerNight = pricePerNight;
+  public set listed(listed: boolean) {
+    this._listed = listed;
   }
 
-  public get getBeds(): number {
-    return this.beds;
+  public get pricePerNight(): number {
+    return this._pricePerNight;
   }
 
-  public set setBeds(beds: number) {
-    this.beds = beds;
+  public set pricePerNight(pricePerNight: number) {
+    this._pricePerNight = pricePerNight;
   }
 
-  public get getBedrooms(): number {
-    return this.bedrooms;
+  public get beds(): number {
+    return this._beds;
   }
 
-  public set setBedrooms(bedrooms: number) {
-    this.bedrooms = bedrooms;
+  public set beds(beds: number) {
+    this._beds = beds;
   }
 
-  public get getBathrooms(): number {
-    return this.bathrooms;
+  public get bedrooms(): number {
+    return this._bedrooms;
   }
 
-  public set setBathrooms(bathrooms: number) {
-    this.bathrooms = bathrooms;
+  public set bedrooms(bedrooms: number) {
+    this._bedrooms = bedrooms;
   }
 
-  public get getStreet(): string {
-    return this.street;
+  public get bathrooms(): number {
+    return this._bathrooms;
   }
 
-  public set setStreet(street: string) {
-    this.street = street;
+  public set bathrooms(bathrooms: number) {
+    this._bathrooms = bathrooms;
   }
 
-  public get getNumber(): string {
-    return this.number;
+  public get street(): string {
+    return this._street;
   }
 
-  public set setNumber(number: string) {
-    this.number = number;
+  public set street(street: string) {
+    this._street = street;
   }
 
-  public get getPostalCode(): string {
-    return this.postalCode;
+  public get number(): string {
+    return this._number;
   }
 
-  public set setPostalCode(postalCode: string) {
-    this.postalCode = postalCode;
+  public set number(number: string) {
+    this._number = number;
+  }
+
+  public get postalCode(): string {
+    return this._postalCode;
+  }
+
+  public set postalCode(postalCode: string) {
+    this._postalCode = postalCode;
   }
 }

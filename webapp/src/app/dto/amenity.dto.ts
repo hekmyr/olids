@@ -1,5 +1,6 @@
-export class AmenityDTO {
+import { Amenity } from '../interface/amenity.interface';
 
+export class AmenityDTO {
   constructor(
     private _id: string,
     private _airConditioningAvailable: boolean,
@@ -12,70 +13,85 @@ export class AmenityDTO {
     private _outdoorFireplaceAvailable: boolean,
     private _dedicatedWorkspaceAvailable: boolean,
     private _gymAvailable: boolean
-  ) {
-  }
+  ) {}
 
   public get id(): string {
     return this._id;
   }
   public get airConditioningAvailable(): boolean {
-    return this._airConditioningAvailable
+    return this._airConditioningAvailable;
   }
   public set airConditioningAvailable(value: boolean) {
-    this._airConditioningAvailable = value
+    this._airConditioningAvailable = value;
   }
   public get terraceAvailable(): boolean {
-    return this._terraceAvailable
+    return this._terraceAvailable;
   }
   public set terraceAvailable(value: boolean) {
-    this._terraceAvailable = value
+    this._terraceAvailable = value;
   }
   public get gardenAvailable(): boolean {
-    return this._gardenAvailable
+    return this._gardenAvailable;
   }
   public set gardenAvailable(value: boolean) {
-    this._gardenAvailable = value
+    this._gardenAvailable = value;
   }
   public get poolAvailable(): boolean {
-    return this._poolAvailable
+    return this._poolAvailable;
   }
   public set poolAvailable(value: boolean) {
     this._poolAvailable = value;
   }
   public get hotTubAvailable(): boolean {
-    return this._hotTubAvailable
+    return this._hotTubAvailable;
   }
   public set hotTubAvailable(value: boolean) {
-    this._hotTubAvailable = value
+    this._hotTubAvailable = value;
   }
   public get evChargerAvailable(): boolean {
-    return this._evChargerAvailable
+    return this._evChargerAvailable;
   }
   public set evChargerAvailable(value: boolean) {
-    this.evChargerAvailable = value
+    this.evChargerAvailable = value;
   }
   public get indoorFireplaceAvailable(): boolean {
-    return this._indoorFireplaceAvailable
+    return this._indoorFireplaceAvailable;
   }
   public set indoorFireplaceAvailable(value: boolean) {
-    this._indoorFireplaceAvailable = value
+    this._indoorFireplaceAvailable = value;
   }
   public get outdoorFireplaceAvailable(): boolean {
-    return this._outdoorFireplaceAvailable
+    return this._outdoorFireplaceAvailable;
   }
   public set outdoorFireplaceAvailable(value: boolean) {
-    this._outdoorFireplaceAvailable = value
+    this._outdoorFireplaceAvailable = value;
   }
   public get dedicatedWorkspaceAvailable(): boolean {
-    return this._dedicatedWorkspaceAvailable
+    return this._dedicatedWorkspaceAvailable;
   }
   public set dedicatedWorkspaceAvailable(value: boolean) {
-    this.dedicatedWorkspaceAvailable = value
+    this.dedicatedWorkspaceAvailable = value;
   }
   public get gymAvailable(): boolean {
-    return this.gymAvailable
+    return this.gymAvailable;
   }
   public set gymAvailable(value: boolean) {
-    this._gymAvailable = value
+    this._gymAvailable = value;
+  }
+
+  public static fromInterface(amenity: Amenity): AmenityDTO {
+    return new AmenityDTO(
+      amenity.id,
+      amenity.airConditioningAvailable,
+      amenity.terraceAvailable,
+      amenity.gardenAvailable,
+      amenity.poolAvailable,
+      amenity.hotTubAvailable,
+      amenity.evChargerAvailable,
+      amenity.indoorFireplaceAvailable,
+      amenity.outdoorFireplaceAvailable,
+      amenity.dedicatedWorkspaceAvailable,
+      amenity.gymAvailable
+    );
   }
 }

@@ -2,12 +2,13 @@ import { Component, inject } from '@angular/core';
 import { RentalPropertyDTO } from '../../dto/rental-property.dto';
 import { RentalPropertyImageDTO } from '../../dto/rental-property-image.dto';
 import { AmenityDTO } from '../../dto/amenity.dto';
-import { AccessibilityDTO } from '../../dto/accessibility.dto';
 import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
 import { RentalPropertyFormSectionComponent } from './components/rental-property-form-section/rental-property-form-section.component';
 import { ImageContext } from './interfaces/image-context.interface';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
+import { ApiService } from '../../services/api.service';
+import { AccessibilityDTO } from '../../dto/accessibility.dto';
 
 @Component({
   selector: 'app-property',
@@ -91,40 +92,20 @@ import { firstValueFrom } from 'rxjs';
   `
 })
 export class RentalPropertyPage {
+  router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
+  apiService = inject(ApiService);
   constructor() {
     this.activatedRoute.paramMap.subscribe((params) => {
       const id = params.get('id');
-      console.log(id);
+      if (id) {
+        firstValueFrom(this.apiService.rentalProperty(id)).then((property) => {
+          this.rentalProperty = RentalPropertyDTO.fromInterface(property);
+        });
+      }
     });
   }
-  public rentalProperty: RentalPropertyDTO | undefined = new RentalPropertyDTO(
-    '123',
-    new AccessibilityDTO('', true, true, true, true, true, true, true),
-    new AmenityDTO(
-      '',
-      true,
-      true,
-      true,
-      true,
-      true,
-      true,
-      true,
-      true,
-      true,
-      true
-    ),
-    'Beach House Getaway',
-    "Niché au cœur d'une forêt verdoyante, ce chalet authentique en bois massif vous offre une retraite paisible loin de l'agitation urbaine. Le poêle à bois et la terrasse en font un havre de paix idéal pour se ressourcer en toute saison.",
-    true,
-    125,
-    3,
-    2,
-    1,
-    'Ocean Drive',
-    '42A',
-    '33139'
-  );
+  public rentalProperty: RentalPropertyDTO | undefined = undefined;
 
   // TODO: remove this when not needed
   // This is some sample data

@@ -8,7 +8,9 @@ import { RentalPropertyDTO } from '../../../../../dto/rental-property.dto';
   standalone: true,
   template: `
     <div class="flex flex-col gap-5">
-      <app-accordion title="Description" [text]="property().description" />
+      @if (property().description != '') {
+        <app-accordion title="Description" [text]="property().description" />
+      }
       <app-rental-property-accessibility-accordion
         [accessibility]="property().accessibility" />
     </div>

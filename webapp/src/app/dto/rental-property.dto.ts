@@ -1,3 +1,4 @@
+import { RentalProperty } from '../interface/rental-property.interface';
 import { AccessibilityDTO } from './accessibility.dto';
 import { AmenityDTO } from './amenity.dto';
 
@@ -116,5 +117,22 @@ export class RentalPropertyDTO {
 
   public set postalCode(postalCode: string) {
     this._postalCode = postalCode;
+  }
+  public static fromInterface(property: RentalProperty): RentalPropertyDTO {
+    return new RentalPropertyDTO(
+      property.id,
+      AccessibilityDTO.fromInterface(property.accessibility),
+      AmenityDTO.fromInterface(property.amenity),
+      property.name,
+      property.description || '',
+      property.listed,
+      property.pricePerNight,
+      property.beds,
+      property.bedrooms,
+      property.bathrooms,
+      property.street,
+      property.number,
+      property.postalCode
+    );
   }
 }

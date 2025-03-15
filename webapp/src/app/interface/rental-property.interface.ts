@@ -6,6 +6,7 @@ export interface RentalProperty {
   accessibility: Accessibility;
   amenity: Amenity;
   name: string;
+  description: string;
   listed: boolean;
   pricePerNight: number;
   beds: number;

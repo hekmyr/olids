@@ -1,5 +1,5 @@
 export interface Amenity {
-  in: string;
+  id: string;
   airConditioningAvailable: boolean;
   terraceAvailable: boolean;
   gardenAvailable: boolean;

@@ -55,7 +55,7 @@ public class PublicController {
     return ResponseEntity.ok(property);
   }
 
-  @GetMapping("/rental-properties")
+  @PostMapping("/rental-properties")
   public ResponseEntity<List<RentalPropertyDTO>> rentalProperties(
     @RequestBody RentalPropertyRequestDTO dto
   ) {

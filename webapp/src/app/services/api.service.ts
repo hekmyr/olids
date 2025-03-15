@@ -1,9 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SignInDTO } from '../dto/sign-in-dto';
 import { SignUpDTO } from '../dto/sign-up-dto';
 import { RentalProperty } from '../interface/rental-property.interface';
+import { RentalPropertyRequestDTO } from '../dto/rental-property-request.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -28,9 +29,12 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/public/sign-up`, body);
   }
 
-  public rentalProperties(): Observable<Array<RentalProperty>> {
-    return this.http.get<Array<RentalProperty>>(
-      `${this.apiUrl}/public/rental-properties`
+  public rentalProperties(
+    body: RentalPropertyRequestDTO
+  ): Observable<Array<RentalProperty>> {
+    return this.http.post<Array<RentalProperty>>(
+      `${this.apiUrl}/public/rental-properties`,
+      body
     );
   }
 

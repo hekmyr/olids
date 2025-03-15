@@ -13,7 +13,7 @@ export const routes: Routes = [
   {
     path: '',
     component: RentalPropertiesPage,
-    title: 'Rental properties'
+    title: 'Home page'
   },
   {
     path: 'about',
@@ -36,7 +36,7 @@ export const routes: Routes = [
     title: 'FAQ'
   },
   {
-    path: 'property',
+    path: 'property/:id',
     component: RentalPropertyPage,
     title: 'Sign in'
   },

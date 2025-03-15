@@ -1,5 +1,5 @@
-import { Accessibility } from "./accessibility.interface";
-import { Amenity } from "./amenity.interface";
+import { Accessibility } from './accessibility.interface';
+import { Amenity } from './amenity.interface';
 
 export interface RentalProperty {
   id: string;

@@ -7,8 +7,8 @@ import { NavBarComponent } from '../../nav-bar/nav-bar.component';
 import { SideImgComponent } from '../../side-img/side-img.component';
 import { SignInDTO } from '../../../dto/sign-in-dto';
 import { Link } from '../link.interface';
-import { ApiService } from '../../../services/api.service';
 import { SignCardComponent } from '../sign-card.interface';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-sign-in-card',
@@ -32,21 +32,17 @@ export class SignInCardComponent implements SignCardComponent {
   public imageUrl = 'images/sign_component_side_img.jpg';
   private form = new SignInDTO();
 
-  // This get called by children component:
-  // InputComponent
   public setEmail(value: string) {
     this.form.setEmail = value;
   }
 
-  // This get called by children component:
-  // InputPasswordComponent
   public setPassword(value: string) {
     this.form.setPassword = value;
   }
 
-  apiService = inject(ApiService);
+  authService = inject(AuthService);
 
   public submit() {
-    this.apiService.signIn(this.form).subscribe();
+    this.authService.signIn(this.form);
   }
 }

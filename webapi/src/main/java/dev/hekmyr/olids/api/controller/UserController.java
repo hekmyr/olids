@@ -3,6 +3,7 @@ package dev.hekmyr.olids.api.controller;
 import dev.hekmyr.olids.api.Constant;
 import dev.hekmyr.olids.api.dto.UserDTO;
 import dev.hekmyr.olids.api.dto.UserUpdateDTO;
+import dev.hekmyr.olids.api.model.MessageResponseModel;
 import dev.hekmyr.olids.api.service.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ public class UserController {
 
   @GetMapping("/sign-in")
   public ResponseEntity<?> signIn() {
-    return ResponseEntity.ok("You are authenticated!\n");
+    return ResponseEntity.ok(new MessageResponseModel("You are authenticated"));
   }
 
   @GetMapping

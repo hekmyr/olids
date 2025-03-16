@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { NavBarLogoComponent } from './nav-bar-logo/nav-bar-logo.component';
 import { NavBarOptionComponent } from './nav-bar-option/nav-bar-option.component';
 import { APP_NAME } from '../../constant';
 import { NavBarLinkComponent } from './nav-bar-link/nav-bar-link.component';
+import { AuthService } from '../../services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-nav-bar',
@@ -19,13 +20,35 @@ import { NavBarLinkComponent } from './nav-bar-link/nav-bar-link.component';
         </div>
       </div>
       <div class="flex gap-6">
-        <nav-bar-link text="Tableau de bord" link="/account" />
-        <nav-bar-link text="Mes réservations" link="/reservations" />
-        <nav-bar-option text="Deconnexion" />
+        @if (isAuthenticated) {
+          <nav-bar-link text="Tableau de bord" link="/account" />
+          <nav-bar-link text="Mes réservations" link="/reservations" />
+          <nav-bar-option text="Deconnexion" />
+        } @else {
+          <nav-bar-option text="Se connecter" link="/sign-in" />
+        }
       </div>
     </div>
   `
 })
-export class NavBarComponent {
+export class NavBarComponent implements OnInit, OnDestroy {
   appName = APP_NAME;
+  private authSub: Subscription | null = null;
+
+  ngOnInit(): void {
+    this.isAuthenticated = this.authService.getIsAuthenticated();
+
+    this.authSub = this.authService.authState$.subscribe((state) => {
+      this.isAuthenticated = state;
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.authSub) {
+      this.authSub.unsubscribe();
+    }
+  }
+
+  authService = inject(AuthService);
+  isAuthenticated = this.authService.getIsAuthenticated();
 }

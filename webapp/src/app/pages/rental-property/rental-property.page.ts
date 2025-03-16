@@ -26,7 +26,7 @@ import { ApiService } from '../../services/api.service';
 
               <button
                 (click)="previousImage()"
-                class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black text-white p-2 rounded-full opacity-70 hover:opacity-100">
+                class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black text-white p-2 rounded-full opacity-70 hover:opacity-100 cursor-pointer">
                 <svg
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -41,7 +41,7 @@ import { ApiService } from '../../services/api.service';
 
               <button
                 (click)="nextImage()"
-                class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black text-white p-2 rounded-full opacity-70 hover:opacity-100">
+                class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black text-white p-2 rounded-full opacity-70 hover:opacity-100 cursor-pointer">
                 <svg
                   viewBox="0 0 24 24"
                   stroke="currentColor"

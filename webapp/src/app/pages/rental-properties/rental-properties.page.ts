@@ -9,7 +9,7 @@ import { PropertyCollectionComponent } from './components/property-collection/pr
     <div class="bg-default h-full min-h-svh">
       <app-nav-bar />
       <div class="mx-12">
-        <h1 class="text-9xl">Toutes nos propriétés</h1>
+        <h1 class="text-9xl py-12">Toutes nos propriétés</h1>
         <app-property-collection />
       </div>
     </div>

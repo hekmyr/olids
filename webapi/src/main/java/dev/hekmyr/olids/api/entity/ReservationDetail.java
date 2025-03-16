@@ -1,5 +1,6 @@
 package dev.hekmyr.olids.api.entity;
 
+import dev.hekmyr.olids.api.dto.ReservationDetailDTO;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -35,7 +36,17 @@ public class ReservationDetail {
   @Column(name = "date_updated", nullable = false)
   private LocalDateTime dateUpdated;
 
-  // Getters and setters
+  public ReservationDetail() {}
+
+  public ReservationDetail(ReservationDetailDTO dto) {
+    this.id = dto.getId();
+    this.pricePerNight = dto.getPricePerNight();
+    this.dateStayStart = dto.getDateStayStart();
+    this.dateStayEnd = dto.getDateStayEnd();
+    this.dateCreated = LocalDateTime.now();
+    this.dateUpdated = LocalDateTime.now();
+  }
+
   public UUID getId() {
     return id;
   }

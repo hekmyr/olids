@@ -7,6 +7,9 @@ import { PriceSummaryComponent } from './price-summary/price-summary.component';
 import { PropertyDescriptionComponent } from './property-description/property-description.component';
 import { PropertyHeaderComponent } from './property-header-component/property-header.component';
 import { Button3dComponent } from '../../../../components/button-3d/button-3d.component';
+import { ApiService } from '../../../../services/api.service';
+import { ReservationCreateDTO } from '../../../../dto/reservation-create-dto';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-rental-property-form-section',
@@ -139,11 +142,27 @@ export class RentalPropertyFormSectionComponent {
     }
   }
 
+  apiService = inject(ApiService);
+
   public onSubmit() {
     if (!this.bookingForm.valid) return;
 
+    const travelers = this.bookingForm.controls.travelers.value;
     const startDate = this.startDateFormValue;
     const endDate = this.endDateFormValue;
+
+    if (travelers && startDate && endDate) {
+      const payload = new ReservationCreateDTO(
+        this.rentalProperty().id,
+        startDate,
+        endDate
+      );
+      firstValueFrom(this.apiService.createReservation([payload])).then(
+        (reservation) => {
+          console.log(reservation);
+        }
+      );
+    }
 
     console.log('Booking submitted', {
       property: this.rentalProperty(),

@@ -11,7 +11,6 @@ public class ReservationCreateDTO {
 
   public ReservationCreateDTO(
     UUID propertyId,
-    float pricePerNight,
     LocalDateTime stayStart,
     LocalDateTime stayEnd
   ) {

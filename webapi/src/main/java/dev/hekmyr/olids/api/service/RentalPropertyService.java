@@ -3,6 +3,7 @@ package dev.hekmyr.olids.api.service;
 import dev.hekmyr.olids.api.dto.RentalPropertyDTO;
 import dev.hekmyr.olids.api.dto.RentalPropertyRequestDTO;
 import dev.hekmyr.olids.api.intf.repository.RentalPropertyRepository;
+import java.time.LocalTime;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +22,13 @@ public class RentalPropertyService {
     RentalPropertyRequestDTO dto
   ) {
     if (dto.getStartDate() != null) {
-      return rentalPropertyRepository.findAvailableDTOs(
-        dto.getStartDate(),
-        dto.getEndDate()
+      if (dto.getEndDate() != null) {
+        return rentalPropertyRepository.findAvailableDTOs(
+          dto.getStartDate().atTime(LocalTime.MIN),
+          dto.getEndDate().atTime(LocalTime.MIN)
+        );
+      } else return rentalPropertyRepository.findAvailableDTOsByStartDate(
+        dto.getStartDate().atTime(LocalTime.MIN)
       );
     } else return rentalPropertyRepository.findAllDTOs();
   }

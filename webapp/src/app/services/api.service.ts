@@ -5,6 +5,8 @@ import { SignInDTO } from '../dto/sign-in-dto';
 import { SignUpDTO } from '../dto/sign-up-dto';
 import { RentalProperty } from '../interface/rental-property.interface';
 import { RentalPropertyRequestDTO } from '../dto/rental-property-request.dto';
+import { ReservationCreateDTO } from '../dto/reservation-create-dto';
+import { Reservation } from '../interface/reservation.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -42,5 +44,13 @@ export class ApiService {
     return this.http.get<RentalProperty>(
       `${this.apiUrl}/public/rental-property/${id}`
     );
+  }
+
+  public createReservation(
+    payload: Array<ReservationCreateDTO>
+  ): Observable<Reservation> {
+    return this.http.post<Reservation>(`${this.apiUrl}/reservation`, payload, {
+      withCredentials: true
+    });
   }
 }

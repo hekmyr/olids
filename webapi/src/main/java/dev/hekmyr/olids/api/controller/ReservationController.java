@@ -33,12 +33,17 @@ public class ReservationController {
   }
 
   @PostMapping
-  public ResponseEntity<String> createReservation(
-    @RequestBody List<ReservationCreateDTO> dto
+  public ResponseEntity<ReservationDTO> createReservation(
+    @RequestBody List<ReservationCreateDTO> payload
   ) {
+    payload.forEach(r -> {
+      System.out.println(r.getPropertyId());
+    });
     var userId = userService.getAuthenticatedUserId();
-    reservationService.createReservation(userId, dto);
-    return ResponseEntity.ok("OK");
+    var reservation = reservationService.createReservation(userId, payload);
+    return ResponseEntity.ok(
+      reservationService.findDTOById(reservation.getId())
+    );
   }
 
   @GetMapping

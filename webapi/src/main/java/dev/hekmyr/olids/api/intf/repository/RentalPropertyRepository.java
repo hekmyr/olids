@@ -2,7 +2,7 @@ package dev.hekmyr.olids.api.intf.repository;
 
 import dev.hekmyr.olids.api.dto.RentalPropertyDTO;
 import dev.hekmyr.olids.api.entity.RentalProperty;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,8 +26,19 @@ public interface RentalPropertyRepository
     "OR ((rd.dateStayStart <= :endDate) AND (rd.dateStayEnd >= :endDate)))"
   )
   List<RentalPropertyDTO> findAvailableDTOs(
-    @Param("startDate") LocalDate startDate,
-    @Param("endDate") LocalDate endDate
+    @Param("startDate") LocalDateTime startDate,
+    @Param("endDate") LocalDateTime endDate
+  );
+
+  @Query(
+    "SELECT new dev.hekmyr.olids.api.dto.RentalPropertyDTO(rp) " +
+    "FROM RentalProperty rp " +
+    "WHERE rp.id NOT IN " +
+    "(SELECT rd.rentalProperty.id FROM ReservationDetail rd " +
+    "WHERE (rd.dateStayStart <= :startDate) AND (rd.dateStayEnd >= :startDate))"
+  )
+  List<RentalPropertyDTO> findAvailableDTOsByStartDate(
+    @Param("startDate") LocalDateTime startDate
   );
 
   @Query(

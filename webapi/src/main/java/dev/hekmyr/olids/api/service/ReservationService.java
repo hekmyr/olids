@@ -87,4 +87,12 @@ public class ReservationService {
     });
     return result;
   }
+
+  public ReservationDTO findDTOById(UUID id) {
+    return reservationRepository
+      .findDTOById(id)
+      .orElseThrow(() ->
+        new RuntimeException("Reservation not found with ID: " + id)
+      );
+  }
 }

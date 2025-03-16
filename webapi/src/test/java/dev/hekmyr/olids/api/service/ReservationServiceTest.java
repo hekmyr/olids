@@ -52,7 +52,6 @@ public class ReservationServiceTest {
     List<ReservationCreateDTO> dtos = List.of(
       new ReservationCreateDTO(
         propertyId,
-        999.99f,
         LocalDateTime.now(),
         LocalDateTime.now().plusDays(3)
       )

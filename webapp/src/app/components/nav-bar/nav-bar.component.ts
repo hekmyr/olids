@@ -8,7 +8,23 @@ import { NavBarLinkComponent } from './nav-bar-link/nav-bar-link.component';
 @Component({
   selector: 'app-nav-bar',
   imports: [NavBarLogoComponent, NavBarLinkComponent, NavBarOptionComponent],
-  templateUrl: './nav-bar.component.html'
+  template: `
+    <div class="bg-[#F0EFEB] flex justify-between px-12 py-3">
+      <div class="flex gap-12">
+        <nav-bar-logo text="{{ appName }}" link="/" />
+        <div class="flex gap-6">
+          <nav-bar-link text="À propos" link="/about" />
+          <nav-bar-link text="Contact" link="/contact" />
+          <nav-bar-link text="FAQ" link="/faq" />
+        </div>
+      </div>
+      <div class="flex gap-6">
+        <nav-bar-link text="Tableau de bord" link="/account" />
+        <nav-bar-link text="Mes réservations" link="/reservations" />
+        <nav-bar-option text="Deconnexion" />
+      </div>
+    </div>
+  `
 })
 export class NavBarComponent {
   appName = APP_NAME;

@@ -4,7 +4,11 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'nav-bar-link',
   imports: [RouterLink],
-  templateUrl: './nav-bar-link.component.html'
+  template: `
+    <a class="font-[Averia_Serif_Libre] text-lg" routerLink="{{ link() }}">
+      {{ text() }}
+    </a>
+  `
 })
 export class NavBarLinkComponent {
   text = input.required<string>();

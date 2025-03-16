@@ -4,7 +4,11 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'nav-bar-option',
   imports: [],
-  templateUrl: './nav-bar-option.component.html'
+  template: `
+    <a class="text-lg font-[Averia_Serif_Libre]">
+      {{ text() }}
+    </a>
+  `
 })
 export class NavBarOptionComponent {
   text = input.required<string>();

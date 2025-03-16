@@ -13,6 +13,7 @@ import { InputComponent } from '../../../../components/input/input.component';
     <app-input
       type="date"
       label="Début du séjour"
+      [initialValue]="minStartDate"
       [min]="minStartDate"
       (value)="onStartDateChange($event)" />
     <app-input
@@ -22,15 +23,24 @@ import { InputComponent } from '../../../../components/input/input.component';
       [disabled]="startDateFormValue == null"
       (value)="onEndDateChange($event)" />
     <div class="grid grid-cols-5 gap-x-12 gap-y-4 ">
-      @for (property of rentalProperties; track property.id) {
-        <app-property-card [property]="property" />
+      @if (startDateFormValue != null) {
+        @for (property of rentalProperties; track property.id) {
+          <app-property-card
+            [property]="property"
+            [startDate]="startDateFormValue"
+            [endDate]="endDateFormValue" />
+        }
+      } @else {
+        @for (property of rentalProperties; track property.id) {
+          <app-property-card [property]="property" />
+        }
       }
     </div>
   `
 })
 export class PropertyCollectionComponent {
   public rentalProperties: Array<RentalProperty> = [];
-  public startDateFormValue: Date | null = null;
+  public startDateFormValue: Date = new Date();
   public endDateFormValue: Date | null = null;
   public minStartDate: string = '';
   public minEndDate: string = '';
@@ -38,6 +48,9 @@ export class PropertyCollectionComponent {
   constructor() {
     const today = new Date();
     this.minStartDate = this.formatDateForInput(today);
+    this.minEndDate = this.formatDateForInput(today);
+    this.startDateFormValue = today;
+
     firstValueFrom(
       this.apiService.rentalProperties(new RentalPropertyRequestDTO())
     ).then((data) => {

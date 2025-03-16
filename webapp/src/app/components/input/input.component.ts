@@ -4,7 +4,8 @@ import {
   input,
   output,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
+  OnInit
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
@@ -21,7 +22,7 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
       (input)="onChange()" />
   `
 })
-export class InputComponent implements OnChanges {
+export class InputComponent implements OnChanges, OnInit {
   private fb = inject(FormBuilder);
   public control = this.fb.nonNullable.control('');
 
@@ -29,11 +30,18 @@ export class InputComponent implements OnChanges {
     this.value.emit(this.control.value);
   }
 
+  public initialValue = input<string>('');
   public label = input.required<string>();
   public value = output<string>();
   public type = input<string>();
   public min = input<string>();
   public disabled = input<boolean>(false);
+
+  ngOnInit(): void {
+    if (this.initialValue()) {
+      this.control.setValue(this.initialValue());
+    }
+  }
 
   public getType() {
     return this.type() ?? 'text';

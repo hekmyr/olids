@@ -14,6 +14,12 @@ import { CURRENCY } from '../../../../constant';
         src="images/sign_component_side_img.jpg" />
       <div>
         <div class="text-lg">{{ property().name }}</div>
+        <span class="text-sm text-gray-600">
+          Available from {{ formatDate(startDate()!) }}
+          @if (endDate()) {
+            to {{ formatDate(endDate()!) }}
+          }
+        </span>
         <div class="flex gap-2">
           <span class="font-bold">{{ property().pricePerNight }}</span>
           <span class="font-bold">{{ currency }}</span>
@@ -25,8 +31,14 @@ import { CURRENCY } from '../../../../constant';
 export class PropertyCardComponent {
   public property = input.required<RentalProperty>();
   public currency = CURRENCY;
+  public startDate = input<Date>(new Date());
+  public endDate = input<Date | null>(null);
   router = inject(Router);
+
   public redirectToPage() {
     this.router.navigate(['/property', this.property().id]);
+  }
+  public formatDate(date: Date): string {
+    return `${date.getDate()}/${date.getMonth() + 1}`;
   }
 }

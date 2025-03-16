@@ -2,6 +2,7 @@ package dev.hekmyr.olids.api.controller;
 
 import dev.hekmyr.olids.api.Constant;
 import dev.hekmyr.olids.api.auth.UserDetailsManagerImpl;
+import dev.hekmyr.olids.api.dto.ContactRequestDTO;
 import dev.hekmyr.olids.api.dto.RentalPropertyDTO;
 import dev.hekmyr.olids.api.dto.RentalPropertyRequestDTO;
 import dev.hekmyr.olids.api.dto.UserCreateDTO;
@@ -60,5 +61,12 @@ public class PublicController {
     @RequestBody RentalPropertyRequestDTO dto
   ) {
     return ResponseEntity.ok(rentalPropertyService.findAvailableDTOs(dto));
+  }
+
+  @PostMapping("/contact")
+  public ResponseEntity<MessageResponseModel> contact(
+    @RequestBody ContactRequestDTO request
+  ) {
+    return ResponseEntity.ok(new MessageResponseModel("Message sent"));
   }
 }

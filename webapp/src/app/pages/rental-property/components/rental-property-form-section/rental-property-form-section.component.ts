@@ -24,7 +24,7 @@ import { firstValueFrom } from 'rxjs';
   ],
   template: `
     <div class="w-full">
-      <div class="mx-auto mt-16 flex flex-col w-[600px] gap-8">
+      <div class="mx-auto mt-24 flex flex-col w-[600px] gap-8">
         <app-property-header [property]="rentalProperty()" />
         <div class="flex flex-col gap-3"></div>
         <div class="flex justify-between gap-3">

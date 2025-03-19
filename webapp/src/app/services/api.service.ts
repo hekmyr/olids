@@ -8,6 +8,13 @@ import { RentalPropertyRequestDTO } from '../dto/rental-property-request.dto';
 import { ReservationCreateDTO } from '../dto/reservation-create-dto';
 import { Reservation } from '../interface/reservation.interface';
 import { ContactRequestDTO } from '../dto/contact-request.dto';
+import { UserDTO } from '../dto/user-dto';
+import { UserUpdateDTO } from '../dto/user-update-dto';
+import { BillingInformationDTO } from '../dto/billing-information.dto';
+import { BillingInformation } from '../interface/billing-information.interface';
+import { BillingInformationCreateDTO } from '../dto/billing-information-create-dto';
+import { BillingInformationUpdateDTO } from '../dto/billing-information-update-dto';
+import { User } from '../interface/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -57,5 +64,51 @@ export class ApiService {
 
   public sendContactRequest(body: ContactRequestDTO): Observable<Object> {
     return this.http.post(`${this.apiUrl}/public/contact`, body);
+  }
+
+  public getUser(): Observable<User> {
+    return this.http.get<UserDTO>(`${this.apiUrl}/user`, {
+      withCredentials: true
+    });
+  }
+
+  public updateUser(body: UserUpdateDTO): Observable<User> {
+    return this.http.put<UserDTO>(`${this.apiUrl}/user`, body, {
+      withCredentials: true
+    });
+  }
+
+  public createBillingInformation(
+    billingInformation: BillingInformationCreateDTO
+  ): Observable<BillingInformation> {
+    return this.http.post<BillingInformation>(
+      `${this.apiUrl}/billing-information`,
+      billingInformation,
+      { withCredentials: true }
+    );
+  }
+
+  public updateBillingInformation(
+    billingInformation: BillingInformationUpdateDTO
+  ): Observable<BillingInformation> {
+    return this.http.put<BillingInformation>(
+      `${this.apiUrl}/billing-information`,
+      billingInformation,
+      { withCredentials: true }
+    );
+  }
+
+  public getBillingInformation(id: string): Observable<BillingInformation> {
+    return this.http.get<BillingInformation>(
+      `${this.apiUrl}/billing-information/${id}`,
+      { withCredentials: true }
+    );
+  }
+
+  public getAllBillingInformations(): Observable<Array<BillingInformation>> {
+    return this.http.get<Array<BillingInformation>>(
+      `${this.apiUrl}/billing-information/all`,
+      { withCredentials: true }
+    );
   }
 }

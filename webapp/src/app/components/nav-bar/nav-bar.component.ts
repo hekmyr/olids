@@ -21,7 +21,7 @@ import { Subscription } from 'rxjs';
       </div>
       <div class="flex gap-6">
         @if (isAuthenticated) {
-          <nav-bar-link text="Tableau de bord" link="/account" />
+          <nav-bar-link text="Tableau de bord" link="/dashboard/profile" />
           <nav-bar-link text="Mes réservations" link="/reservations" />
           <nav-bar-option text="Deconnexion" />
         } @else {

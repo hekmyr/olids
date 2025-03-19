@@ -21,9 +21,9 @@ export const routes: Routes = [
     title: 'Sign in'
   },
   {
-    path: 'account',
+    path: 'dashboard/profile',
     component: AccountPage,
-    title: 'My account'
+    title: 'Mon profile'
   },
   {
     path: 'contact',

@@ -6,7 +6,7 @@ import { SignUpDTO } from '../dtos/sign-up.dto';
 import { RentalPropertyInterface } from '../interfaces/rental-property.interface';
 import { RentalPropertyRequestDTO } from '../dtos/rental-property-request.dto';
 import { ReservationCreateDTO } from '../dtos/reservation-create.dto';
-import { Reservation } from '../interfaces/reservation.interface';
+import { ReservationInterface } from '../interfaces/reservation.interface';
 import { ContactRequestDTO } from '../dtos/contact-request.dto';
 import { UserModel } from '../models/user.model';
 import { UserUpdateModel } from '../models/user-update.model';
@@ -56,10 +56,20 @@ export class ApiService {
 
   public createReservation(
     payload: Array<ReservationCreateDTO>
-  ): Observable<Reservation> {
-    return this.http.post<Reservation>(`${this.apiUrl}/reservation`, payload, {
-      withCredentials: true
-    });
+  ): Observable<ReservationInterface> {
+    return this.http.post<ReservationInterface>(
+      `${this.apiUrl}/reservation`,
+      payload,
+      {
+        withCredentials: true
+      }
+    );
+  }
+
+  public getReservations(): Observable<Array<ReservationInterface>> {
+    return this.http.get<Array<ReservationInterface>>(
+      `${this.apiUrl}/reservations`
+    );
   }
 
   public sendContactRequest(body: ContactRequestDTO): Observable<Object> {

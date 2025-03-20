@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { DashboardHeaderComponent } from '../account/components/dashboard-header/dashboard-header.component';
 import { ReservationSortComponent } from '../../components/reservation-sort/reservation-sort.component';
 import { ReservationTableComponent } from '../../components/reservation-table/reservation-table.component';
 import { ReservationSummaryComponent } from '../../components/reservation-summary/reservation-summary.component';
-import { Reservation } from '../../interfaces/reservation.interface';
+import { ReservationInterface } from '../../interfaces/reservation.interface';
+import { ApiService } from '../../services/api.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-reservations',
@@ -38,6 +40,7 @@ import { Reservation } from '../../interfaces/reservation.interface';
             </div>
             <app-reservation-table
               [sortBy]="sortType"
+              [reservations]="reservations"
               (selected)="openReservationModal($event)" />
           </div>
         }
@@ -45,14 +48,24 @@ import { Reservation } from '../../interfaces/reservation.interface';
     </div>
   `
 })
-export class ReservationsPage {
+export class ReservationsPage implements OnInit {
   public sortType: string = 'all';
-  public selectedReservation: Reservation | null = null;
+  public selectedReservation: ReservationInterface | null = null;
+  public reservations: Array<ReservationInterface> = [];
+
+  private apiService = inject(ApiService);
+
+  public ngOnInit(): void {
+    firstValueFrom(this.apiService.getReservations()).then((response) => {
+      this.reservations = response;
+    });
+  }
+
   public setSortType(sortType: string) {
     this.sortType = sortType;
   }
 
-  public openReservationModal(reservation: Reservation) {
+  public openReservationModal(reservation: ReservationInterface) {
     this.selectedReservation = reservation;
   }
 

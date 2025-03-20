@@ -1,6 +1,6 @@
 import { Component, inject, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Reservation } from '../../interfaces/reservation.interface';
+import { ReservationInterface } from '../../interfaces/reservation.interface';
 import { DashboardHeaderComponent } from '../../pages/account/components/dashboard-header/dashboard-header.component';
 import { Button3dComponent } from '../button-3d/button-3d.component';
 import { BillingInformationService } from '../../services/billing-information.service';
@@ -96,25 +96,23 @@ import { Router } from '@angular/router';
   `
 })
 export class ReservationSummaryComponent {
-  reservation = input.required<Reservation>();
+  reservation = input.required<ReservationInterface>();
   onHidden = output<void>();
 
   getPropertyName(): string {
-    return this.reservation().details[0].property?.name || 'Chalet Mont-Blanc';
+    return this.reservation().property.name || 'Chalet Mont-Blanc';
   }
 
   getGuestCount(): number {
-    return this.reservation().details[0].guest;
+    return this.reservation().guest;
   }
 
   getStartDate(): Date {
-    return (
-      this.reservation().details[0].dateStayStart || new Date('2025-03-01')
-    );
+    return this.reservation().dateStayStart || new Date('2025-03-01');
   }
 
   getEndDate(): Date {
-    return this.reservation().details[0].dateStayEnd || new Date('2025-07-05');
+    return this.reservation().dateStayEnd || new Date('2025-07-05');
   }
 
   getReservationDate(): Date {
@@ -141,7 +139,7 @@ export class ReservationSummaryComponent {
 
   getTotalPrice(): string {
     const duration = this.getDurationInDays();
-    const pricePerNight = this.reservation().details[0].pricePerNight;
+    const pricePerNight = this.reservation().pricePerNight;
     const total = pricePerNight ? duration * pricePerNight : 4300;
     return total.toLocaleString();
   }
@@ -149,9 +147,7 @@ export class ReservationSummaryComponent {
   router = inject(Router);
 
   public redirectToPropertyPage() {
-    this.router.navigate([
-      `/property/${this.reservation().details[0].property.id}`
-    ]);
+    this.router.navigate([`/property/${this.reservation().property.id}`]);
   }
 
   public cancelReservation() {}

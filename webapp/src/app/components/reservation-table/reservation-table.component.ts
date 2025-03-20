@@ -7,8 +7,7 @@ import {
   output,
   SimpleChanges
 } from '@angular/core';
-import { Reservation } from '../../interfaces/reservation.interface';
-import { ReservationDetailInterface } from '../../interfaces/reservation-detail.interface';
+import { ReservationInterface } from '../../interfaces/reservation.interface';
 import { CURRENCY } from '../../constant';
 
 @Component({
@@ -43,24 +42,21 @@ import { CURRENCY } from '../../constant';
           @for (reservation of filteredReservations; track reservation.id) {
             <tr class="h-9">
               <td class="px-4 py-1 border-t border-[#9A9BA1]">
-                {{ reservation.details[0].property.name }}
+                {{ reservation.property.name }}
               </td>
               <td class="px-4 py-1 border-l border-t border-[#9A9BA1]">
-                {{ formatDate(reservation.details[0].dateStayStart) }}
+                {{ formatDate(reservation.dateStayStart) }}
               </td>
               <td class="px-4 py-1 border-l border-t border-[#9A9BA1]">
-                {{ formatDate(reservation.details[0].dateStayEnd) }}
+                {{ formatDate(reservation.dateStayEnd) }}
               </td>
               <td class="px-4 py-1 border-l border-t border-[#9A9BA1]">
-                <span
-                  [class]="
-                    getStatusClass(calculateStatus(reservation.details[0]))
-                  ">
-                  {{ calculateStatus(reservation.details[0]) }}
+                <span [class]="getStatusClass(calculateStatus(reservation))">
+                  {{ calculateStatus(reservation) }}
                 </span>
               </td>
               <td class="px-4 py-1 border-l border-t border-[#9A9BA1]">
-                {{ calculateTotal(reservation.details[0]) }}
+                {{ calculateTotal(reservation) }}
               </td>
 
               @if (filteredReservations.length > 0) {
@@ -93,403 +89,10 @@ import { CURRENCY } from '../../constant';
 })
 export class ReservationTableComponent implements OnChanges, OnInit {
   public sortBy = input<string>('all');
-  public selected = output<Reservation>();
+  public selected = output<ReservationInterface>();
+  public reservations = input.required<Array<ReservationInterface>>();
 
-  reservations: Reservation[] = [
-    {
-      id: '1',
-      details: [
-        {
-          id: '1',
-          pricePerNight: 100,
-          dateStayStart: new Date('2025-03-01'),
-          dateStayEnd: new Date('2025-07-05'),
-          isCancelled: false,
-          guest: 4,
-          billingInformation: {
-            id: '1',
-            cardNumber: '1234567890123456',
-            monthExpiration: 12,
-            yearExpiration: 23,
-            isDefault: false
-          },
-          property: {
-            id: '1',
-            accessibility: {
-              id: '1',
-              toiletGrabBarAvailable: true,
-              showerGrabBarAvailable: true,
-              stepFreeShowerAvailable: true,
-              showerBathChairAvailable: true,
-              stepFreeBedroomAccessAvailable: true,
-              wideBedroomEntranceAvailable: true,
-              stepFreeAccessAvailable: true
-            },
-            amenity: {
-              id: '1',
-              airConditioningAvailable: true,
-              terraceAvailable: true,
-              gardenAvailable: true,
-              poolAvailable: true,
-              hotTubAvailable: true,
-              evChargerAvailable: true,
-              indoorFireplaceAvailable: true,
-              outdoorFireplaceAvailable: true,
-              dedicatedWorkspaceAvailable: true,
-              gymAvailable: true
-            },
-            name: 'Chalet Mont-Blanc',
-            description: 'A cozy chalet in the mountains',
-            listed: true,
-            pricePerNight: 100,
-            beds: 2,
-            bedrooms: 1,
-            bathrooms: 1,
-            street: 'Mountain Road',
-            number: '123',
-            postalCode: '12345'
-          }
-        }
-      ]
-    },
-    {
-      id: '2',
-      details: [
-        {
-          id: '2',
-          pricePerNight: 100,
-          dateStayStart: new Date('2025-03-01'),
-          dateStayEnd: new Date('2025-07-05'),
-          isCancelled: false,
-          guest: 4,
-          billingInformation: {
-            id: '2',
-            cardNumber: '1234567890123456',
-            monthExpiration: 12,
-            yearExpiration: 23,
-            isDefault: false
-          },
-          property: {
-            id: '2',
-            accessibility: {
-              id: '2',
-              toiletGrabBarAvailable: true,
-              showerGrabBarAvailable: true,
-              stepFreeShowerAvailable: true,
-              showerBathChairAvailable: true,
-              stepFreeBedroomAccessAvailable: true,
-              wideBedroomEntranceAvailable: true,
-              stepFreeAccessAvailable: true
-            },
-            amenity: {
-              id: '2',
-              airConditioningAvailable: true,
-              terraceAvailable: true,
-              gardenAvailable: true,
-              poolAvailable: true,
-              hotTubAvailable: true,
-              evChargerAvailable: true,
-              indoorFireplaceAvailable: true,
-              outdoorFireplaceAvailable: true,
-              dedicatedWorkspaceAvailable: true,
-              gymAvailable: true
-            },
-            name: 'Chalet Mont-Blanc',
-            description: 'A cozy chalet in the mountains',
-            listed: true,
-            pricePerNight: 100,
-            beds: 2,
-            bedrooms: 1,
-            bathrooms: 1,
-            street: 'Mountain Road',
-            number: '123',
-            postalCode: '12345'
-          }
-        }
-      ]
-    },
-    {
-      id: '3',
-      details: [
-        {
-          id: '3',
-          pricePerNight: 100,
-          dateStayStart: new Date('2024-12-01'),
-          dateStayEnd: new Date('2025-01-05'),
-          isCancelled: false,
-          guest: 4,
-          billingInformation: {
-            id: '3',
-            cardNumber: '2346542342324434',
-            monthExpiration: 12,
-            yearExpiration: 28,
-            isDefault: false
-          },
-          property: {
-            id: '3',
-            accessibility: {
-              id: '3',
-              toiletGrabBarAvailable: true,
-              showerGrabBarAvailable: true,
-              stepFreeShowerAvailable: true,
-              showerBathChairAvailable: true,
-              stepFreeBedroomAccessAvailable: true,
-              wideBedroomEntranceAvailable: true,
-              stepFreeAccessAvailable: true
-            },
-            amenity: {
-              id: '3',
-              airConditioningAvailable: true,
-              terraceAvailable: true,
-              gardenAvailable: true,
-              poolAvailable: true,
-              hotTubAvailable: true,
-              evChargerAvailable: true,
-              indoorFireplaceAvailable: true,
-              outdoorFireplaceAvailable: true,
-              dedicatedWorkspaceAvailable: true,
-              gymAvailable: true
-            },
-            name: 'Chalet Mont-Blanc',
-            description: 'A cozy chalet in the mountains',
-            listed: true,
-            pricePerNight: 100,
-            beds: 2,
-            bedrooms: 1,
-            bathrooms: 1,
-            street: 'Mountain Road',
-            number: '123',
-            postalCode: '12345'
-          }
-        }
-      ]
-    },
-    {
-      id: '4',
-      details: [
-        {
-          id: '4',
-          pricePerNight: 100,
-          dateStayStart: new Date('2025-01-01'),
-          dateStayEnd: new Date('2025-03-05'),
-          isCancelled: false,
-          guest: 4,
-          billingInformation: {
-            id: '3',
-            cardNumber: '2346542342324434',
-            monthExpiration: 12,
-            yearExpiration: 28,
-            isDefault: false
-          },
-          property: {
-            id: '4',
-            accessibility: {
-              id: '4',
-              toiletGrabBarAvailable: true,
-              showerGrabBarAvailable: true,
-              stepFreeShowerAvailable: true,
-              showerBathChairAvailable: true,
-              stepFreeBedroomAccessAvailable: true,
-              wideBedroomEntranceAvailable: true,
-              stepFreeAccessAvailable: true
-            },
-            amenity: {
-              id: '4',
-              airConditioningAvailable: true,
-              terraceAvailable: true,
-              gardenAvailable: true,
-              poolAvailable: true,
-              hotTubAvailable: true,
-              evChargerAvailable: true,
-              indoorFireplaceAvailable: true,
-              outdoorFireplaceAvailable: true,
-              dedicatedWorkspaceAvailable: true,
-              gymAvailable: true
-            },
-            name: 'Chalet Mont-Blanc',
-            description: 'A cozy chalet in the mountains',
-            listed: true,
-            pricePerNight: 100,
-            beds: 2,
-            bedrooms: 1,
-            bathrooms: 1,
-            street: 'Mountain Road',
-            number: '123',
-            postalCode: '12345'
-          }
-        }
-      ]
-    },
-    {
-      id: '5',
-      details: [
-        {
-          id: '5',
-          pricePerNight: 100,
-          dateStayStart: new Date('2024-07-01'),
-          dateStayEnd: new Date('2024-12-05'),
-          isCancelled: false,
-          guest: 4,
-          billingInformation: {
-            id: '3',
-            cardNumber: '2346542342324434',
-            monthExpiration: 12,
-            yearExpiration: 28,
-            isDefault: false
-          },
-          property: {
-            id: '5',
-            accessibility: {
-              id: '5',
-              toiletGrabBarAvailable: true,
-              showerGrabBarAvailable: true,
-              stepFreeShowerAvailable: true,
-              showerBathChairAvailable: true,
-              stepFreeBedroomAccessAvailable: true,
-              wideBedroomEntranceAvailable: true,
-              stepFreeAccessAvailable: true
-            },
-            amenity: {
-              id: '5',
-              airConditioningAvailable: true,
-              terraceAvailable: true,
-              gardenAvailable: true,
-              poolAvailable: true,
-              hotTubAvailable: true,
-              evChargerAvailable: true,
-              indoorFireplaceAvailable: true,
-              outdoorFireplaceAvailable: true,
-              dedicatedWorkspaceAvailable: true,
-              gymAvailable: true
-            },
-            name: 'Chalet Mont-Blanc',
-            description: 'A cozy chalet in the mountains',
-            listed: true,
-            pricePerNight: 100,
-            beds: 2,
-            bedrooms: 1,
-            bathrooms: 1,
-            street: 'Mountain Road',
-            number: '123',
-            postalCode: '12345'
-          }
-        }
-      ]
-    },
-    {
-      id: '6',
-      details: [
-        {
-          id: '6',
-          pricePerNight: 100,
-          dateStayStart: new Date('2025-03-01'),
-          dateStayEnd: new Date('2025-07-05'),
-          isCancelled: true,
-          guest: 4,
-          billingInformation: {
-            id: '3',
-            cardNumber: '2346542342324434',
-            monthExpiration: 12,
-            yearExpiration: 28,
-            isDefault: false
-          },
-          property: {
-            id: '6',
-            accessibility: {
-              id: '6',
-              toiletGrabBarAvailable: true,
-              showerGrabBarAvailable: true,
-              stepFreeShowerAvailable: true,
-              showerBathChairAvailable: true,
-              stepFreeBedroomAccessAvailable: true,
-              wideBedroomEntranceAvailable: true,
-              stepFreeAccessAvailable: true
-            },
-            amenity: {
-              id: '6',
-              airConditioningAvailable: true,
-              terraceAvailable: true,
-              gardenAvailable: true,
-              poolAvailable: true,
-              hotTubAvailable: true,
-              evChargerAvailable: true,
-              indoorFireplaceAvailable: true,
-              outdoorFireplaceAvailable: true,
-              dedicatedWorkspaceAvailable: true,
-              gymAvailable: true
-            },
-            name: 'Chalet Mont-Blanc',
-            description: 'A cozy chalet in the mountains',
-            listed: true,
-            pricePerNight: 100,
-            beds: 2,
-            bedrooms: 1,
-            bathrooms: 1,
-            street: 'Mountain Road',
-            number: '123',
-            postalCode: '12345'
-          }
-        }
-      ]
-    },
-    {
-      id: '7',
-      details: [
-        {
-          id: '7',
-          pricePerNight: 100,
-          dateStayStart: new Date('2025-03-01'),
-          dateStayEnd: new Date('2025-07-05'),
-          isCancelled: false,
-          guest: 4,
-          billingInformation: {
-            id: '3',
-            cardNumber: '2346542342324434',
-            monthExpiration: 12,
-            yearExpiration: 28,
-            isDefault: false
-          },
-          property: {
-            id: '7',
-            accessibility: {
-              id: '7',
-              toiletGrabBarAvailable: true,
-              showerGrabBarAvailable: true,
-              stepFreeShowerAvailable: true,
-              showerBathChairAvailable: true,
-              stepFreeBedroomAccessAvailable: true,
-              wideBedroomEntranceAvailable: true,
-              stepFreeAccessAvailable: true
-            },
-            amenity: {
-              id: '7',
-              airConditioningAvailable: true,
-              terraceAvailable: true,
-              gardenAvailable: true,
-              poolAvailable: true,
-              hotTubAvailable: true,
-              evChargerAvailable: true,
-              indoorFireplaceAvailable: true,
-              outdoorFireplaceAvailable: true,
-              dedicatedWorkspaceAvailable: true,
-              gymAvailable: true
-            },
-            name: 'Chalet Mont-Blanc',
-            description: 'A cozy chalet in the mountains',
-            listed: true,
-            pricePerNight: 100,
-            beds: 2,
-            bedrooms: 1,
-            bathrooms: 1,
-            street: 'Mountain Road',
-            number: '123',
-            postalCode: '12345'
-          }
-        }
-      ]
-    }
-  ];
-  filteredReservations: Reservation[] = [];
+  filteredReservations: ReservationInterface[] = [];
 
   ngOnInit() {
     this.filterReservations();
@@ -502,8 +105,8 @@ export class ReservationTableComponent implements OnChanges, OnInit {
   }
 
   filterReservations(): void {
-    this.filteredReservations = this.reservations.filter((reservation) => {
-      const status = this.calculateStatus(reservation.details[0]);
+    this.filteredReservations = this.reservations().filter((reservation) => {
+      const status = this.calculateStatus(reservation);
       switch (this.sortBy()) {
         case 'future':
           return status === 'Prévu';
@@ -515,22 +118,21 @@ export class ReservationTableComponent implements OnChanges, OnInit {
           return true;
       }
     });
-    console.log(this.reservations, this.filteredReservations);
   }
 
   /**
    * Calculate the status of a reservation detail based on current date and stay dates
-   * @param detail The reservation detail to check
+   * @param reservation The reservation detail to check
    * @returns The status as a string: 'Prévu', 'En cours', 'Terminé', or 'Annulé'
    */
-  calculateStatus(detail: ReservationDetailInterface): string {
-    if (detail.isCancelled) {
+  calculateStatus(reservation: ReservationInterface): string {
+    if (reservation.isCancelled) {
       return 'Annulé';
     }
 
     const currentDate = new Date();
-    const startDate = detail.dateStayStart;
-    const endDate = detail.dateStayEnd;
+    const startDate = reservation.dateStayStart;
+    const endDate = reservation.dateStayEnd;
 
     if (currentDate < startDate) {
       return 'Prévu';
@@ -563,16 +165,16 @@ export class ReservationTableComponent implements OnChanges, OnInit {
 
   /**
    * Calculate the total price for a reservation
-   * @param detail The reservation detail
+   * @param reservation The reservation detail
    * @returns The total price as a string
    */
-  calculateTotal(detail: ReservationDetailInterface): string {
-    const startDate = detail.dateStayStart;
-    const endDate = detail.dateStayEnd;
+  calculateTotal(reservation: ReservationInterface): string {
+    const startDate = reservation.dateStayStart;
+    const endDate = reservation.dateStayEnd;
     const days = Math.ceil(
       (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
     );
-    return `${days * detail.pricePerNight} ${CURRENCY}`;
+    return `${days * reservation.pricePerNight} ${CURRENCY}`;
   }
 
   /**

@@ -1,22 +1,13 @@
 import { ReservationDetail } from '../interface/reservation-detail.interface';
 
 export class ReservationDetailDTO {
-  private _id: string;
-  private _pricePerNight: number;
-  private _dateStayStart: Date;
-  private _dateStayEnd: Date;
-
   constructor(
-    id: string,
-    pricePerNight: number,
-    dateStayStart: Date,
-    dateStayEnd: Date
-  ) {
-    this._id = id;
-    this._pricePerNight = pricePerNight;
-    this._dateStayStart = dateStayStart;
-    this._dateStayEnd = dateStayEnd;
-  }
+    private _id: string,
+    private _pricePerNight: number,
+    private _dateStayStart: Date,
+    private _dateStayEnd: Date,
+    private _isCancelled: boolean
+  ) {}
 
   public get id(): string {
     return this._id;
@@ -50,6 +41,14 @@ export class ReservationDetailDTO {
     this._dateStayEnd = value;
   }
 
+  public get isCancelled(): boolean {
+    return this._isCancelled;
+  }
+
+  public set isCancelled(value: boolean) {
+    this._isCancelled = value;
+  }
+
   public static fromInterface(
     reservationDetail: ReservationDetail
   ): ReservationDetailDTO {
@@ -57,7 +56,8 @@ export class ReservationDetailDTO {
       reservationDetail.id,
       reservationDetail.pricePerNight,
       reservationDetail.dateStayStart,
-      reservationDetail.dateStayEnd
+      reservationDetail.dateStayEnd,
+      reservationDetail.isCancelled
     );
   }
 }

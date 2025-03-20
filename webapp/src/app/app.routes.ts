@@ -41,7 +41,7 @@ export const routes: Routes = [
     title: 'Sign in'
   },
   {
-    path: 'reservations',
+    path: 'dashboard/reservations',
     component: ReservationsPage,
     title: 'Reservations'
   },

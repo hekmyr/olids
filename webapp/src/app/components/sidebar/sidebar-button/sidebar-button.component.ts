@@ -29,7 +29,7 @@ export class SidebarButtonComponent {
     if (this.isActivated()) {
       return `${baseClasses} bg-[#A94A4A] text-white`;
     } else {
-      return `${baseClasses} hover:bg-[rgba(102,45,45,0.4)]`;
+      return `${baseClasses} hover:bg-[#B21212]/40`;
     }
   }
 

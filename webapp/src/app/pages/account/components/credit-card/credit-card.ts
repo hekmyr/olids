@@ -23,6 +23,7 @@ import { firstValueFrom } from 'rxjs';
 import { BillingInformationSetDefaultDTO } from '../../../../dto/billing-information-set-default-dto';
 import { BillingInformationCreate } from '../../../../interface/billing-information-create.interface';
 import { BillingInformationUpdate } from '../../../../interface/billing-information-update.interface';
+import { BillingInformationService } from '../../../../services/billing-information.service';
 
 @Component({
   selector: 'app-credit-card',
@@ -68,8 +69,8 @@ import { BillingInformationUpdate } from '../../../../interface/billing-informat
             } @else if (cardNumber) {
               <span class="font-mono tracking-thight">{{
                 isVisible
-                  ? formatCardNumber(cardNumber)
-                  : maskCardNumber(cardNumber)
+                  ? billingInformationService.formatCardNumber(cardNumber)
+                  : billingInformationService.maskCardNumber(cardNumber)
               }}</span>
               <lucide-angular
                 [img]="isVisible ? eyeOffIcon : eyeIcon"
@@ -166,6 +167,10 @@ export class CreditCardComponent implements OnInit {
   public editIcon = EditIcon;
   public plusIcon = PlusIcon;
 
+  fb = inject(FormBuilder);
+  apiService = inject(ApiService);
+  billingInformationService = inject(BillingInformationService);
+
   ngOnInit(): void {
     if (this.card()?.cardNumber === undefined) {
       console.log(this.type(), this.mode, this.card()?.cardNumber);
@@ -208,35 +213,6 @@ export class CreditCardComponent implements OnInit {
   public toggleVisibility() {
     this.isVisible = !this.isVisible;
   }
-
-  public formatCardNumber(cardNumber: string): string {
-    const cleanedNumber = cardNumber.replace(/\D/g, '');
-
-    if (this.cardType() === 'American Express') {
-      return cleanedNumber.replace(/(\d{4})(\d{6})(\d{5})/, '$1 $2 $3');
-    } else {
-      return cleanedNumber.replace(/(\d{4})(?=\d)/g, '$1 ');
-    }
-  }
-
-  public maskCardNumber(cardNumber: string): string {
-    const cleanedNumber = cardNumber.replace(/\D/g, '');
-
-    if (this.cardType() === 'American Express') {
-      const lastFive = cleanedNumber.slice(-5);
-      const maskedPart1 = '*'.repeat(4);
-      const maskedPart2 = '*'.repeat(6);
-      return `${maskedPart1} ${maskedPart2} ${lastFive}`;
-    } else {
-      const lastFour = cleanedNumber.slice(-4);
-      const maskedMiddle =
-        '*'.repeat(4) + ' ' + '*'.repeat(4) + ' ' + '*'.repeat(4);
-      return `${maskedMiddle} ${lastFour}`;
-    }
-  }
-
-  fb = inject(FormBuilder);
-  apiService = inject(ApiService);
 
   form = this.fb.group({
     cardNumber: [

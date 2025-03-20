@@ -7,7 +7,6 @@ public class UserUpdateDTO {
 
   private String lastName;
   private String firstName;
-  private String email;
   private String phoneNumber;
   private String street;
   private String number;
@@ -19,7 +18,6 @@ public class UserUpdateDTO {
   public UserUpdateDTO(User model) {
     this.lastName = model.getLastName();
     this.firstName = model.getFirstName();
-    this.email = model.getEmail();
     this.phoneNumber = model.getPhoneNumber();
     this.street = model.getStreet();
     this.number = model.getNumber();
@@ -41,14 +39,6 @@ public class UserUpdateDTO {
 
   public void setFirstName(String firstName) {
     this.firstName = firstName;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
   }
 
   public String getPhoneNumber() {

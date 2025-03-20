@@ -1,4 +1,4 @@
-export interface Amenity {
+export interface AmenityInterface {
   id: string;
   airConditioningAvailable: boolean;
   terraceAvailable: boolean;

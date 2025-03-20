@@ -1,4 +1,4 @@
-export class RentalPropertyImageDTO {
+export class RentalPropertyImageModel {
   constructor(
     private _primaryImageUrl: string,
     private _alternativeImageUrls: Array<string>

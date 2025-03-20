@@ -1,6 +1,6 @@
-import { Amenity } from '../interface/amenity.interface';
+import { AmenityInterface } from '../interfaces/amenity.interface';
 
-export class AmenityDTO {
+export class AmenityModel {
   constructor(
     private _id: string,
     private _airConditioningAvailable: boolean,
@@ -79,8 +79,8 @@ export class AmenityDTO {
     this._gymAvailable = value;
   }
 
-  public static fromInterface(amenity: Amenity): AmenityDTO {
-    return new AmenityDTO(
+  public static fromInterface(amenity: AmenityInterface): AmenityModel {
+    return new AmenityModel(
       amenity.id,
       amenity.airConditioningAvailable,
       amenity.terraceAvailable,

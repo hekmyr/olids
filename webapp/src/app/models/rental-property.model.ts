@@ -1,12 +1,12 @@
-import { RentalProperty } from '../interface/rental-property.interface';
-import { AccessibilityDTO } from './accessibility.dto';
-import { AmenityDTO } from './amenity.dto';
+import { RentalPropertyInterface } from '../interfaces/rental-property.interface';
+import { AccessibilityModel } from './accessibility.model';
+import { AmenityModel } from './amenity.model';
 
-export class RentalPropertyDTO {
+export class RentalPropertyModel {
   constructor(
     private _id: string,
-    private _accessibility: AccessibilityDTO,
-    private _amenity: AmenityDTO,
+    private _accessibility: AccessibilityModel,
+    private _amenity: AmenityModel,
     private _name: string,
     private _description: string,
     private _listed: boolean,
@@ -23,19 +23,19 @@ export class RentalPropertyDTO {
     return this._id;
   }
 
-  public get accessibility(): AccessibilityDTO {
+  public get accessibility(): AccessibilityModel {
     return this._accessibility;
   }
 
-  public set accessibility(accessibility: AccessibilityDTO) {
+  public set accessibility(accessibility: AccessibilityModel) {
     this._accessibility = accessibility;
   }
 
-  public get amenity(): AmenityDTO {
+  public get amenity(): AmenityModel {
     return this._amenity;
   }
 
-  public set amenity(amenity: AmenityDTO) {
+  public set amenity(amenity: AmenityModel) {
     this._amenity = amenity;
   }
 
@@ -118,11 +118,13 @@ export class RentalPropertyDTO {
   public set postalCode(postalCode: string) {
     this._postalCode = postalCode;
   }
-  public static fromInterface(property: RentalProperty): RentalPropertyDTO {
-    return new RentalPropertyDTO(
+  public static fromInterface(
+    property: RentalPropertyInterface
+  ): RentalPropertyModel {
+    return new RentalPropertyModel(
       property.id,
-      AccessibilityDTO.fromInterface(property.accessibility),
-      AmenityDTO.fromInterface(property.amenity),
+      AccessibilityModel.fromInterface(property.accessibility),
+      AmenityModel.fromInterface(property.amenity),
       property.name,
       property.description || '',
       property.listed,

@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { RentalPropertyAccessibilityAccordionComponent } from '../rental-property-accessibility-accordion/rental-property-accessibility-accordion.component';
 import { AccordionComponent } from '../../../../../components/accordion/accordion.component';
-import { RentalPropertyDTO } from '../../../../../dto/rental-property.dto';
+import { RentalPropertyModel } from '../../../../../models/rental-property.model';
 
 @Component({
   selector: 'app-property-description',
@@ -18,5 +18,5 @@ import { RentalPropertyDTO } from '../../../../../dto/rental-property.dto';
   imports: [AccordionComponent, RentalPropertyAccessibilityAccordionComponent]
 })
 export class PropertyDescriptionComponent {
-  property = input.required<RentalPropertyDTO>();
+  property = input.required<RentalPropertyModel>();
 }

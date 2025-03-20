@@ -1,4 +1,4 @@
-export interface Accessibility {
+export interface AccessibilityInterface {
   id: string;
   toiletGrabBarAvailable: boolean;
   showerGrabBarAvailable: boolean;

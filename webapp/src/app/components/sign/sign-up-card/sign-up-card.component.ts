@@ -7,7 +7,7 @@ import { NavBarComponent } from '../../nav-bar/nav-bar.component';
 import { SideImgComponent } from '../../side-img/side-img.component';
 import { Link } from '../link.interface';
 import { ApiService } from '../../../services/api.service';
-import { SignUpDTO } from '../../../dto/sign-up-dto';
+import { SignUpDTO } from '../../../dtos/sign-up.dto';
 import { SignCardComponent } from '../sign-card.interface';
 
 @Component({

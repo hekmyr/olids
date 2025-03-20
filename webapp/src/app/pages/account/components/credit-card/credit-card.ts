@@ -8,7 +8,7 @@ import {
   PlusIcon,
   Trash2Icon
 } from 'lucide-angular';
-import { BillingInformation } from '../../../../interface/billing-information.interface';
+import { BillingInformationInterface } from '../../../../interfaces/billing-information.interface';
 import {
   FormBuilder,
   FormGroup,
@@ -17,12 +17,12 @@ import {
 } from '@angular/forms';
 import { ApiService } from '../../../../services/api.service';
 import { CommonModule } from '@angular/common';
-import { BillingInformationCreateDTO } from '../../../../dto/billing-information-create-dto';
-import { BillingInformationUpdateDTO } from '../../../../dto/billing-information-update-dto';
+import { BillingInformationCreateDTO } from '../../../../dtos/billing-information-create.dto';
+import { BillingInformationUpdateDTO } from '../../../../dtos/billing-information-update.dto';
 import { firstValueFrom } from 'rxjs';
-import { BillingInformationSetDefaultDTO } from '../../../../dto/billing-information-set-default-dto';
-import { BillingInformationCreate } from '../../../../interface/billing-information-create.interface';
-import { BillingInformationUpdate } from '../../../../interface/billing-information-update.interface';
+import { BillingInformationSetDefaultDTO } from '../../../../dtos/billing-information-set-default.dto';
+import { BillingInformationCreateInterface } from '../../../../interfaces/billing-information-create.interface';
+import { BillingInformationUpdateInterface } from '../../../../interfaces/billing-information-update.interface';
 import { BillingInformationService } from '../../../../services/billing-information.service';
 
 @Component({
@@ -154,7 +154,7 @@ import { BillingInformationService } from '../../../../services/billing-informat
   `
 })
 export class CreditCardComponent implements OnInit {
-  public card = input<BillingInformation>();
+  public card = input<BillingInformationInterface>();
   public cardType = input<string>();
   public type = input<string>('default');
   public onChange = output<void>();
@@ -257,7 +257,7 @@ export class CreditCardComponent implements OnInit {
     firstValueFrom(
       this.apiService.createBillingInformation(
         BillingInformationCreateDTO.fromInterface(
-          this.form.getRawValue() as BillingInformationCreate
+          this.form.getRawValue() as BillingInformationCreateInterface
         )
       )
     ).then(() => {
@@ -273,7 +273,7 @@ export class CreditCardComponent implements OnInit {
     firstValueFrom(
       this.apiService.updateBillingInformation(
         BillingInformationUpdateDTO.fromInterface(
-          this.form.getRawValue() as BillingInformationUpdate
+          this.form.getRawValue() as BillingInformationUpdateInterface
         )
       )
     ).then(() => {

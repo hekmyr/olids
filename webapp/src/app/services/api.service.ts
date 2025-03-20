@@ -1,21 +1,20 @@
 import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SignInDTO } from '../dto/sign-in-dto';
-import { SignUpDTO } from '../dto/sign-up-dto';
-import { RentalProperty } from '../interface/rental-property.interface';
-import { RentalPropertyRequestDTO } from '../dto/rental-property-request.dto';
-import { ReservationCreateDTO } from '../dto/reservation-create-dto';
-import { Reservation } from '../interface/reservation.interface';
-import { ContactRequestDTO } from '../dto/contact-request.dto';
-import { UserDTO } from '../dto/user-dto';
-import { UserUpdateDTO } from '../dto/user-update-dto';
-import { BillingInformationDTO } from '../dto/billing-information.dto';
-import { BillingInformation } from '../interface/billing-information.interface';
-import { BillingInformationCreateDTO } from '../dto/billing-information-create-dto';
-import { BillingInformationUpdateDTO } from '../dto/billing-information-update-dto';
-import { User } from '../interface/user.interface';
-import { BillingInformationSetDefaultDTO } from '../dto/billing-information-set-default-dto';
+import { SignInDTO } from '../dtos/sign-in.dto';
+import { SignUpDTO } from '../dtos/sign-up.dto';
+import { RentalPropertyInterface } from '../interfaces/rental-property.interface';
+import { RentalPropertyRequestDTO } from '../dtos/rental-property-request.dto';
+import { ReservationCreateDTO } from '../dtos/reservation-create.dto';
+import { Reservation } from '../interfaces/reservation.interface';
+import { ContactRequestDTO } from '../dtos/contact-request.dto';
+import { UserModel } from '../models/user.model';
+import { UserUpdateModel } from '../models/user-update.model';
+import { BillingInformationInterface } from '../interfaces/billing-information.interface';
+import { BillingInformationCreateDTO } from '../dtos/billing-information-create.dto';
+import { BillingInformationUpdateDTO } from '../dtos/billing-information-update.dto';
+import { User } from '../interfaces/user.interface';
+import { BillingInformationSetDefaultDTO } from '../dtos/billing-information-set-default.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -42,15 +41,15 @@ export class ApiService {
 
   public rentalProperties(
     body: RentalPropertyRequestDTO
-  ): Observable<Array<RentalProperty>> {
-    return this.http.post<Array<RentalProperty>>(
+  ): Observable<Array<RentalPropertyInterface>> {
+    return this.http.post<Array<RentalPropertyInterface>>(
       `${this.apiUrl}/public/rental-properties`,
       body
     );
   }
 
-  public rentalProperty(id: string): Observable<RentalProperty> {
-    return this.http.get<RentalProperty>(
+  public rentalProperty(id: string): Observable<RentalPropertyInterface> {
+    return this.http.get<RentalPropertyInterface>(
       `${this.apiUrl}/public/rental-property/${id}`
     );
   }
@@ -68,46 +67,50 @@ export class ApiService {
   }
 
   public getUser(): Observable<User> {
-    return this.http.get<UserDTO>(`${this.apiUrl}/user`, {
+    return this.http.get<UserModel>(`${this.apiUrl}/user`, {
       withCredentials: true
     });
   }
 
-  public updateUser(body: UserUpdateDTO): Observable<User> {
-    return this.http.put<UserDTO>(`${this.apiUrl}/user`, body, {
+  public updateUser(body: UserUpdateModel): Observable<User> {
+    return this.http.put<UserModel>(`${this.apiUrl}/user`, body, {
       withCredentials: true
     });
   }
 
   public createBillingInformation(
-    billingInformation: BillingInformationCreateDTO
-  ): Observable<BillingInformation> {
-    return this.http.post<BillingInformation>(
+    BillingInformationInterface: BillingInformationCreateDTO
+  ): Observable<BillingInformationInterface> {
+    return this.http.post<BillingInformationInterface>(
       `${this.apiUrl}/billing-information`,
-      billingInformation,
+      BillingInformationInterface,
       { withCredentials: true }
     );
   }
 
   public updateBillingInformation(
-    billingInformation: BillingInformationUpdateDTO
-  ): Observable<BillingInformation> {
-    return this.http.put<BillingInformation>(
+    BillingInformationInterface: BillingInformationUpdateDTO
+  ): Observable<BillingInformationInterface> {
+    return this.http.put<BillingInformationInterface>(
       `${this.apiUrl}/billing-information`,
-      billingInformation,
+      BillingInformationInterface,
       { withCredentials: true }
     );
   }
 
-  public getBillingInformation(id: string): Observable<BillingInformation> {
-    return this.http.get<BillingInformation>(
+  public getBillingInformation(
+    id: string
+  ): Observable<BillingInformationInterface> {
+    return this.http.get<BillingInformationInterface>(
       `${this.apiUrl}/billing-information/${id}`,
       { withCredentials: true }
     );
   }
 
-  public getAllBillingInformations(): Observable<Array<BillingInformation>> {
-    return this.http.get<Array<BillingInformation>>(
+  public getAllBillingInformations(): Observable<
+    Array<BillingInformationInterface>
+  > {
+    return this.http.get<Array<BillingInformationInterface>>(
       `${this.apiUrl}/billing-information/all`,
       { withCredentials: true }
     );
@@ -115,8 +118,8 @@ export class ApiService {
 
   public setDefaultCard(
     payload: BillingInformationSetDefaultDTO
-  ): Observable<BillingInformation> {
-    return this.http.put<BillingInformation>(
+  ): Observable<BillingInformationInterface> {
+    return this.http.put<BillingInformationInterface>(
       `${this.apiUrl}/billing-information/set-default`,
       payload,
       { withCredentials: true }

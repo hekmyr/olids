@@ -1,17 +1,4 @@
-import { FormGroup } from '@angular/forms';
-
-export interface UserUpdateFormInterface {
-  lastName: string;
-  firstName: string;
-  email: string;
-  phoneNumber: string;
-  street: string;
-  number: string;
-  postalCode: string;
-  birthDate: string;
-}
-
-export class UserUpdateDTO {
+export class UserUpdateModel {
   constructor(
     private _lastName: string | null,
     private _firstName: string | null,

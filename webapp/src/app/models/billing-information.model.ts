@@ -1,6 +1,6 @@
-import { BillingInformation } from '../interface/billing-information.interface';
+import { BillingInformationInterface } from '../interfaces/billing-information.interface';
 
-export class BillingInformationDTO {
+export class BillingInformationInterfaceModel {
   constructor(
     private _id: string,
     private _cardNumber: string,
@@ -48,9 +48,9 @@ export class BillingInformationDTO {
   }
 
   public static fromInterface(
-    billingInformation: BillingInformation
-  ): BillingInformationDTO {
-    return new BillingInformationDTO(
+    BillingInformationInterface: BillingInformationInterface
+  ): BillingInformationInterfaceModel {
+    return new BillingInformationInterfaceModel(
       billingInformation.id,
       billingInformation.cardNumber,
       billingInformation.monthExpiration,

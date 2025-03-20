@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { RentalProperty } from '../../../../interface/rental-property.interface';
+import { RentalPropertyInterface } from '../../../../interfaces/rental-property.interface';
 import { firstValueFrom } from 'rxjs';
 import { ApiService } from '../../../../services/api.service';
 import { PropertyCardComponent } from '../property-card/property-card.component';
-import { RentalPropertyRequestDTO } from '../../../../dto/rental-property-request.dto';
+import { RentalPropertyRequestDTO } from '../../../../dtos/rental-property-request.dto';
 import { InputComponent } from '../../../../components/input/input.component';
 import {
   PropertySortComponent,
@@ -53,7 +53,7 @@ import {
   `
 })
 export class PropertyCollectionComponent {
-  public rentalProperties: Array<RentalProperty> = [];
+  public rentalProperties: Array<RentalPropertyInterface> = [];
   public startDateFormValue: Date = new Date();
   public endDateFormValue: Date | null = null;
   public minStartDate: string = '';
@@ -104,7 +104,9 @@ export class PropertyCollectionComponent {
     });
   }
 
-  public getSortedProperties(sortOption: string): Array<RentalProperty> {
+  public getSortedProperties(
+    sortOption: string
+  ): Array<RentalPropertyInterface> {
     if (!this.rentalProperties.length) return [];
 
     const properties = [...this.rentalProperties];

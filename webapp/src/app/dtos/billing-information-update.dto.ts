@@ -1,4 +1,4 @@
-import { BillingInformationUpdate } from '../interface/billing-information-update.interface';
+import { BillingInformationUpdateInterface } from '../interfaces/billing-information-update.interface';
 
 export class BillingInformationUpdateDTO {
   constructor(
@@ -9,7 +9,7 @@ export class BillingInformationUpdateDTO {
   ) {}
 
   public static fromInterface(
-    values: BillingInformationUpdate
+    values: BillingInformationUpdateInterface
   ): BillingInformationUpdateDTO {
     const yearValue = Number(values.yearExpiration);
     const fullYear = yearValue < 100 ? 2000 + yearValue : yearValue;

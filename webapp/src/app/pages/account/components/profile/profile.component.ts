@@ -2,7 +2,7 @@ import { Component, input } from '@angular/core';
 import { DashboardHeaderComponent } from '../dashboard-header/dashboard-header.component';
 import { AvatarWithUploadComponent } from '../avatar-with-upload/avatar-with-upload.component';
 import { ProfileFormComponent } from '../profile-form/profile-form.component';
-import { User } from '../../../../interface/user.interface';
+import { User } from '../../../../interfaces/user.interface';
 
 @Component({
   selector: 'app-profile',

@@ -7,8 +7,8 @@ import {
   output,
   SimpleChanges
 } from '@angular/core';
-import { Reservation } from '../../interface/reservation.interface';
-import { ReservationDetail } from '../../interface/reservation-detail.interface';
+import { Reservation } from '../../interfaces/reservation.interface';
+import { ReservationDetailInterface } from '../../interfaces/reservation-detail.interface';
 import { CURRENCY } from '../../constant';
 
 @Component({
@@ -523,7 +523,7 @@ export class ReservationTableComponent implements OnChanges, OnInit {
    * @param detail The reservation detail to check
    * @returns The status as a string: 'Prévu', 'En cours', 'Terminé', or 'Annulé'
    */
-  calculateStatus(detail: ReservationDetail): string {
+  calculateStatus(detail: ReservationDetailInterface): string {
     if (detail.isCancelled) {
       return 'Annulé';
     }
@@ -566,7 +566,7 @@ export class ReservationTableComponent implements OnChanges, OnInit {
    * @param detail The reservation detail
    * @returns The total price as a string
    */
-  calculateTotal(detail: ReservationDetail): string {
+  calculateTotal(detail: ReservationDetailInterface): string {
     const startDate = detail.dateStayStart;
     const endDate = detail.dateStayEnd;
     const days = Math.ceil(

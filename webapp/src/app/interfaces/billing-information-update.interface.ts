@@ -1,4 +1,4 @@
-export interface BillingInformationUpdate {
+export interface BillingInformationUpdateInterface {
   id: string | null;
   cardNumber: string | null;
   monthExpiration: number | null;

@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { RentalPropertyDTO } from '../../../../../dto/rental-property.dto';
+import { RentalPropertyModel } from '../../../../../models/rental-property.model';
 
 @Component({
   selector: 'app-property-header',
@@ -24,5 +24,5 @@ import { RentalPropertyDTO } from '../../../../../dto/rental-property.dto';
   `
 })
 export class PropertyHeaderComponent {
-  property = input.required<RentalPropertyDTO>();
+  property = input.required<RentalPropertyModel>();
 }

@@ -1,7 +1,7 @@
 import { Component, inject, input } from '@angular/core';
-import { RentalProperty } from '../../../../interface/rental-property.interface';
 import { Router } from '@angular/router';
 import { CURRENCY } from '../../../../constant';
+import { RentalPropertyInterface } from '../../../../interfaces/rental-property.interface';
 
 @Component({
   selector: 'app-property-card',
@@ -29,7 +29,7 @@ import { CURRENCY } from '../../../../constant';
   `
 })
 export class PropertyCardComponent {
-  public property = input.required<RentalProperty>();
+  public property = input.required<RentalPropertyInterface>();
   public currency = CURRENCY;
   public startDate = input<Date>(new Date());
   public endDate = input<Date | null>(null);

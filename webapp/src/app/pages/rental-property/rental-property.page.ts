@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { RentalPropertyDTO } from '../../dto/rental-property.dto';
-import { RentalPropertyImageDTO } from '../../dto/rental-property-image.dto';
+import { RentalPropertyImageModel } from '../../models/rental-property-image.model';
 import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
 import { RentalPropertyFormSectionComponent } from './components/rental-property-form-section/rental-property-form-section.component';
 import { ImageContext } from './interfaces/image-context.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { ApiService } from '../../services/api.service';
+import { RentalPropertyModel } from '../../models/rental-property.model';
 
 @Component({
   selector: 'app-property',
@@ -98,17 +98,17 @@ export class RentalPropertyPage {
       const id = params.get('id');
       if (id) {
         firstValueFrom(this.apiService.rentalProperty(id)).then((property) => {
-          this.rentalProperty = RentalPropertyDTO.fromInterface(property);
+          this.rentalProperty = RentalPropertyModel.fromInterface(property);
         });
       }
     });
   }
-  public rentalProperty: RentalPropertyDTO | undefined = undefined;
+  public rentalProperty: RentalPropertyModel | undefined = undefined;
 
   // TODO: remove this when not needed
   // This is some sample data
   // Merge it with rpDTO
-  public rentalPropertyImage = new RentalPropertyImageDTO(
+  public rentalPropertyImage = new RentalPropertyImageModel(
     'images/sign_component_side_img.jpg',
     [
       'images/sign_component_side_img.jpg',

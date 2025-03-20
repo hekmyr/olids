@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { BillingInformation } from '../../../../interface/billing-information.interface';
+import { BillingInformationInterface } from '../../../../interfaces/billing-information.interface';
 import { CreditCardComponent } from '../credit-card/credit-card';
 @Component({
   selector: 'app-payments',
@@ -30,10 +30,10 @@ import { CreditCardComponent } from '../credit-card/credit-card';
 })
 export class PaymentsComponents {
   public billingInformations =
-    input.required<Array<BillingInformation> | null>();
+    input.required<Array<BillingInformationInterface> | null>();
   public onChange = output<void>();
 
-  public recognizeCardType(bi: BillingInformation): string | null {
+  public recognizeCardType(bi: BillingInformationInterface): string | null {
     let cardType: string | null = null;
     const cleanedNumber = bi.cardNumber.replace(/\D/g, '');
     if (/^4/.test(cleanedNumber)) {

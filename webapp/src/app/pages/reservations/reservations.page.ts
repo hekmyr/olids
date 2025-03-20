@@ -4,8 +4,8 @@ import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { DashboardHeaderComponent } from '../account/components/dashboard-header/dashboard-header.component';
 import { ReservationSortComponent } from '../../components/reservation-sort/reservation-sort.component';
 import { ReservationTableComponent } from '../../components/reservation-table/reservation-table.component';
-import { Reservation } from '../../interface/reservation.interface';
 import { ReservationSummaryComponent } from '../../components/reservation-summary/reservation-summary.component';
+import { Reservation } from '../../interfaces/reservation.interface';
 
 @Component({
   selector: 'app-reservations',

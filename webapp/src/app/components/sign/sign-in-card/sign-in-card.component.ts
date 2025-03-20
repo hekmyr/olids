@@ -5,7 +5,7 @@ import { InputComponent } from '../../input/input.component';
 import { LinkComponent } from '../../link/link.component';
 import { NavBarComponent } from '../../nav-bar/nav-bar.component';
 import { SideImgComponent } from '../../side-img/side-img.component';
-import { SignInDTO } from '../../../dto/sign-in-dto';
+import { SignInDTO } from '../../../dtos/sign-in.dto';
 import { Link } from '../link.interface';
 import { SignCardComponent } from '../sign-card.interface';
 import { AuthService } from '../../../services/auth.service';

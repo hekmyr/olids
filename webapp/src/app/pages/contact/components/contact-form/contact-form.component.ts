@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Button3dComponent } from '../../../../components/button-3d/button-3d.component';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ContactRequestDTO } from '../../../../dto/contact-request.dto';
+import { ContactRequestDTO } from '../../../../dtos/contact-request.dto';
 import { ApiService } from '../../../../services/api.service';
 import { firstValueFrom } from 'rxjs';
 

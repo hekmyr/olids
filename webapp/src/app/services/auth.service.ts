@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { ApiService } from './api.service';
-import { SignInDTO } from '../dto/sign-in-dto';
+import { SignInDTO } from '../dtos/sign-in.dto';
 import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
 
 @Injectable({

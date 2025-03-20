@@ -1,10 +1,10 @@
 import { Component, inject, input } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ApiService } from '../../../../services/api.service';
-import { UserUpdateDTO } from '../../../../dto/user-update-dto';
+import { UserUpdateModel } from '../../../../models/user-update.model';
 import { InputComponent } from '../../../../components/input/input.component';
 import { Button3dComponent } from '../../../../components/button-3d/button-3d.component';
-import { User } from '../../../../interface/user.interface';
+import { User } from '../../../../interfaces/user.interface';
 @Component({
   selector: 'app-profile-form',
   imports: [ReactiveFormsModule, InputComponent, Button3dComponent],
@@ -82,7 +82,7 @@ export class ProfileFormComponent {
 
   apiService = inject(ApiService);
   submit() {
-    const updateDTO = new UserUpdateDTO(
+    const updateDTO = new UserUpdateModel(
       this.form.controls.lastName.value,
       this.form.controls.firstName.value,
       this.form.controls.phoneNumber.value,

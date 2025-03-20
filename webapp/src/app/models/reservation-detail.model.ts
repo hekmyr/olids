@@ -1,6 +1,6 @@
-import { ReservationDetail } from '../interface/reservation-detail.interface';
+import { ReservationDetailInterface } from '../interfaces/reservation-detail.interface';
 
-export class ReservationDetailDTO {
+export class ReservationDetailModel {
   constructor(
     private _id: string,
     private _pricePerNight: number,
@@ -50,9 +50,9 @@ export class ReservationDetailDTO {
   }
 
   public static fromInterface(
-    reservationDetail: ReservationDetail
-  ): ReservationDetailDTO {
-    return new ReservationDetailDTO(
+    reservationDetail: ReservationDetailInterface
+  ): ReservationDetailModel {
+    return new ReservationDetailModel(
       reservationDetail.id,
       reservationDetail.pricePerNight,
       reservationDetail.dateStayStart,

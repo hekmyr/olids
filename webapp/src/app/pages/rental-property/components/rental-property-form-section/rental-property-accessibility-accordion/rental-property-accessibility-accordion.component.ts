@@ -1,5 +1,5 @@
 import { Component, input, signal, effect } from '@angular/core';
-import { AccessibilityDTO } from '../../../../../dto/accessibility.dto';
+import { AccessibilityModel } from '../../../../../models/accessibility.model';
 
 @Component({
   selector: 'app-rental-property-accessibility-accordion',
@@ -53,7 +53,7 @@ import { AccessibilityDTO } from '../../../../../dto/accessibility.dto';
   `
 })
 export class RentalPropertyAccessibilityAccordionComponent {
-  accessibility = input.required<AccessibilityDTO>();
+  accessibility = input.required<AccessibilityModel>();
   open = input<boolean>(false);
 
   isOpen = signal(false);

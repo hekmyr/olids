@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { RentalPropertyDTO } from '../../../../../dto/rental-property.dto';
+import { RentalPropertyModel } from '../../../../../models/rental-property.model';
 
 @Component({
   selector: 'app-price-summary',
@@ -21,7 +21,7 @@ import { RentalPropertyDTO } from '../../../../../dto/rental-property.dto';
   `
 })
 export class PriceSummaryComponent {
-  property = input.required<RentalPropertyDTO>();
+  property = input.required<RentalPropertyModel>();
   numberOfNights = input.required<number>();
   totalCost = input.required<number>();
   currency = input.required<string>();

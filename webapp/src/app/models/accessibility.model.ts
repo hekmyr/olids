@@ -1,6 +1,6 @@
-import { Accessibility } from '../interface/accessibility.interface';
+import { AccessibilityInterface } from '../interfaces/accessibility.interface';
 
-export class AccessibilityDTO {
+export class AccessibilityModel {
   constructor(
     private _id: string,
     private _toiletGrabBarAvailable: boolean,
@@ -80,8 +80,10 @@ export class AccessibilityDTO {
     this._stepFreeAccessAvailable = stepFreeAccessAvailable;
   }
 
-  public static fromInterface(accessibility: Accessibility): AccessibilityDTO {
-    return new AccessibilityDTO(
+  public static fromInterface(
+    accessibility: AccessibilityInterface
+  ): AccessibilityModel {
+    return new AccessibilityModel(
       accessibility.id,
       accessibility.toiletGrabBarAvailable,
       accessibility.showerGrabBarAvailable,

@@ -1,5 +1,5 @@
-import { SignInDTO } from '../../dto/sign-in-dto';
-import { SignUpDTO } from '../../dto/sign-up-dto';
+import { SignInDTO } from '../../dtos/sign-in.dto';
+import { SignUpDTO } from '../../dtos/sign-up.dto';
 import { Link } from './link.interface';
 
 export interface SignCardComponent {

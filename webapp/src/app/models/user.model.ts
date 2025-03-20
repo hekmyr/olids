@@ -1,6 +1,6 @@
-import { User } from '../interface/user.interface';
+import { User } from '../interfaces/user.interface';
 
-export class UserDTO {
+export class UserModel {
   constructor(
     private _lastName: string,
     private _firstName: string,
@@ -76,8 +76,8 @@ export class UserDTO {
     this._birthDate = value;
   }
 
-  public static fromInterface(user: User): UserDTO {
-    return new UserDTO(
+  public static fromInterface(user: User): UserModel {
+    return new UserModel(
       user.lastName,
       user.firstName,
       user.email,

@@ -4,8 +4,8 @@ import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ApiService } from '../../services/api.service';
 import { firstValueFrom } from 'rxjs';
-import { BillingInformation } from '../../interface/billing-information.interface';
-import { User } from '../../interface/user.interface';
+import { BillingInformationInterface } from '../../interfaces/billing-information.interface';
+import { User } from '../../interfaces/user.interface';
 import { PaymentsComponents } from './components/payments/payments.component';
 
 @Component({
@@ -33,7 +33,7 @@ import { PaymentsComponents } from './components/payments/payments.component';
 })
 export class AccountPage {
   private apiService = inject(ApiService);
-  public billingInformations: Array<BillingInformation> | null = null;
+  public billingInformations: Array<BillingInformationInterface> | null = null;
   public user: User | null = null;
   constructor() {
     firstValueFrom(this.apiService.getAllBillingInformations()).then((data) => {
@@ -47,7 +47,7 @@ export class AccountPage {
   }
 
   public loadBillingInformation() {
-    const dummyCards: BillingInformation[] = [
+    const dummyCards: BillingInformationInterface[] = [
       {
         id: 'visa1',
         cardNumber: '4111111111111111',

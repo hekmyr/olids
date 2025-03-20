@@ -1,6 +1,6 @@
 import { Component, inject, input, OnInit } from '@angular/core';
 import { InputComponent } from '../../../../components/input/input.component';
-import { RentalPropertyDTO } from '../../../../dto/rental-property.dto';
+import { RentalPropertyModel } from '../../../../models/rental-property.model';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AmenitiesListComponent } from './amenities-list/amenities-list.component';
 import { PriceSummaryComponent } from './price-summary/price-summary.component';
@@ -8,7 +8,7 @@ import { PropertyDescriptionComponent } from './property-description/property-de
 import { PropertyHeaderComponent } from './property-header-component/property-header.component';
 import { Button3dComponent } from '../../../../components/button-3d/button-3d.component';
 import { ApiService } from '../../../../services/api.service';
-import { ReservationCreateDTO } from '../../../../dto/reservation-create-dto';
+import { ReservationCreateDTO } from '../../../../dtos/reservation-create.dto';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
@@ -63,7 +63,7 @@ import { firstValueFrom } from 'rxjs';
   `
 })
 export class RentalPropertyFormSectionComponent {
-  public rentalProperty = input.required<RentalPropertyDTO>();
+  public rentalProperty = input.required<RentalPropertyModel>();
 
   fb = inject(FormBuilder);
 

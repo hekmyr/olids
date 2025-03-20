@@ -1,6 +1,6 @@
 import { Component, inject, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Reservation } from '../../interface/reservation.interface';
+import { Reservation } from '../../interfaces/reservation.interface';
 import { DashboardHeaderComponent } from '../../pages/account/components/dashboard-header/dashboard-header.component';
 import { Button3dComponent } from '../button-3d/button-3d.component';
 import { BillingInformationService } from '../../services/billing-information.service';

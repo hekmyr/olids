@@ -57,7 +57,7 @@ export class ContactFormComponent {
     const email = this.contactForm.controls.email.value;
     const subject = this.contactForm.controls.subject.value;
     const message = this.contactForm.controls.message.value;
-    if (this.contactForm.valid && email && subject) {
+    if (this.contactForm.valid && email && subject && message) {
       const request = new ContactRequestDTO(email, subject, message);
 
       firstValueFrom(this.apiService.sendContactRequest(request))

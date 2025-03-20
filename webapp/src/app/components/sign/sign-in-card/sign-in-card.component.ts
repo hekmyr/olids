@@ -33,11 +33,11 @@ export class SignInCardComponent implements SignCardComponent {
   private form = new SignInDTO();
 
   public setEmail(value: string) {
-    this.form.setEmail = value;
+    this.form.email = value;
   }
 
   public setPassword(value: string) {
-    this.form.setPassword = value;
+    this.form.password = value;
   }
 
   authService = inject(AuthService);

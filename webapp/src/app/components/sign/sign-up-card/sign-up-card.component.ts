@@ -32,16 +32,12 @@ export class SignUpCardComponent implements SignCardComponent {
   public imageUrl = 'images/sign_component_side_img.jpg';
   private form = new SignUpDTO();
 
-  // This get called by children component:
-  // InputComponent
   public setEmail(value: string) {
-    this.form.setEmail = value;
+    this.form.email = value;
   }
 
-  // This get called by children component:
-  // InputPasswordComponent
   public setPassword(value: string) {
-    this.form.setPassword = value;
+    this.form.password = value;
   }
 
   apiService = inject(ApiService);

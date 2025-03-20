@@ -26,7 +26,7 @@ export class ApiService {
 
   public signIn(body: SignInDTO): Observable<Object> {
     const headers = new HttpHeaders({
-      Authorization: 'Basic ' + btoa(body.getEmail + ':' + body.getPassword)
+      Authorization: 'Basic ' + btoa(body.email + ':' + body.password)
     });
     return this.http.get(`${this.apiUrl}/user/sign-in`, {
       headers: headers,

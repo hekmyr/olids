@@ -9,7 +9,7 @@ import { User } from '../../../../interface/user.interface';
   selector: 'app-profile-form',
   imports: [ReactiveFormsModule, InputComponent, Button3dComponent],
   template: `
-    <div>
+    <div class="flex flex-col gap-8">
       <div class="flex gap-[60px]">
         <div class="flex flex-col gap-3">
           <h3 class="text-2xl font-[Averia_Serif_Libre] font-bold">
@@ -60,8 +60,8 @@ import { User } from '../../../../interface/user.interface';
           </div>
         </div>
       </div>
+      <app-button-3d text="Envoyer" (click)="submit()" />
     </div>
-    <app-button-3d text="Envoyer" (click)="submit()" />
   `
 })
 export class ProfileFormComponent {

@@ -15,6 +15,7 @@ import { BillingInformation } from '../interface/billing-information.interface';
 import { BillingInformationCreateDTO } from '../dto/billing-information-create-dto';
 import { BillingInformationUpdateDTO } from '../dto/billing-information-update-dto';
 import { User } from '../interface/user.interface';
+import { BillingInformationSetDefaultDTO } from '../dto/billing-information-set-default-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -108,6 +109,16 @@ export class ApiService {
   public getAllBillingInformations(): Observable<Array<BillingInformation>> {
     return this.http.get<Array<BillingInformation>>(
       `${this.apiUrl}/billing-information/all`,
+      { withCredentials: true }
+    );
+  }
+
+  public setDefaultCard(
+    payload: BillingInformationSetDefaultDTO
+  ): Observable<BillingInformation> {
+    return this.http.put<BillingInformation>(
+      `${this.apiUrl}/billing-information/set-default`,
+      payload,
       { withCredentials: true }
     );
   }

@@ -14,7 +14,7 @@ interface SidebarItem {
   imports: [SidebarButtonComponent],
   template: `
     <div
-      class="flex flex-col gap-[18px] px-2 pt-[18px] w-[250px] bg-[#CFD0D4] bg-opacity-50 min-h-full">
+      class="flex flex-col gap-[18px] px-4 pt-[18px] w-[300px] bg-[#CFD0D4] bg-opacity-50 min-h-full">
       <h2 class="font-[Averia_Serif_Libre] text-2xl">Dashboard</h2>
       <div class="flex flex-col gap-3">
         @for (item of sidebarItems; track $index) {

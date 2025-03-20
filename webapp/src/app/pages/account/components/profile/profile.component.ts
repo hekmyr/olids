@@ -12,18 +12,22 @@ import { User } from '../../../../interface/user.interface';
     ProfileFormComponent
   ],
   template: `
-    <app-dashboard-header
-      title="Mon Profile"
-      description="Mettez à jour votre profile" />
-    <div class="flex gap-8">
-      <app-avatar-with-upload />
-      <div class="flex flex-col">
-        <span class="text-xl">Compte crée en 2023</span>
-        <span class="text-xl">7 Réservations</span>
-        <span class="text-xl text-[#A94A4A]">Historique des réservations</span>
+    <div class="flex flex-col gap-8">
+      <app-dashboard-header
+        title="Mon Profile"
+        description="Mettez à jour votre profile" />
+      <div class="flex gap-8">
+        <app-avatar-with-upload />
+        <div class="flex flex-col">
+          <span class="text-xl">Compte crée en 2023</span>
+          <span class="text-xl">7 Réservations</span>
+          <span class="text-xl text-[#A94A4A]"
+            >Historique des réservations</span
+          >
+        </div>
       </div>
+      <app-profile-form [user]="null" />
     </div>
-    <app-profile-form [user]="null" />
   `
 })
 export class ProfileComponent {

@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   selector: 'app-nav-bar',
   imports: [NavBarLogoComponent, NavBarLinkComponent, NavBarOptionComponent],
   template: `
-    <div class="bg-[#F0EFEB] flex justify-between px-12 py-3">
+    <div class="bg-[#F0EFEB] flex justify-between px-4 py-3">
       <div class="flex gap-12">
         <nav-bar-logo text="{{ appName }}" link="/" />
         <div class="flex gap-6">

@@ -5,8 +5,11 @@ export class BillingInformationDTO {
     private _id: string,
     private _cardNumber: string,
     private _monthExpiration: number,
-    private _yearExpiration: number
-  ) {}
+    private _yearExpiration: number,
+    private _ccv: string | null
+  ) {
+    this._ccv = '';
+  }
 
   public get id(): string {
     return this._id;
@@ -36,6 +39,14 @@ export class BillingInformationDTO {
     this._yearExpiration = value;
   }
 
+  public get ccv(): string | null {
+    return this._ccv;
+  }
+
+  public set ccv(value: string | null) {
+    this._ccv = value;
+  }
+
   public static fromInterface(
     billingInformation: BillingInformation
   ): BillingInformationDTO {
@@ -43,7 +54,8 @@ export class BillingInformationDTO {
       billingInformation.id,
       billingInformation.cardNumber,
       billingInformation.monthExpiration,
-      billingInformation.yearExpiration
+      billingInformation.yearExpiration,
+      null
     );
   }
 }

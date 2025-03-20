@@ -3,4 +3,5 @@ export interface BillingInformation {
   cardNumber: string;
   monthExpiration: number;
   yearExpiration: number;
+  isDefault: boolean;
 }

@@ -56,10 +56,10 @@ public class User {
 
   public User() {}
 
-  public User(UserUpdateDTO model) {
+  public User(String email, UserUpdateDTO model) {
     this.lastName = model.getLastName();
     this.firstName = model.getFirstName();
-    this.email = model.getEmail();
+    this.email = email;
     this.phoneNumber = model.getPhoneNumber();
     this.street = model.getStreet();
     this.number = model.getNumber();
@@ -69,11 +69,11 @@ public class User {
     this.dateUpdated = LocalDateTime.now();
   }
 
-  public User(UUID id, UserUpdateDTO model) {
+  public User(UUID id, String email, UserUpdateDTO model) {
     this.id = id;
     this.lastName = model.getLastName();
     this.firstName = model.getFirstName();
-    this.email = model.getEmail();
+    this.email = email;
     this.phoneNumber = model.getPhoneNumber();
     this.street = model.getStreet();
     this.number = model.getNumber();

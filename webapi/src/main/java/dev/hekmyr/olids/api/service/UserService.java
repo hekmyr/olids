@@ -46,7 +46,7 @@ public class UserService {
 
   public static UserDTO getAuthenticatedUserDTO() {
     var entity = UserService.loadUserByUsername(getAuthenticatedUsername());
-    return new UserDTO(entity);
+    return UserDTO.fromUserDTO(entity);
   }
 
   public UUID getAuthenticatedUserId() {
@@ -69,22 +69,21 @@ public class UserService {
         "u.postalCode = :postalCode, " +
         "u.birthDate = :birthDate, " +
         "u.dateUpdated = :dateUpdated " +
-        "WHERE u.email = :username";
+        "WHERE u.email = :email";
       session
         .createMutationQuery(hql)
         .setParameter("lastName", dto.getLastName())
         .setParameter("firstName", dto.getFirstName())
-        .setParameter("email", dto.getEmail())
+        .setParameter("email", username)
         .setParameter("phoneNumber", dto.getPhoneNumber())
         .setParameter("street", dto.getStreet())
         .setParameter("number", dto.getNumber())
         .setParameter("postalCode", dto.getPostalCode())
         .setParameter("birthDate", dto.getBirthDate())
         .setParameter("dateUpdated", LocalDateTime.now())
-        .setParameter("username", username)
         .executeUpdate();
       tx.commit();
-      return new UserDTO(dto);
+      return UserDTO.fromUserUpdateDTO(username, dto);
     } catch (Exception e) {
       tx.rollback();
       throw new RuntimeException(e);

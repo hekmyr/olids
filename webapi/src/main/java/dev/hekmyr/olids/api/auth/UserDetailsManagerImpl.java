@@ -48,7 +48,7 @@ public class UserDetailsManagerImpl implements UserDetailsManager {
 
   public UserDTO createUser(UserCreateDTO dto) {
     var entity = new User(dto);
-    return new UserDTO(userRepository.save(entity));
+    return UserDTO.fromUserDTO(userRepository.save(entity));
   }
 
   @Override

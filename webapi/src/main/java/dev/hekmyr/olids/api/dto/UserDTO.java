@@ -16,28 +16,6 @@ public class UserDTO {
 
   public UserDTO() {}
 
-  public UserDTO(User model) {
-    this.lastName = model.getLastName();
-    this.firstName = model.getFirstName();
-    this.email = model.getEmail();
-    this.phoneNumber = model.getPhoneNumber();
-    this.street = model.getStreet();
-    this.number = model.getNumber();
-    this.postalCode = model.getPostalCode();
-    this.birthDate = model.getBirthDate();
-  }
-
-  public UserDTO(UserUpdateDTO model) {
-    this.lastName = model.getLastName();
-    this.firstName = model.getFirstName();
-    this.email = model.getEmail();
-    this.phoneNumber = model.getPhoneNumber();
-    this.street = model.getStreet();
-    this.number = model.getNumber();
-    this.postalCode = model.getPostalCode();
-    this.birthDate = model.getBirthDate();
-  }
-
   public String getLastName() {
     return lastName;
   }
@@ -100,5 +78,31 @@ public class UserDTO {
 
   public void setNumber(String number) {
     this.number = number;
+  }
+
+  public static UserDTO fromUserUpdateDTO(String email, UserUpdateDTO model) {
+    var user = new UserDTO();
+    user.lastName = model.getLastName();
+    user.firstName = model.getFirstName();
+    user.email = email;
+    user.phoneNumber = model.getPhoneNumber();
+    user.street = model.getStreet();
+    user.number = model.getNumber();
+    user.postalCode = model.getPostalCode();
+    user.birthDate = model.getBirthDate();
+    return user;
+  }
+
+  public static UserDTO fromUserDTO(User model) {
+    var user = new UserDTO();
+    user.lastName = model.getLastName();
+    user.firstName = model.getFirstName();
+    user.email = model.getEmail();
+    user.phoneNumber = model.getPhoneNumber();
+    user.street = model.getStreet();
+    user.number = model.getNumber();
+    user.postalCode = model.getPostalCode();
+    user.birthDate = model.getBirthDate();
+    return user;
   }
 }

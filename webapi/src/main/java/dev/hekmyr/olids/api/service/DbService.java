@@ -49,7 +49,7 @@ public class DbService {
     var session = this.sessionFactory.openSession();
     try {
       var user = session.get(User.class, id);
-      return new UserDTO(user);
+      return UserDTO.fromUserDTO(user);
     } catch (Exception e) {
       e.printStackTrace();
       return null;

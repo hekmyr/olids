@@ -8,6 +8,9 @@ public class ReservationCreateDTO {
   private UUID propertyId;
   private LocalDateTime stayStart;
   private LocalDateTime stayEnd;
+  private int guests;
+  
+  public ReservationCreateDTO() {}
 
   public ReservationCreateDTO(
     UUID propertyId,
@@ -17,6 +20,17 @@ public class ReservationCreateDTO {
     this.propertyId = propertyId;
     this.stayStart = stayStart;
     this.stayEnd = stayEnd;
+  }
+  public ReservationCreateDTO(
+    UUID propertyId,
+    LocalDateTime stayStart,
+    LocalDateTime stayEnd,
+    int guests
+  ) {
+    this.propertyId = propertyId;
+    this.stayStart = stayStart;
+    this.stayEnd = stayEnd;
+    this.guests = guests;
   }
 
   public UUID getPropertyId() {
@@ -42,4 +56,12 @@ public class ReservationCreateDTO {
   public void setStayEnd(LocalDateTime stayEnd) {
     this.stayEnd = stayEnd;
   }
+
+  public int getGuests() {
+    return guests;
+  }
+
+  public void setGuests(int guests) {
+    this.guests = guests;
+  } 
 }

@@ -165,5 +165,5 @@ public class RentalPropertyDTO {
 
   public void setMaxGuests(int maxGuests) {
     this.maxGuests = maxGuests;
-  }
+  }  
 }

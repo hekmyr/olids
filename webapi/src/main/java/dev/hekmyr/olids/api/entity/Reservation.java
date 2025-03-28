@@ -19,12 +19,25 @@ public class Reservation {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "rental_property_id")
   private RentalProperty rentalProperty;
+  
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "billing_information_id", nullable = true)
+  private BillingInformation billingInformation;
 
   @Column(name = "price_per_night", nullable = false)
   private float pricePerNight;
 
+  @Column(name = "is_payed", nullable = false)
+  private boolean isPayed;
+
   @Column(name = "date_stay_begin", nullable = false)
   private LocalDateTime dateStayStart;
+  
+  @Column(name = "guests", nullable = false)
+  private int guests;
+  
+  @Column(name = "is_cancelled", nullable = false)
+  private boolean isCancelled;
 
   @Column(name = "date_stay_end", nullable = false)
   private LocalDateTime dateStayEnd;
@@ -42,6 +55,22 @@ public class Reservation {
   public void setId(UUID id) {
     this.id = id;
   }
+  
+  public RentalProperty getRentalProperty() {
+	return rentalProperty;
+  }
+  
+  public void setRentalProperty(RentalProperty rentalProperty) {
+	this.rentalProperty = rentalProperty;
+  }
+  
+  public BillingInformation getBillingInformation() {
+	return billingInformation;
+  }
+  
+  public void setBillingInformation(BillingInformation billingInformation) {
+	this.billingInformation = billingInformation;
+  }
 
   public User getUser() {
     return user;
@@ -58,7 +87,30 @@ public class Reservation {
   public void setPricePerNight(float pricePerNight) {
     this.pricePerNight = pricePerNight;
   }
+  public boolean isPayed() {
+    return isPayed;
+  }
 
+  public void setPayed(boolean isPayed) {
+    this.isPayed = isPayed;
+  }
+
+  public int getGuests() {
+	return guests;
+  }
+  
+  public void setGuests(int guests) {
+	this.guests = guests;
+  }
+  
+  public boolean isCancelled() {
+	return isCancelled;
+  }
+  
+  public void setCancelled(boolean isCancelled) {
+	this.isCancelled = isCancelled;
+  }
+  
   public LocalDateTime getDateStayStart() {
     return dateStayStart;
   }

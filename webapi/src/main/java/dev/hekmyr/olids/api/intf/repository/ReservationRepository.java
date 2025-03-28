@@ -10,12 +10,22 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface ReservationRepository
-  extends JpaRepository<Reservation, UUID> {
-  @Query("SELECT r.id from Reservation r WHERE r.user.id = :userId")
-  public List<UUID> findAllIdsByUserId(@Param("userId") UUID userId);
-
-  @Query(
-    "SELECT new dev.hekmyr.olids.api.dto.ReservationDTO(r) from Reservation r WHERE r.id = :id"
-  )
-  public Optional<ReservationDTO> findDTOById(@Param("id") UUID id);
+    extends JpaRepository<Reservation, UUID> {
+        @Query("SELECT new dev.hekmyr.olids.api.dto.ReservationDTO(r) FROM Reservation r " +
+               "LEFT JOIN FETCH r.rentalProperty rp " +
+               "LEFT JOIN FETCH rp.amenity " + // This could be optimised if not always required
+               "LEFT JOIN FETCH rp.accessibility " + // This could be optimised if not always required
+               "LEFT JOIN FETCH r.billingInformation bi " +
+               "WHERE r.user.id = :userId")
+        public List<ReservationDTO> findAllDTOsByUserId(@Param("userId") UUID userId);
+  
+        @Query(
+          "SELECT new dev.hekmyr.olids.api.dto.ReservationDTO(r) FROM Reservation r " +
+          "LEFT JOIN FETCH r.rentalProperty rp " +
+          "LEFT JOIN FETCH rp.amenity " +
+          "LEFT JOIN FETCH rp.accessibility " +
+          "LEFT JOIN FETCH r.billingInformation bi " +
+          "WHERE r.id = :id"
+        )
+        public Optional<ReservationDTO> findDTOById(@Param("id") UUID id);
 }

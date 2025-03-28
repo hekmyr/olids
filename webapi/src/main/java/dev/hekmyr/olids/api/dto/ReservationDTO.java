@@ -1,4 +1,5 @@
 package dev.hekmyr.olids.api.dto;
+import dev.hekmyr.olids.api.entity.Reservation;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -10,9 +11,26 @@ public class ReservationDTO {
   private BillingInformationDTO billingInformationDTO;
   private float pricePerNight;
   private int guests;
+  private boolean isPayed;
   private boolean isCancelled;
   private LocalDateTime dateStayStart;
   private LocalDateTime dateStayEnd;
+  
+  public ReservationDTO() {}
+
+  public ReservationDTO(Reservation entity) {
+    this.id = entity.getId();
+    this.property = new RentalPropertyDTO(entity.getRentalProperty());
+    this.billingInformationDTO = (entity.getBillingInformation() != null)
+        ? BillingInformationDTO.fromEntity(entity.getBillingInformation())
+        : null;
+    this.pricePerNight = entity.getPricePerNight();
+    this.guests = entity.getGuests();
+    this.isPayed = entity.isPayed();
+    this.isCancelled = entity.isCancelled();
+    this.dateStayStart = entity.getDateStayStart();
+    this.dateStayEnd = entity.getDateStayEnd();
+  }
 
   public UUID getId() {
     return id;
@@ -54,6 +72,14 @@ public class ReservationDTO {
 
   public void setGuests(int guests) {
     this.guests = guests;
+  }
+  
+  public boolean isPayed() {
+    return isPayed;
+  }
+
+  public void setPayed(boolean isPayed) {
+    this.isPayed = isPayed;
   }
 
   public boolean isCancelled() {

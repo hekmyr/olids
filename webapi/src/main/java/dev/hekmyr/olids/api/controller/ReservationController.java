@@ -23,8 +23,6 @@ public class ReservationController {
   private final UserService userService;
 
   ReservationController(
-    UserDetailsManagerImpl userDetailsManagerImpl,
-    RentalPropertyRepository rentalPropertyRepository,
     UserService userService,
     ReservationService reservationService
   ) {
@@ -34,20 +32,16 @@ public class ReservationController {
 
   @PostMapping
   public ResponseEntity<ReservationDTO> createReservation(
-    @RequestBody List<ReservationCreateDTO> payload
+    @RequestBody ReservationCreateDTO payload
   ) {
-    payload.forEach(r -> {
-      System.out.println(r.getPropertyId());
-    });
     var userId = userService.getAuthenticatedUserId();
     var reservation = reservationService.createReservation(userId, payload);
-    return ResponseEntity.ok(
-      reservationService.findDTOById(reservation.getId())
-    );
+    var reservationDTO = reservationService.findDTOById(reservation.getId());
+    return ResponseEntity.ok(reservationDTO);
   }
-
+  
   @GetMapping
-  public ResponseEntity<List<ReservationDTO>> getUser() {
+  public ResponseEntity<List<ReservationDTO>> getReservations() {
     var userId = userService.getAuthenticatedUserId();
     return ResponseEntity.ok(reservationService.findAllDTOsByUserId(userId));
   }

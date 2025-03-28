@@ -3,14 +3,13 @@ package dev.hekmyr.olids.api.service;
 import dev.hekmyr.olids.api.dto.ReservationCreateDTO;
 import dev.hekmyr.olids.api.dto.ReservationDTO;
 import dev.hekmyr.olids.api.entity.Reservation;
-import dev.hekmyr.olids.api.entity.ReservationDetail;
 import dev.hekmyr.olids.api.entity.User;
 import dev.hekmyr.olids.api.intf.repository.RentalPropertyRepository;
-import dev.hekmyr.olids.api.intf.repository.ReservationDetailRepository;
 import dev.hekmyr.olids.api.intf.repository.ReservationRepository;
 import dev.hekmyr.olids.api.intf.repository.UserRepository;
+import dev.hekmyr.olids.api.intf.repository.BillingInformationRepository;
+import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
@@ -18,28 +17,29 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ReservationService {
+    private static final Duration MINIMUM_STAY_DURATION = Duration.ofDays(1);
 
   private final ReservationRepository reservationRepository;
-  private final ReservationDetailRepository reservationDetailRepository;
   private final UserRepository userRepository;
   private final RentalPropertyRepository rentalPropertyRepository;
+  private final BillingInformationRepository billingInformationRepository;
 
   public ReservationService(
     ReservationRepository reservationRepository,
-    ReservationDetailRepository reservationDetailRepository,
     UserRepository userRepository,
-    RentalPropertyRepository rentalPropertyRepository
+    RentalPropertyRepository rentalPropertyRepository,
+    BillingInformationRepository billingInformationRepository
   ) {
     this.reservationRepository = reservationRepository;
-    this.reservationDetailRepository = reservationDetailRepository;
     this.userRepository = userRepository;
     this.rentalPropertyRepository = rentalPropertyRepository;
+    this.billingInformationRepository = billingInformationRepository;
   }
 
   @Transactional
   public Reservation createReservation(
     UUID userId,
-    List<ReservationCreateDTO> dtos
+    ReservationCreateDTO dto
   ) {
     User user = userRepository
       .findById(userId)
@@ -47,45 +47,54 @@ public class ReservationService {
         new RuntimeException("User not found with ID: " + userId)
       );
 
-    var reservation = new Reservation();
-    reservation.setUser(user);
-    reservation.setDateCreated(LocalDateTime.now());
-    reservation.setDateUpdated(LocalDateTime.now());
-
-    reservation = reservationRepository.save(reservation);
-
-    for (var createDTO : dtos) {
-      var property = rentalPropertyRepository
-        .findById(createDTO.getPropertyId())
-        .orElseThrow();
-
-      var detail = new ReservationDetail();
-      detail.setReservation(reservation);
-      detail.setRentalProperty(property);
-      detail.setPricePerNight(property.getPricePerNight());
-      detail.setDateStayStart(createDTO.getStayStart());
-      detail.setDateStayEnd(createDTO.getStayEnd());
-      detail.setDateCreated(LocalDateTime.now());
-      detail.setDateUpdated(LocalDateTime.now());
-
-      reservation.addDetail(detail);
-    }
-
-    return reservationRepository.save(reservation);
-  }
-
-  public List<ReservationDTO> findAllDTOsByUserId(UUID userId) {
-    var result = new ArrayList<ReservationDTO>();
-    var reservationIds = reservationRepository.findAllIdsByUserId(userId);
-    reservationIds.forEach(id -> {
-      result.add(
-        new ReservationDTO(
-          id,
-          reservationDetailRepository.findAllDTOsByReservationId(id)
+    var property = rentalPropertyRepository
+      .findById(dto.getPropertyId())
+      .orElseThrow(() ->
+        new RuntimeException(
+          "Rental property not found with ID: " + dto.getPropertyId()
         )
-      );
-    });
-    return result;
+        );
+  
+      if (dto.getGuests() > property.getMaxGuests()) {
+          throw new IllegalArgumentException("Number of guests exceeds property capacity.");
+      }
+  
+      // TODO: Check for overlapping reservations for the same property (important!)
+      // This check will be used after paying aswell so the reservation can be
+      // refunded in case of overlap
+  
+      if (dto.getStayStart() == null || dto.getStayEnd() == null) {
+        throw new IllegalArgumentException("Stay start and end dates must be provided.");
+      }
+      if (!dto.getStayStart().isBefore(dto.getStayEnd())) {
+        throw new IllegalArgumentException("Stay start date must be before stay end date.");
+      }
+
+      var stayDuration = Duration.between(dto.getStayStart(), dto.getStayEnd());
+      if (stayDuration.compareTo(MINIMUM_STAY_DURATION) < 0) {
+        throw new IllegalArgumentException(
+          "Minimum stay duration is " + MINIMUM_STAY_DURATION.toDays() + " night(s)."
+        );
+      }
+
+      var reservation = new Reservation();
+      reservation.setUser(user);
+      reservation.setRentalProperty(property);
+      reservation.setBillingInformation(null);
+      reservation.setPricePerNight(property.getPricePerNight());
+      reservation.setGuests(dto.getGuests());
+      reservation.setCancelled(false);
+      reservation.setPayed(false);
+      reservation.setDateStayStart(dto.getStayStart());
+      reservation.setDateStayEnd(dto.getStayEnd());
+      reservation.setDateCreated(LocalDateTime.now());
+      reservation.setDateUpdated(LocalDateTime.now());
+  
+      return reservationRepository.save(reservation);
+    }
+  
+  public List<ReservationDTO> findAllDTOsByUserId(UUID userId) {
+    return reservationRepository.findAllDTOsByUserId(userId);
   }
 
   public ReservationDTO findDTOById(UUID id) {

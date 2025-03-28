@@ -1,7 +1,6 @@
 package dev.hekmyr.olids.api.entity;
 
 import dev.hekmyr.olids.api.dto.BillingInformationCreateDTO;
-import dev.hekmyr.olids.api.dto.BillingInformationUpdateDTO;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -114,19 +113,5 @@ public class BillingInformation {
     entity.dateCreated = LocalDateTime.now();
     entity.dateUpdated = LocalDateTime.now();
     return entity;
-  }
-
-  public static BillingInformation fromUpdateDTO(
-    BillingInformationUpdateDTO dto,
-    boolean isDefault
-  ) {
-    var entity = new BillingInformation();
-    entity.cardNumber = dto.getCardNumber();
-    entity.monthExpiration = dto.getMonthExpiration();
-    entity.yearExpiration = dto.getYearExpiration();
-    entity.isDefault = isDefault;
-    entity.dateCreated = LocalDateTime.now();
-    entity.dateUpdated = LocalDateTime.now();
-    return entity;
-  }
+  }  
 }

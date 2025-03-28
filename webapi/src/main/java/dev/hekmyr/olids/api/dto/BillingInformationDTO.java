@@ -12,6 +12,15 @@ public class BillingInformationDTO {
   private boolean isDefault;
 
   BillingInformationDTO() {}
+  
+  // Constructor made package-private or private if only factory method is intended
+  BillingInformationDTO(BillingInformation entity) {
+    this.id = entity.getId();
+    this.cardNumber = entity.getCardNumber(); // Consider masking this number
+    this.monthExpiration = entity.getMonthExpiration();
+    this.yearExpiration = entity.getYearExpiration();
+    this.isDefault = entity.isDefault();
+  }
 
   public UUID getId() {
     return id;

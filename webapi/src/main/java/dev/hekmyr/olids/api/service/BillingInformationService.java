@@ -2,93 +2,59 @@ package dev.hekmyr.olids.api.service;
 
 import dev.hekmyr.olids.api.dto.*;
 import dev.hekmyr.olids.api.entity.BillingInformation;
+import dev.hekmyr.olids.api.intf.repository.UserRepository;
+import dev.hekmyr.olids.api.intf.repository.BillingInformationRepository;
+
 import java.util.List;
 import java.util.UUID;
 
-public class BillingInformationService {
+import org.springframework.stereotype.Service;
 
-  public static BillingInformation addBillingInformation(
+@Service
+public class BillingInformationService {
+  private final BillingInformationRepository billingInformationRepository;
+  private final UserRepository userRepository;
+    
+  public BillingInformationService(BillingInformationRepository billingInformationRepository, UserRepository userRepository) {
+      this.billingInformationRepository = billingInformationRepository;
+      this.userRepository = userRepository;
+  }
+
+  public BillingInformation addBillingInformation(
+    UUID userId,
     BillingInformationCreateDTO dto
   ) {
-    var user = UserService.getAuthenticatedUser();
-    var entity = new BillingInformation(dto, user);
-    var session = DbService.buildSessionFactory().openSession();
-    var tx = session.getTransaction();
-    try {
-      tx.begin();
-      session.persist(entity);
-      tx.commit();
-      return entity;
-    } catch (Exception e) {
-      tx.rollback();
-      throw new RuntimeException(e);
-    } finally {
-      session.close();
-    }
+    var user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+    var entity = BillingInformation.fromCreateDTO(dto, user);
+    return this.billingInformationRepository.save(entity);
   }
 
-  public static BillingInformation getBillingInformation(UUID id) {
-    try (var session = DbService.buildSessionFactory().openSession()) {
-      var user = UserService.getAuthenticatedUser();
-      return session
-        .createSelectionQuery(
-          "from BillingInformation bi where bi.user = :user and bi.id = :id",
-          BillingInformation.class
-        )
-        .setParameter("user", user)
-        .setParameter("id", id)
-        .getSingleResultOrNull();
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
+  public BillingInformation getBillingInformation(UUID id) {
+      return this.billingInformationRepository
+        .findById(id)
+        .orElseThrow(() -> new RuntimeException("Billing information not found with ID: " + id));
+  }
+  public BillingInformationDTO getBillingInformationDTO(UUID userId, UUID id) {
+    return this.billingInformationRepository
+      .findDTOByIdAndUserId(id, userId)
+      .orElseThrow(() -> new RuntimeException("Billing information not found with ID: " + id + " for user " + userId));
+  }
+  
+  public List<BillingInformationDTO> getAllBillingInformation(UUID userId) {
+      return this.billingInformationRepository
+        .findAllDTOsByUserId(userId);
   }
 
-  public static List<BillingInformationDTO> getAllBillingInformation() {
-    try (var session = DbService.buildSessionFactory().openSession()) {
-      var user = UserService.getAuthenticatedUser();
-      return session
-        .createSelectionQuery(
-          "select new BillingInformationDTO(bi) " +
-          "from BillingInformation bi " +
-          "where bi.user = :user",
-          BillingInformationDTO.class
-        )
-        .setParameter("user", user)
-        .getResultList();
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  public static BillingInformationDTO updateBillingInformation(
-    BillingInformationUpdateDTO dto
-  ) {
-    var user = UserService.getAuthenticatedUser();
-    var session = DbService.buildSessionFactory().openSession();
-    var tx = session.getTransaction();
-    var hql =
-      "UPDATE BillingInformation b SET " +
-      "b.cardNumber = :cardNumber, " +
-      "b.monthExpiration = :monthExpiration, " +
-      "b.yearExpiration = :yearExpiration " +
-      "WHERE b.user = :user and b.id = :id";
-    try {
-      tx.begin();
-      session
-        .createMutationQuery(hql)
-        .setParameter("cardNumber", dto.getCardNumber())
-        .setParameter("monthExpiration", dto.getMonthExpiration())
-        .setParameter("yearExpiration", dto.getYearExpiration())
-        .setParameter("user", user)
-        .setParameter("id", dto.getId())
-        .executeUpdate();
-      tx.commit();
-      return new BillingInformationDTO(dto);
-    } catch (Exception e) {
-      tx.rollback();
-      throw new RuntimeException(e);
-    } finally {
-      session.close();
-    }
+  public BillingInformationDTO updateBillingInformation(UUID userId, BillingInformationUpdateDTO dto) {
+    BillingInformation entity = billingInformationRepository.findByIdAndUserId(dto.getId(), userId)
+        .orElseThrow(() -> new RuntimeException("Billing information not found with ID: " + dto.getId() + " for user " + userId));
+    
+    entity.setCardNumber(dto.getCardNumber());
+    entity.setMonthExpiration(dto.getMonthExpiration());
+    entity.setYearExpiration(dto.getYearExpiration());
+    entity.setDateUpdated(java.time.LocalDateTime.now());
+     
+    BillingInformation updatedEntity = this.billingInformationRepository.save(entity);
+    return BillingInformationDTO.fromEntity(updatedEntity);
   }
 }

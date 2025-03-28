@@ -1,59 +1,62 @@
-import { Component } from '@angular/core';
-import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
-import { ContactFormComponent } from './components/contact-form/contact-form.component';
-import {
-  ADDRESS_STREET,
-  ADDRESS_REGION,
-  EMAIL,
-  PHONE_NUMBER,
-  CONTACT_PAGE_IMAGE
-} from '../../constant';
+import { Component, inject } from '@angular/core';
+import { MenubarComponent } from '../../components/navigation/menubar.component';
+import { H3Component } from '../../components/typography/h3.component';
+import { CustomInputComponent } from '../../components/custom-input.component';
+import { CustomTextareaComponent } from '../../components/custom-textarea.component';
+import { FormsModule } from '@angular/forms';
+import { ThreeDButtonComponent } from '../../components/three-d-button/three-d-button.component';
 
 @Component({
   selector: 'app-contact',
-  imports: [NavBarComponent, ContactFormComponent],
+  standalone: true,
+  imports: [
+    MenubarComponent,
+    H3Component,
+    FormsModule,
+    CustomInputComponent,
+    CustomTextareaComponent,
+    ThreeDButtonComponent
+  ],
   template: `
-    <div class="h-svh">
-      <div class="h-full grid grid-cols-[auto_900px] grid-rows-[auto_1fr]">
-        <app-nav-bar class="col-span-2" />
-        <img class="h-full w-full object-cover" [src]="contactPageImage" />
-        <div>
-          <div class="flex flex-col gap-30 mt-24 w-[600px] mx-auto">
-            <div class="flex flex-col gap-8">
-              <h2 class="text-7xl font-[Averia_Serif_Libre] font-bold">
-                Coordonnées
-              </h2>
-              <div class="flex flex-col gap-6">
-                <div class="flex justify-between">
-                  <span class="text-xl font-bold">Adresse</span>
-                  <div class="flex flex-col">
-                    <span class="text-xl text-right">{{ addressStreet }}</span
-                    ><span class="text-xl text-right">
-                      {{ addressRegion }}</span
-                    >
-                  </div>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-xl font-bold">Email</span>
-                  <span class="text-xl">{{ email }}</span>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-xl font-bold">Téléphone</span>
-                  <span class="text-xl">{{ phoneNumber }}</span>
-                </div>
+    <div class="min-h-screen">
+      <app-menubar></app-menubar>
+      <div class="px-page pt-page pb-page flex gap-16">
+        <div class="flex flex-col gap-8 min-w-[480px]">
+          <div class="flex flex-col gap-4">
+            <app-h3>Coordonnées</app-h3>
+            <div class="flex flex-col gap-3">
+              <div class="flex justify-between">
+                <span class="font-semibold">Adresse</span>
+                <span>Hadikgasse 96<br />1140 Wien</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="font-semibold">Email</span>
+                <span>misael.mcdermott&#64;monsejour.at</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="font-semibold">Numéro de téléphone</span>
+                <span>+(43) (01) 8121287</span>
               </div>
             </div>
-            <app-contact-form />
+          </div>
+          <div class="flex flex-col gap-4">
+            <app-h3>Nous contacter</app-h3>
+            <form class="flex flex-col gap-6">
+              <div class="flex flex-col gap-3">
+                <app-custom-input placeholder="Email"> </app-custom-input>
+                <app-custom-input placeholder="Subject"> </app-custom-input>
+              </div>
+              <app-custom-textarea placeholder="Message"> </app-custom-textarea>
+              <app-three-d-button>Submit</app-three-d-button>
+            </form>
           </div>
         </div>
+        <img
+          src="images/contact_page_side_img.jpg"
+          alt="Contact Image"
+          class="flex h-[calc(100vh-228px)] w-full object-cover rounded-md" />
       </div>
     </div>
   `
 })
-export class ContactPage {
-  addressStreet = ADDRESS_STREET;
-  addressRegion = ADDRESS_REGION;
-  email = EMAIL;
-  phoneNumber = PHONE_NUMBER;
-  contactPageImage = CONTACT_PAGE_IMAGE;
-}
+export class ContactPage {}

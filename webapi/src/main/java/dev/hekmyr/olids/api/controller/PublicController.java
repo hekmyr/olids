@@ -18,55 +18,55 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(Constant.API_V1_ENDPOINT + "/public")
 public class PublicController {
 
-  private final UserDetailsManagerImpl userDetailsManagerImpl;
-  private final RentalPropertyRepository rentalPropertyRepository;
-  private final RentalPropertyService rentalPropertyService;
+    private final UserDetailsManagerImpl userDetailsManagerImpl;
+    private final RentalPropertyRepository rentalPropertyRepository;
+    private final RentalPropertyService rentalPropertyService;
 
-  PublicController(
-    UserDetailsManagerImpl userDetailsManagerImpl,
-    RentalPropertyRepository rentalPropertyRepository,
-    RentalPropertyService rentalPropertyService
-  ) {
-    this.userDetailsManagerImpl = userDetailsManagerImpl;
-    this.rentalPropertyRepository = rentalPropertyRepository;
-    this.rentalPropertyService = rentalPropertyService;
-  }
-
-  @GetMapping("/ping")
-  public ResponseEntity<MessageResponseModel> ping() {
-    return ResponseEntity.ok(new MessageResponseModel("pong"));
-  }
-
-  @PostMapping("/sign-up")
-  public ResponseEntity<?> signUp(@RequestBody UserCreateDTO dto) {
-    try {
-      var responseDTO = userDetailsManagerImpl.createUser(dto);
-      return ResponseEntity.ok(responseDTO);
-    } catch (Exception e) {
-      e.printStackTrace();
-      return ResponseEntity.internalServerError().build();
+    PublicController(
+        UserDetailsManagerImpl userDetailsManagerImpl,
+        RentalPropertyRepository rentalPropertyRepository,
+        RentalPropertyService rentalPropertyService
+    ) {
+        this.userDetailsManagerImpl = userDetailsManagerImpl;
+        this.rentalPropertyRepository = rentalPropertyRepository;
+        this.rentalPropertyService = rentalPropertyService;
     }
-  }
 
-  @GetMapping("/rental-property/{id}")
-  public ResponseEntity<RentalPropertyDTO> rentalProperty(
-    @PathVariable UUID id
-  ) {
-    var property = rentalPropertyRepository.findDTOById(id).get();
-    return ResponseEntity.ok(property);
-  }
+    @GetMapping("/ping")
+    public ResponseEntity<MessageResponseModel> ping() {
+        return ResponseEntity.ok(new MessageResponseModel("pong"));
+    }
 
-  @PostMapping("/rental-properties")
-  public ResponseEntity<List<RentalPropertyDTO>> rentalProperties(
-    @RequestBody RentalPropertyRequestDTO dto
-  ) {
-    return ResponseEntity.ok(rentalPropertyService.findAvailableDTOs(dto));
-  }
+    @PostMapping("/sign-up")
+    public ResponseEntity<?> signUp(@RequestBody UserCreateDTO dto) {
+        try {
+            var responseDTO = userDetailsManagerImpl.createUser(dto);
+            return ResponseEntity.ok(responseDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 
-  @PostMapping("/contact")
-  public ResponseEntity<MessageResponseModel> contact(
-    @RequestBody ContactRequestDTO request
-  ) {
-    return ResponseEntity.ok(new MessageResponseModel("Message sent"));
-  }
+    @GetMapping("/rental-property/{id}")
+    public ResponseEntity<RentalPropertyDTO> rentalProperty(
+        @PathVariable UUID id
+    ) {
+        var property = rentalPropertyRepository.findDTOById(id).get();
+        return ResponseEntity.ok(property);
+    }
+
+    @PostMapping("/rental-properties")
+    public ResponseEntity<List<RentalPropertyDTO>> rentalProperties(
+        @RequestBody RentalPropertyRequestDTO dto
+    ) {
+        return ResponseEntity.ok(rentalPropertyService.findAvailableDTOs(dto));
+    }
+
+    @PostMapping("/contact")
+    public ResponseEntity<MessageResponseModel> contact(
+        @RequestBody ContactRequestDTO request
+    ) {
+        return ResponseEntity.ok(new MessageResponseModel("Message sent"));
+    }
 }

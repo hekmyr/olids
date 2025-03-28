@@ -15,4 +15,6 @@ export interface RentalPropertyInterface {
   street: string;
   number: string;
   postalCode: string;
+  image: string;
+  maxGuests: number;
 }

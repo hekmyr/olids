@@ -42,19 +42,6 @@ public class Accessibility {
 
   public Accessibility() {}
 
-  public Accessibility(AccessibilityDTO model) {
-    this.toiletGrabBarAvailable = model.isToiletGrabBarAvailable();
-    this.showerGrabBarAvailable = model.isShowerGrabBarAvailable();
-    this.stepFreeShowerAvailable = model.isStepFreeShowerAvailable();
-    this.showerBathChairAvailable = model.isShowerBathChairAvailable();
-    this.stepFreeBedroomAccessAvailable =
-      model.isStepFreeBedroomAccessAvailable();
-    this.wideBedroomEntranceAvailable = model.isWideBedroomEntranceAvailable();
-    this.stepFreeAccessAvailable = model.isStepFreeAccessAvailable();
-    this.dateCreated = LocalDateTime.now();
-    this.dateUpdated = LocalDateTime.now();
-  }
-
   public UUID getId() {
     return id;
   }
@@ -137,5 +124,21 @@ public class Accessibility {
 
   public void setDateUpdated(LocalDateTime dateUpdated) {
     this.dateUpdated = dateUpdated;
+  }
+
+  public static Accessibility fromDTO(AccessibilityDTO dto) {
+    var entity = new Accessibility();
+    entity.toiletGrabBarAvailable = dto.isToiletGrabBarAvailable();
+    entity.showerGrabBarAvailable = dto.isShowerGrabBarAvailable();
+    entity.stepFreeShowerAvailable = dto.isStepFreeShowerAvailable();
+    entity.showerBathChairAvailable = dto.isShowerBathChairAvailable();
+    entity.stepFreeBedroomAccessAvailable =
+      dto.isStepFreeBedroomAccessAvailable();
+    entity.wideBedroomEntranceAvailable =
+      dto.isWideBedroomEntranceAvailable();
+    entity.stepFreeAccessAvailable = dto.isStepFreeAccessAvailable();
+    entity.dateCreated = LocalDateTime.now();
+    entity.dateUpdated = LocalDateTime.now();
+    return entity;
   }
 }

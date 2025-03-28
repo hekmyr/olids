@@ -51,22 +51,6 @@ public class Amenity {
 
   public Amenity() {}
 
-  public Amenity(AmenityDTO model) {
-    this.id = model.getId();
-    this.airConditioningAvailable = model.isAirConditioningAvailable();
-    this.terraceAvailable = model.isTerraceAvailable();
-    this.gardenAvailable = model.isGardenAvailable();
-    this.poolAvailable = model.isPoolAvailable();
-    this.hotTubAvailable = model.isHotTubAvailable();
-    this.evChargerAvailable = model.isEvChargerAvailable();
-    this.indoorFireplaceAvailable = model.isIndoorFireplaceAvailable();
-    this.outdoorFireplaceAvailable = model.isOutdoorFireplaceAvailable();
-    this.dedicatedWorkspaceAvailable = model.isDedicatedWorkspaceAvailable();
-    this.gymAvailable = model.isGymAvailable();
-    this.dateCreated = LocalDateTime.now();
-    this.dateUpdated = LocalDateTime.now();
-  }
-
   public UUID getId() {
     return id;
   }
@@ -135,7 +119,9 @@ public class Amenity {
     return outdoorFireplaceAvailable;
   }
 
-  public void setOutdoorFireplaceAvailable(boolean outdoorFireplaceAvailable) {
+  public void setOutdoorFireplaceAvailable(
+    boolean outdoorFireplaceAvailable
+  ) {
     this.outdoorFireplaceAvailable = outdoorFireplaceAvailable;
   }
 
@@ -171,5 +157,24 @@ public class Amenity {
 
   public void setDateUpdated(LocalDateTime dateUpdated) {
     this.dateUpdated = dateUpdated;
+  }
+
+  public static Amenity fromDTO(AmenityDTO dto) {
+    var entity = new Amenity();
+    entity.id = dto.getId();
+    entity.airConditioningAvailable = dto.isAirConditioningAvailable();
+    entity.terraceAvailable = dto.isTerraceAvailable();
+    entity.gardenAvailable = dto.isGardenAvailable();
+    entity.poolAvailable = dto.isPoolAvailable();
+    entity.hotTubAvailable = dto.isHotTubAvailable();
+    entity.evChargerAvailable = dto.isEvChargerAvailable();
+    entity.indoorFireplaceAvailable = dto.isIndoorFireplaceAvailable();
+    entity.outdoorFireplaceAvailable = dto.isOutdoorFireplaceAvailable();
+    entity.dedicatedWorkspaceAvailable =
+      dto.isDedicatedWorkspaceAvailable();
+    entity.gymAvailable = dto.isGymAvailable();
+    entity.dateCreated = LocalDateTime.now();
+    entity.dateUpdated = LocalDateTime.now();
+    return entity;
   }
 }

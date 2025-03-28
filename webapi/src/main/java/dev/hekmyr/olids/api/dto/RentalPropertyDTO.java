@@ -1,11 +1,7 @@
 package dev.hekmyr.olids.api.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import dev.hekmyr.olids.api.entity.Accessibility;
-import dev.hekmyr.olids.api.entity.Amenity;
 import dev.hekmyr.olids.api.entity.RentalProperty;
-import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 public class RentalPropertyDTO {
@@ -19,6 +15,7 @@ public class RentalPropertyDTO {
   private AmenityDTO amenity;
 
   private String name;
+  private String description;
   private boolean listed;
   private int pricePerNight;
   private int beds;
@@ -27,44 +24,27 @@ public class RentalPropertyDTO {
   private String street;
   private String number;
   private String postalCode;
-  private List<LocalDate> unavailableDays;
+  private String image;
+  private Integer maxGuests;
 
   public RentalPropertyDTO() {}
 
-  public RentalPropertyDTO(
-    RentalProperty rentalProperty,
-    Amenity amenity,
-    Accessibility accessibility
-  ) {
-    this.name = rentalProperty.getName();
-    this.listed = rentalProperty.isListed();
-    this.id = rentalProperty.getId();
-    this.pricePerNight = rentalProperty.getPricePerNight();
-    this.beds = rentalProperty.getBeds();
-    this.bedrooms = rentalProperty.getBedrooms();
-    this.bathrooms = rentalProperty.getBathrooms();
-    this.street = rentalProperty.getStreet();
-    this.number = rentalProperty.getNumber();
-    this.postalCode = rentalProperty.getPostalCode();
-    this.amenity = new AmenityDTO(amenity);
-    this.accessibility = new AccessibilityDTO(accessibility);
-  }
-
-  public RentalPropertyDTO(RentalProperty rentalProperty) {
-    this.name = rentalProperty.getName();
-    this.listed = rentalProperty.isListed();
-    this.id = rentalProperty.getId();
-    this.pricePerNight = rentalProperty.getPricePerNight();
-    this.beds = rentalProperty.getBeds();
-    this.bedrooms = rentalProperty.getBedrooms();
-    this.bathrooms = rentalProperty.getBathrooms();
-    this.street = rentalProperty.getStreet();
-    this.number = rentalProperty.getNumber();
-    this.postalCode = rentalProperty.getPostalCode();
-    this.amenity = new AmenityDTO(rentalProperty.getAmenity());
-    this.accessibility = new AccessibilityDTO(
-      rentalProperty.getAccessibility()
-    );
+  public RentalPropertyDTO(RentalProperty entity) {
+    this.id = entity.getId();
+    this.name = entity.getName();
+    this.description = entity.getDescription();
+    this.listed = entity.isListed();
+    this.pricePerNight = entity.getPricePerNight();
+    this.beds = entity.getBeds();
+    this.bedrooms = entity.getBedrooms();
+    this.bathrooms = entity.getBathrooms();
+    this.street = entity.getStreet();
+    this.number = entity.getNumber();
+    this.postalCode = entity.getPostalCode();
+    this.image = entity.getImage();
+    this.maxGuests = entity.getMaxGuests();
+    this.amenity = new AmenityDTO(entity.getAmenity());
+    this.accessibility = new AccessibilityDTO(entity.getAccessibility());
   }
 
   public UUID getId() {
@@ -97,6 +77,14 @@ public class RentalPropertyDTO {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public Boolean isListed() {
@@ -163,11 +151,19 @@ public class RentalPropertyDTO {
     this.postalCode = postalCode;
   }
 
-  public List<LocalDate> getUnavailableDays() {
-    return unavailableDays;
+  public String getImage() {
+    return image;
   }
 
-  public void setUnavailableDays(List<LocalDate> unavailableDays) {
-    this.unavailableDays = unavailableDays;
+  public void setImage(String image) {
+    this.image = image;
+  }
+
+  public int getMaxGuests() {
+    return maxGuests;
+  }
+
+  public void setMaxGuests(int maxGuests) {
+    this.maxGuests = maxGuests;
   }
 }

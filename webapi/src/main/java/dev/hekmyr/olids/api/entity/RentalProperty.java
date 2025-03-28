@@ -23,6 +23,9 @@ public class RentalProperty implements Serializable {
   @Column(name = "name", nullable = false)
   private String name;
 
+  @Column(name = "description")
+  private String description;
+
   @Column(name = "is_listed", nullable = false)
   private boolean listed;
 
@@ -50,6 +53,12 @@ public class RentalProperty implements Serializable {
   @Column(name = "postal_code", nullable = false)
   private String postalCode;
 
+  @Column(name = "max_guests", nullable = false)
+  private int maxGuests;
+
+  @Column(name = "image")
+  private String image;
+
   @Column(name = "date_created", nullable = false)
   private LocalDateTime dateCreated;
 
@@ -57,27 +66,6 @@ public class RentalProperty implements Serializable {
   private LocalDateTime dateUpdated;
 
   public RentalProperty() {}
-
-  public RentalProperty(
-    RentalPropertyDTO model,
-    Amenity amenity,
-    Accessibility accessibility
-  ) {
-    this.amenity = amenity;
-    this.accessibility = accessibility;
-    this.name = model.getName();
-    this.listed = model.isListed();
-    this.listedAt = this.listed ? LocalDateTime.now() : null;
-    this.pricePerNight = model.getPricePerNight();
-    this.beds = model.getBeds();
-    this.bedrooms = model.getBedrooms();
-    this.bathrooms = model.getBathrooms();
-    this.street = model.getStreet();
-    this.number = model.getNumber();
-    this.postalCode = model.getPostalCode();
-    this.dateCreated = LocalDateTime.now();
-    this.dateUpdated = LocalDateTime.now();
-  }
 
   public UUID getId() {
     return id;
@@ -109,6 +97,14 @@ public class RentalProperty implements Serializable {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public boolean isListed() {
@@ -197,5 +193,43 @@ public class RentalProperty implements Serializable {
 
   public void setDateUpdated(LocalDateTime dateUpdated) {
     this.dateUpdated = dateUpdated;
+  }
+
+  public int getMaxGuests() {
+    return maxGuests;
+  }
+
+  public void setMaxGuests(int maxGuests) {
+    this.maxGuests = maxGuests;
+  }
+
+  public String getImage() {
+    return image;
+  }
+
+  public void setImage(String image) {
+    this.image = image;
+  }
+
+  public static RentalProperty fromDTO(RentalPropertyDTO dto) {
+    var entity = new RentalProperty();
+    entity.amenity = Amenity.fromDTO(dto.getAmenity());
+    entity.accessibility = Accessibility.fromDTO(dto.getAccessibility());
+    entity.name = dto.getName();
+    entity.description = dto.getDescription();
+    entity.listed = dto.isListed();
+    entity.listedAt = entity.listed ? LocalDateTime.now() : null;
+    entity.pricePerNight = dto.getPricePerNight();
+    entity.beds = dto.getBeds();
+    entity.bedrooms = dto.getBedrooms();
+    entity.bathrooms = dto.getBathrooms();
+    entity.street = dto.getStreet();
+    entity.number = dto.getNumber();
+    entity.postalCode = dto.getPostalCode();
+    entity.image = dto.getImage();
+    entity.maxGuests = dto.getMaxGuests();
+    entity.dateCreated = LocalDateTime.now();
+    entity.dateUpdated = LocalDateTime.now();
+    return entity;
   }
 }

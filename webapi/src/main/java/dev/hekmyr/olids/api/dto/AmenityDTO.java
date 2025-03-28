@@ -29,7 +29,8 @@ public class AmenityDTO {
     this.evChargerAvailable = model.isEvChargerAvailable();
     this.indoorFireplaceAvailable = model.isIndoorFireplaceAvailable();
     this.outdoorFireplaceAvailable = model.isOutdoorFireplaceAvailable();
-    this.dedicatedWorkspaceAvailable = model.isDedicatedWorkspaceAvailable();
+    this.dedicatedWorkspaceAvailable =
+      model.isDedicatedWorkspaceAvailable();
     this.gymAvailable = model.isGymAvailable();
   }
 
@@ -101,7 +102,9 @@ public class AmenityDTO {
     return outdoorFireplaceAvailable;
   }
 
-  public void setOutdoorFireplaceAvailable(boolean outdoorFireplaceAvailable) {
+  public void setOutdoorFireplaceAvailable(
+    boolean outdoorFireplaceAvailable
+  ) {
     this.outdoorFireplaceAvailable = outdoorFireplaceAvailable;
   }
 

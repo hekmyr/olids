@@ -84,7 +84,9 @@ public class User {
 
   public User(UserCreateDTO dto) {
     this.email = dto.getEmail();
-    this.password = UserDetailsManagerImpl.encoder.encode(dto.getPassword());
+    this.password = UserDetailsManagerImpl.encoder.encode(
+      dto.getPassword()
+    );
     this.dateCreated = LocalDateTime.now();
     this.dateUpdated = LocalDateTime.now();
   }

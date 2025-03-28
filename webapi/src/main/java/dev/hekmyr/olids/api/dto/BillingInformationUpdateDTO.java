@@ -6,8 +6,8 @@ public class BillingInformationUpdateDTO {
 
   private UUID id;
   private String cardNumber;
-  private int monthExpiration;
-  private int yearExpiration;
+  private Integer monthExpiration;
+  private Integer yearExpiration;
 
   public String getCardNumber() {
     return cardNumber;
@@ -25,19 +25,19 @@ public class BillingInformationUpdateDTO {
     this.cardNumber = cardNumber;
   }
 
-  public int getMonthExpiration() {
+  public Integer getMonthExpiration() {
     return monthExpiration;
   }
 
-  public void setMonthExpiration(int monthExpiration) {
+  public void setMonthExpiration(Integer monthExpiration) {
     this.monthExpiration = monthExpiration;
   }
 
-  public int getYearExpiration() {
+  public Integer getYearExpiration() {
     return yearExpiration;
   }
 
-  public void setYearExpiration(int yearExpiration) {
+  public void setYearExpiration(Integer yearExpiration) {
     this.yearExpiration = yearExpiration;
   }
 }

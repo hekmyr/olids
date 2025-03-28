@@ -24,7 +24,8 @@ public class AccessibilityDTO {
     this.showerBathChairAvailable = model.isShowerBathChairAvailable();
     this.stepFreeBedroomAccessAvailable =
       model.isStepFreeBedroomAccessAvailable();
-    this.wideBedroomEntranceAvailable = model.isWideBedroomEntranceAvailable();
+    this.wideBedroomEntranceAvailable =
+      model.isWideBedroomEntranceAvailable();
     this.stepFreeAccessAvailable = model.isStepFreeAccessAvailable();
   }
 

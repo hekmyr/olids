@@ -1,29 +1,18 @@
 package dev.hekmyr.olids.api.dto;
 
-import dev.hekmyr.olids.api.entity.Reservation;
-import dev.hekmyr.olids.api.entity.ReservationDetail;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class ReservationDTO {
 
   private UUID id;
-
-  private List<ReservationDetailDTO> details = new ArrayList<>();
-
-  public ReservationDTO(UUID id, List<ReservationDetailDTO> detailDTOs) {
-    this.id = id;
-    this.details = detailDTOs;
-  }
-
-  public ReservationDTO(Reservation reservation) {
-    this.id = reservation.getId();
-    this.details = new ArrayList<>();
-    for (ReservationDetail detail : reservation.getDetails()) {
-      this.details.add(new ReservationDetailDTO(detail));
-    }
-  }
+  private RentalPropertyDTO property;
+  private BillingInformationDTO billingInformationDTO;
+  private float pricePerNight;
+  private int guests;
+  private boolean isCancelled;
+  private LocalDateTime dateStayStart;
+  private LocalDateTime dateStayEnd;
 
   public UUID getId() {
     return id;
@@ -33,11 +22,61 @@ public class ReservationDTO {
     this.id = id;
   }
 
-  public List<ReservationDetailDTO> getDetails() {
-    return details;
+  public RentalPropertyDTO getProperty() {
+    return property;
   }
 
-  public void setDetails(List<ReservationDetailDTO> details) {
-    this.details = details;
+  public void setProperty(RentalPropertyDTO property) {
+    this.property = property;
+  }
+
+  public BillingInformationDTO getBillingInformationDTO() {
+    return billingInformationDTO;
+  }
+
+  public void setBillingInformationDTO(
+    BillingInformationDTO billingInformationDTO
+  ) {
+    this.billingInformationDTO = billingInformationDTO;
+  }
+
+  public float getPricePerNight() {
+    return pricePerNight;
+  }
+
+  public void setPricePerNight(float pricePerNight) {
+    this.pricePerNight = pricePerNight;
+  }
+
+  public int getGuests() {
+    return guests;
+  }
+
+  public void setGuests(int guests) {
+    this.guests = guests;
+  }
+
+  public boolean isCancelled() {
+    return isCancelled;
+  }
+
+  public void setCancelled(boolean isCancelled) {
+    this.isCancelled = isCancelled;
+  }
+
+  public LocalDateTime getDateStayStart() {
+    return dateStayStart;
+  }
+
+  public void setDateStayStart(LocalDateTime dateStayStart) {
+    this.dateStayStart = dateStayStart;
+  }
+
+  public LocalDateTime getDateStayEnd() {
+    return dateStayEnd;
+  }
+
+  public void setDateStayEnd(LocalDateTime dateStayEnd) {
+    this.dateStayEnd = dateStayEnd;
   }
 }

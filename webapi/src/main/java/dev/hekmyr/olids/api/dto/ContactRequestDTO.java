@@ -2,31 +2,31 @@ package dev.hekmyr.olids.api.dto;
 
 public class ContactRequestDTO {
 
-  private String Email;
-  private String Subject;
-  private String Message;
+  private String email;
+  private String subject;
+  private String message;
 
   public String getEmail() {
-    return Email;
+    return email;
   }
 
   public void setEmail(String email) {
-    Email = email;
+    this.email = email;
   }
 
   public String getSubject() {
-    return Subject;
+    return subject;
   }
 
   public void setSubject(String subject) {
-    Subject = subject;
+    this.subject = subject;
   }
 
   public String getMessage() {
-    return Message;
+    return message;
   }
 
   public void setMessage(String message) {
-    Message = message;
+    this.message = message;
   }
 }

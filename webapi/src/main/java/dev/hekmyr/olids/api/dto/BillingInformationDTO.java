@@ -9,20 +9,9 @@ public class BillingInformationDTO {
   private String cardNumber;
   private int monthExpiration;
   private int yearExpiration;
+  private boolean isDefault;
 
-  public BillingInformationDTO(BillingInformation entity) {
-    this.id = entity.getId();
-    this.cardNumber = entity.getCardNumber();
-    this.monthExpiration = entity.getMonthExpiration();
-    this.yearExpiration = entity.getYearExpiration();
-  }
-
-  public BillingInformationDTO(BillingInformationUpdateDTO dto) {
-    this.id = dto.getId();
-    this.cardNumber = dto.getCardNumber();
-    this.monthExpiration = dto.getMonthExpiration();
-    this.yearExpiration = dto.getYearExpiration();
-  }
+  BillingInformationDTO() {}
 
   public UUID getId() {
     return id;
@@ -54,5 +43,23 @@ public class BillingInformationDTO {
 
   public void setYearExpiration(int yearExpiration) {
     this.yearExpiration = yearExpiration;
+  }
+
+  public boolean isDefault() {
+    return isDefault;
+  }
+
+  public void setDefault(boolean isDefault) {
+    this.isDefault = isDefault;
+  }
+
+  public static BillingInformationDTO fromEntity(BillingInformation entity) {
+    var dto = new BillingInformationDTO();
+    dto.id = entity.getId();
+    dto.cardNumber = entity.getCardNumber();
+    dto.monthExpiration = entity.getMonthExpiration();
+    dto.yearExpiration = entity.getYearExpiration();
+    dto.isDefault = entity.isDefault();
+    return dto;
   }
 }

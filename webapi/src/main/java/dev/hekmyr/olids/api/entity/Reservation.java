@@ -2,8 +2,6 @@ package dev.hekmyr.olids.api.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -17,13 +15,19 @@ public class Reservation {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   private User user;
+  
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "rental_property_id")
+  private RentalProperty rentalProperty;
 
-  @OneToMany(
-    mappedBy = "reservation",
-    cascade = CascadeType.ALL,
-    orphanRemoval = true
-  )
-  private List<ReservationDetail> details = new ArrayList<>();
+  @Column(name = "price_per_night", nullable = false)
+  private float pricePerNight;
+
+  @Column(name = "date_stay_begin", nullable = false)
+  private LocalDateTime dateStayStart;
+
+  @Column(name = "date_stay_end", nullable = false)
+  private LocalDateTime dateStayEnd;
 
   @Column(name = "date_created", nullable = false)
   private LocalDateTime dateCreated;
@@ -31,18 +35,6 @@ public class Reservation {
   @Column(name = "date_updated", nullable = false)
   private LocalDateTime dateUpdated;
 
-  // Add methods for managing the relationship
-  public void addDetail(ReservationDetail detail) {
-    details.add(detail);
-    detail.setReservation(this);
-  }
-
-  public void removeDetail(ReservationDetail detail) {
-    details.remove(detail);
-    detail.setReservation(null);
-  }
-
-  // Getters and setters
   public UUID getId() {
     return id;
   }
@@ -59,12 +51,28 @@ public class Reservation {
     this.user = user;
   }
 
-  public List<ReservationDetail> getDetails() {
-    return details;
+  public float getPricePerNight() {
+    return pricePerNight;
   }
 
-  public void setDetails(List<ReservationDetail> details) {
-    this.details = details;
+  public void setPricePerNight(float pricePerNight) {
+    this.pricePerNight = pricePerNight;
+  }
+
+  public LocalDateTime getDateStayStart() {
+    return dateStayStart;
+  }
+
+  public void setDateStayStart(LocalDateTime dateStayStart) {
+    this.dateStayStart = dateStayStart;
+  }
+
+  public LocalDateTime getDateStayEnd() {
+    return dateStayEnd;
+  }
+
+  public void setDateStayEnd(LocalDateTime dateStayEnd) {
+    this.dateStayEnd = dateStayEnd;
   }
 
   public LocalDateTime getDateCreated() {

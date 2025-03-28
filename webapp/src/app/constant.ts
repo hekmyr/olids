@@ -7,3 +7,4 @@ export const EMAIL: string = 'misael.mcdermott@monsejour.at';
 export const PHONE_NUMBER: string = '+(43) (01) 8121287';
 
 export const CONTACT_PAGE_IMAGE: string = 'images/contact_page_side_img.jpg';
+export const APP_TITLE: string = 'MONSÉJOUR';

@@ -1,7 +1,114 @@
 /* You can add global styles to this file, and also import other style files */
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:wght@400;700&display=swap');
+@import 'tailwindcss';
+@import 'primeicons/primeicons.css';
+
+@layer theme {
+}
+
 @layer utilities {
-  .bg-default {
-    background-color: #F0EFEB;
+  .px-page {
+    padding-left: var(--page-padding);
+    padding-right: var(--page-padding);
   }
+
+  .text-h2 {
+    font-size: 64px;
+    font-family: 'Averia Serif Libre', serif;
+  }
+
+  .text-h3 {
+    font-size: 32px;
+    font-family: 'Averia Serif Libre', serif;
+  }
+
+  .text-h4 {
+    font-size: 24px;
+    font-family: 'Averia Serif Libre', serif;
+  }
+
+  .font-heading {
+    font-family: 'Averia Serif Libre', serif;
+  }
+
+  .text-logo {
+    font-size: 32px;
+    font-family: 'Averia Serif Libre', serif;
+  }
+
+  .text-menulink {
+    font-size: 24px;
+    font-family: 'Averia Serif Libre', serif;
+  }
+
+  .bg-default {
+    background-color: #cfd0d4;
+  }
+
+  .text-disabled {
+    color: #737373;
+  }
+
+  .bg-accent-1 {
+    background-color: var(--accent-1-color);
+  }
+
+  .bg-accent-2 {
+    background-color: var(--accent-2-color);
+  }
+  .bg-alternative {
+    background-color: #c1c5d3;
+  }
+
+  .text-accent-2 {
+    color: var(--accent-2-color);
+  }
+
+  .text-accent-1 {
+    color: var(--accent-1-color);
+  }
+
+  .text-footer-link {
+    font-size: 24px;
+    font-family: 'Averia Serif Libre', serif;
+  }
+
+  .pt-page {
+    padding-top: 64px;
+  }
+
+  .pb-page {
+    padding-bottom: 64px;
+  }
+
+  .border-disabled-color {
+    border-color: var(--disabled);
+  }
+
+  .placeholder\:text-disabled::placeholder {
+    color: var(--disabled);
+  }
+
+  .input-max-width {
+    max-width: 500px;
+  }
+
+  .input-min-width {
+    min-width: 220px;
+  }
+
+  .font-averia {
+    font-family: 'Averia Serif Libre', cursive;
+  }
+
+  .custom-shadow {
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+:root {
+  --disabled: #737373;
+  --page-padding: 64px;
+  --accent-1-color: #455499;
+  --accent-2-color: #5b71cc;
 }

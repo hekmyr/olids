@@ -1,40 +1,41 @@
-import { Component, input, signal, effect } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { LucideAngularModule, ChevronDown } from 'lucide-angular';
+import { signal } from '@angular/core';
 
 @Component({
   selector: 'app-accordion',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, LucideAngularModule],
   template: `
     <div
-      class="w-full text-2xl pb-2 select-none cursor-pointer"
-      (click)="toggleOpen()">
-      {{ title() }}
-    </div>
-    <hr />
-    @if (isOpen()) {
-      <div class="py-4">
-        <p>
-          {{ text() }}
-        </p>
+      class="p-6 bg-white w-full custom-shadow rounded-md flex flex-col gap-4">
+      <div
+        class="text-h4 flex justify-between items-center cursor-pointer"
+        (click)="toggleAccordion()">
+        <span>{{ question() }}</span>
+        <lucide-icon
+          [name]="ChevronDown"
+          [size]="24"
+          class="transition-transform"
+          [class.rotate-180]="isOpen()"></lucide-icon>
       </div>
-    }
-  `
+      @if (isOpen()) {
+        <div class="text-lg">
+          <span>{{ answer() }}</span>
+        </div>
+      }
+    </div>
+  `,
+  styles: ``
 })
 export class AccordionComponent {
-  public title = input.required<string>();
-  public text = input.required<string>();
-  public open = input<boolean>(false);
+  question = input.required<string>();
+  answer = input<string>('');
+  ChevronDown = ChevronDown;
+  isOpen = signal<boolean>(false);
 
-  public isOpen = signal<boolean>(false);
-
-  constructor() {
-    this.isOpen.set(this.open());
-
-    effect(() => {
-      this.isOpen.set(this.open());
-    });
-  }
-
-  public toggleOpen() {
-    this.isOpen.update((current) => !current);
+  toggleAccordion() {
+    this.isOpen.update((value) => !value);
   }
 }

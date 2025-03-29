@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SignInDTO } from '../dtos/sign-in.dto';
 import { SignUpDTO } from '../dtos/sign-up.dto';
@@ -22,7 +22,7 @@ import { BillingInformationSetDefaultDTO } from '../dtos/billing-information-set
 export class ApiService {
   private apiUrl = 'http://localhost:8080/api/v1';
 
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
 
   public signIn(body: SignInDTO): Observable<Object> {
     const headers = new HttpHeaders({

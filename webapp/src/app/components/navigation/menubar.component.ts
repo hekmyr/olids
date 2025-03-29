@@ -1,13 +1,18 @@
-import { Component } from '@angular/core';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { LoginModalComponent } from '../login-modal/login-modal.component';
+import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MenuItem } from 'primeng/api';
+import { AuthService } from '../../services/auth.service';
 import { MenubarModule } from 'primeng/menubar';
+import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-menubar',
   standalone: true,
-  imports: [RouterModule, MenubarModule, CommonModule],
+  imports: [RouterModule, MenubarModule, CommonModule, ButtonModule],
+  providers: [DialogService],
   template: `
     <p-menubar [model]="items" styleClass="bg-accent-2">
       <ng-template pTemplate="start">
@@ -16,32 +21,35 @@ import { CommonModule } from '@angular/common';
         >
       </ng-template>
 
-      <ng-template #item let-item>
-        <ng-container *ngIf="item.routerLink; else urlRef">
+      <ng-template #item let-item let-root="root">
+        @if (item.routerLink) {
           <a [routerLink]="item.routerLink" class="p-menubar-item-link">
             <span class="text-menulink text-white">{{ item.label }}</span>
           </a>
-        </ng-container>
-        <ng-template #urlRef>
-          <a
-            *ngIf="item.url; else noLink"
-            [href]="item.url"
-            class="p-menubar-item-link">
+        } @else if (item.url) {
+          <a [href]="item.url" class="p-menubar-item-link">
             <span class="text-menulink text-white">{{ item.label }}</span>
           </a>
-        </ng-template>
-        <ng-template #noLink>
+        } @else {
           <div class="p-menubar-item-link">
             <span class="text-menulink text-white">{{ item.label }}</span>
-            <span class="pi pi-fw pi-angle-down ml-2"></span>
+            @if (item.items) {
+              <span class="pi pi-fw pi-angle-down ml-2"></span>
+            }
           </div>
-        </ng-template>
+        }
       </ng-template>
 
       <ng-template pTemplate="end">
-        <a routerLink="/login" class="text-menulink text-white">
-          Se connecter
-        </a>
+        @if (authService.getIsAuthenticated()) {
+          <button (click)="authService.setAuthenticated(false)" class="text-menulink text-white bg-transparent border-none cursor-pointer p-0">
+            Se déconnecter
+          </button>
+        } @else {
+          <button (click)="showLoginModal()" class="text-menulink text-white bg-transparent border-none cursor-pointer p-0">
+            Se connecter
+          </button>
+        }
       </ng-template>
     </p-menubar>
   `,
@@ -64,9 +72,24 @@ import { CommonModule } from '@angular/common';
   ]
 })
 export class MenubarComponent {
+  private dialogService = inject(DialogService);
+  private ref: DynamicDialogRef | undefined;
+  public authService = inject(AuthService);
+
+  showLoginModal() {
+      this.ref = this.dialogService.open(LoginModalComponent, {
+          width: '30rem',
+          showHeader: false,
+          contentStyle: {"max-height": "500px", "overflow": "auto"},
+          breakpoints: {
+              '960px': '75vw',
+              '640px': '90vw'
+          }
+      });
+  }
   items: MenuItem[] = [
     {
-      label: 'Á propos',
+      label: 'À propos',
       routerLink: '/about'
     },
     {

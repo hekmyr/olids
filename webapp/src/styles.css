@@ -52,6 +52,10 @@
   .bg-accent-1 {
     background-color: var(--accent-1-color);
   }
+  
+  .hover\:bg-accent-1:hover {
+    background-color: var(--accent-1-color);
+  }
 
   .bg-accent-2 {
     background-color: var(--accent-2-color);

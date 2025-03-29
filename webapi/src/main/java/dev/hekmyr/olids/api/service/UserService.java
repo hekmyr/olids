@@ -1,5 +1,7 @@
 package dev.hekmyr.olids.api.service;
 
+import dev.hekmyr.olids.api.auth.AuthenticationProviderImpl;
+import dev.hekmyr.olids.api.auth.UserDetailsManagerImpl;
 import dev.hekmyr.olids.api.dto.UserDTO;
 import dev.hekmyr.olids.api.dto.UserUpdateDTO;
 import dev.hekmyr.olids.api.entity.User;
@@ -14,38 +16,31 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
   private final UserRepository userRepository;
+  private final AuthenticationProviderImpl authenticationProviderImpl;
 
-  UserService(UserRepository userRepository) {
+  UserService(UserRepository userRepository, AuthenticationProviderImpl authenticationProviderImpl) {
     this.userRepository = userRepository;
+    this.authenticationProviderImpl = authenticationProviderImpl;
   }
-
-  public static User loadUserByUsername(String username) {
-    var sessionFactory = DbService.buildSessionFactory();
-    try (var session = sessionFactory.openSession()) {
-      var entity = session
-        .createSelectionQuery("from User where email = :email", User.class)
-        .setParameter("email", username)
-        .getSingleResultOrNull();
-      return entity;
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
+  
+  public User loadUserByUsername(String username) {
+    return this.userRepository.findByEmail(username);
   }
 
   public static Authentication getAuthentication() {
     return SecurityContextHolder.getContext().getAuthentication();
   }
 
-  public static String getAuthenticatedUsername() {
+  public String getAuthenticatedUsername() {
     return getAuthentication().getName();
   }
 
-  public static User getAuthenticatedUser() {
-    return UserService.loadUserByUsername(getAuthenticatedUsername());
+  public User getAuthenticatedUser() {
+    return loadUserByUsername(getAuthenticatedUsername());
   }
 
-  public static UserDTO getAuthenticatedUserDTO() {
-    var entity = UserService.loadUserByUsername(getAuthenticatedUsername());
+  public UserDTO getAuthenticatedUserDTO() {
+    var entity = loadUserByUsername(getAuthenticatedUsername());
     return UserDTO.fromUserDTO(entity);
   }
 

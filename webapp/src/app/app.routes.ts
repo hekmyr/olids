@@ -39,15 +39,5 @@ export const routes: Routes = [
   //   path: 'dashboard/reservations',
   //   component: ReservationsPage,
   //   title: 'Reservations'
-  // },
-  // {
-  //   path: 'sign-in',
-  //   component: SignInPage,
-  //   title: 'Sign in'
-  // },
-  // {
-  //   path: 'sign-up',
-  //   component: SignUpPage,
-  //   title: 'Sign up'
   // }
 ];

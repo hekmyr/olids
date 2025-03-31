@@ -25,12 +25,18 @@ export class AuthService {
     return isAuthenticated === 'true';
   }
 
+  private apiService = inject(ApiService);
+
   public setAuthenticated(isAuthenticated: boolean): void {
     localStorage.setItem(this.isAuthenticatedKey, isAuthenticated.toString());
-    this.authStateSubject.next(isAuthenticated);
+    if (isAuthenticated === false) {
+      firstValueFrom(this.apiService.logout()).then(
+        () => {
+          this.authStateSubject.next(isAuthenticated);
+        }
+      );
+    }
   }
-
-  apiService = inject(ApiService);
 
   public async signIn(dto: SignInDTO): Promise<void> {
     return firstValueFrom(this.apiService.signIn(dto))
@@ -39,8 +45,9 @@ export class AuthService {
         this.setAuthenticated(true);
       })
       .catch((err) => {
+        console.error('You are not authenticated');
         this.setAuthenticated(false);
-        console.error(err);
+        throw err;
       });
   }
 }

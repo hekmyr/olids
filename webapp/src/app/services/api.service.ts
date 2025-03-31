@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { SignInDTO } from '../dtos/sign-in.dto';
 import { SignUpDTO } from '../dtos/sign-up.dto';
 import { RentalPropertyInterface } from '../interfaces/rental-property.interface';
@@ -15,6 +15,7 @@ import { BillingInformationCreateDTO } from '../dtos/billing-information-create.
 import { BillingInformationUpdateDTO } from '../dtos/billing-information-update.dto';
 import { User } from '../interfaces/user.interface';
 import { BillingInformationSetDefaultDTO } from '../dtos/billing-information-set-default.dto';
+import { ResponseInterface } from '../interfaces/response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +37,7 @@ export class ApiService {
   }
 
   public signUp(body: SignUpDTO): Observable<Object> {
-    return this.http.post(`${this.apiUrl}/public/sign-up`, body);
+    return this.http.post(`${this.apiUrl}/user/sign-up`, body);
   }
 
   public rentalProperties(
@@ -55,7 +56,7 @@ export class ApiService {
   }
 
   public createReservation(
-    payload: Array<ReservationCreateDTO>
+    payload: ReservationCreateDTO
   ): Observable<ReservationInterface> {
     return this.http.post<ReservationInterface>(
       `${this.apiUrl}/reservation`,
@@ -134,5 +135,11 @@ export class ApiService {
       payload,
       { withCredentials: true }
     );
+  }
+
+  public logout(): Observable<ResponseInterface> {
+    return this.http.get<ResponseInterface>(`${this.apiUrl}/user/logout`, {
+      withCredentials: true
+    });
   }
 }

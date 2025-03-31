@@ -5,6 +5,8 @@ import dev.hekmyr.olids.api.dto.UserDTO;
 import dev.hekmyr.olids.api.dto.UserUpdateDTO;
 import dev.hekmyr.olids.api.model.MessageResponseModel;
 import dev.hekmyr.olids.api.service.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +27,15 @@ public class UserController {
       return ResponseEntity.ok(new MessageResponseModel("You are authenticated"));
     } 
     return ResponseEntity.status(401).body(new MessageResponseModel("Authentication required"));
+  }
+
+  @GetMapping("/logout")
+  public ResponseEntity<MessageResponseModel> logout(HttpServletRequest request) {
+    HttpSession session = request.getSession(false);
+    if (session != null) {
+      session.invalidate();
+    }
+    return ResponseEntity.ok(new MessageResponseModel("Logged out successfully"));
   }
 
   // @GetMapping

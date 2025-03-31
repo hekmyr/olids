@@ -15,51 +15,83 @@ import { CommonModule } from '@angular/common';
   providers: [DialogService],
   template: `
     <p-menubar [model]="items" styleClass="bg-accent-2">
-      <ng-template pTemplate="start">
-        <a routerLink="/" class="text-logo text-white font-heading"
-          >MONSÉJOUR</a
-        >
+      <ng-template #start>
+        <a routerLink="/" id="menu-logo" class="text-white text-lg font-bold font-averia">MONSÉJOUR</a>
       </ng-template>
 
       <ng-template #item let-item let-root="root">
-        @if (item.routerLink) {
           <a [routerLink]="item.routerLink" class="p-menubar-item-link">
-            <span class="text-menulink text-white">{{ item.label }}</span>
+            <span class="font-averia">{{ item.label }}</span>
           </a>
-        } @else if (item.url) {
-          <a [href]="item.url" class="p-menubar-item-link">
-            <span class="text-menulink text-white">{{ item.label }}</span>
-          </a>
-        } @else {
-          <div class="p-menubar-item-link">
-            <span class="text-menulink text-white">{{ item.label }}</span>
-            @if (item.items) {
-              <span class="pi pi-fw pi-angle-down ml-2"></span>
-            }
-          </div>
-        }
       </ng-template>
 
-      <ng-template pTemplate="end">
+      <ng-template #end>
         @if (authService.getIsAuthenticated()) {
-          <button (click)="authService.setAuthenticated(false)" class="text-menulink text-white bg-transparent border-none cursor-pointer p-0">
+          <button id="menu-logout" (click)="authService.setAuthenticated(false)" class="text-white text-lg font-averia cursor-pointer">
             Se déconnecter
           </button>
         } @else {
-          <button (click)="showLoginModal()" class="text-menulink text-white bg-transparent border-none cursor-pointer p-0">
+          <button id="menu-login" (click)="showLoginModal()" class="text-white text-lg font-averia cursor-pointer">
             Se connecter
           </button>
         }
       </ng-template>
-    </p-menubar>
   `,
-  styles: [
-    `
+  styles: `
       :host ::ng-deep .p-menubar {
         padding: 1.5rem var(--page-padding);
         background-color: var(--accent-1-color);
         border: none;
         border-radius: 0;
+      }
+
+      :host ::ng-deep .p-menubar-item-link {
+        color: white;
+        font-size: 1.125rem;
+      }
+
+      @media (max-width: 960px) {
+        :host ::ng-deep .p-menubar-item-link {
+          color: black;
+        }
+      }
+
+      @media (min-width: 961px) {
+        :host ::ng-deep .p-menubar-item-link, #menu-logo, #menu-logout, #menu-login {
+          font-size: 1.5rem;
+        }
+
+        :host ::ng-deep #menu-logo {
+          margin-right: 48px;
+        }
+      }
+
+      @media (min-width: 640px) {
+      :host ::ng-deep .p-menubar {
+        padding: 1.5rem var(--sm-page-padding);
+        }
+      }
+
+      @media (min-width: 768px) {
+        :host ::ng-deep .p-menubar {
+          padding: 1.5rem var(--md-page-padding);
+        }
+      }
+
+      @media (min-width: 1024px) {
+        :host ::ng-deep .p-menubar {
+          padding: 1.5rem var(--lg-page-padding);
+        }
+      }
+
+      @media (min-width: 1280px) {
+        :host ::ng-deep .p-menubar {
+          padding: 1.5rem var(--xl-page-padding);
+        }
+
+        :host ::ng-deep .p-menubar-item-link, #menu-logo, #menu-logout, #menu-login {
+          font-size: 32px;
+        }
       }
 
       :host
@@ -68,8 +100,7 @@ import { CommonModule } from '@angular/common';
         > .p-menubar-item-content:hover {
         background: none;
       }
-    `
-  ]
+  `
 })
 export class MenubarComponent {
   private dialogService = inject(DialogService);
@@ -77,15 +108,15 @@ export class MenubarComponent {
   public authService = inject(AuthService);
 
   showLoginModal() {
-      this.ref = this.dialogService.open(LoginModalComponent, {
-          width: '30rem',
-          showHeader: false,
-          contentStyle: {"max-height": "500px", "overflow": "auto"},
-          breakpoints: {
-              '960px': '75vw',
-              '640px': '90vw'
-          }
-      });
+    this.ref = this.dialogService.open(LoginModalComponent, {
+      width: '30rem',
+      showHeader: false,
+      contentStyle: {"max-height": "500px", "overflow": "auto"},
+      breakpoints: {
+        '960px': '75vw',
+        '640px': '90vw'
+      }
+    });
   }
   items: MenuItem[] = [
     {

@@ -17,7 +17,9 @@ import { CustomGuestCounterComponent } from '../../components/custom-guest-count
 import { TotalPriceComponent } from '../../components/total-price/total-price.component';
 import { ThreeDButtonComponent } from '../../components/three-d-button/three-d-button.component';
 import { AmenityGridComponent } from '../../components/amenity-grid/amenity-grid.component';
+import { Router } from '@angular/router';
 import { AccessibilityGridComponent } from '../../components/accessibility-grid/accessibility-grid.component';
+import { ReservationCreateDTO } from '../../dtos/reservation-create.dto';
 
 @Component({
   selector: 'app-property',
@@ -50,7 +52,7 @@ import { AccessibilityGridComponent } from '../../components/accessibility-grid/
               <app-h3>{{ property.name }}</app-h3>
               <app-bed-guest-room-large
                 [beds]="property.beds"
-                [guests]="stayForm.value.guests ?? 1"
+                [guests]="property.maxGuests"
                 [rooms]="property.bedrooms" />
               <div class="inline-block">
                 <app-price-large [price]="property.pricePerNight" />
@@ -72,7 +74,7 @@ import { AccessibilityGridComponent } from '../../components/accessibility-grid/
               <app-total-price
                 [days]="calculateDays()"
                 [price]="property.pricePerNight"></app-total-price>
-              <app-three-d-button>Réserver</app-three-d-button>
+              <app-three-d-button (click)="createReservation()">Réserver</app-three-d-button>
             </div>
             <div class="flex flex-col gap-6">
               <div class="flex flex-col gap-4">
@@ -106,7 +108,7 @@ export class PropertyPage implements OnInit {
     guests: [1, [Validators.required, Validators.min(1)]]
   });
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
       console.error('Property ID not found in route');
@@ -123,7 +125,7 @@ export class PropertyPage implements OnInit {
       .catch((error) => console.error('Error fetching property:', error));
   }
 
-  calculateDays(): number {
+  public calculateDays(): number {
     const start = this.stayForm.value.stayStart;
     const end = this.stayForm.value.stayEnd;
     if (start && end && end > start) {
@@ -133,21 +135,42 @@ export class PropertyPage implements OnInit {
     }
     return 0;
   }
-  onStartDateChange(date: Date) {
+  public onStartDateChange(date: Date) {
     console.log('Start date changed:', date);
-    this.stayForm.patchValue({ stayStart: date });
+    this.stayForm.controls.stayStart.setValue(date);
     console.log('Form values:', this.stayForm.value);
   }
 
-  onEndDateChange(date: Date) {
+  public onEndDateChange(date: Date) {
     console.log('End date changed:', date);
-    this.stayForm.patchValue({ stayEnd: date });
+    this.stayForm.controls.stayEnd.setValue(date);
     console.log('Form values:', this.stayForm.value);
   }
 
-  onGuestCountChange(count: number) {
+  public onGuestCountChange(count: number) {
     console.log('Guest count changed:', count);
-    this.stayForm.patchValue({ guests: count });
+    this.stayForm.controls.guests.setValue(count);
     console.log('Form values:', this.stayForm.value);
+  }
+  
+  public createReservation() {
+    if (this.stayForm.invalid || !this.property) {
+      return;
+    }
+    
+    const values = this.stayForm.getRawValue();  
+    
+    if (!values.stayStart || !values.stayEnd || !values.guests) {
+      return;
+    }
+
+    const payload = new ReservationCreateDTO(      
+      this.property.id,
+      values.stayStart,
+      values.stayEnd,
+      values.guests
+    )
+
+    firstValueFrom(this.apiService.createReservation(payload));
   }
 }

@@ -7,6 +7,7 @@ export interface ReservationInterface {
   dateStayStart: Date;
   dateStayEnd: Date;
   isCancelled: boolean;
+  isPayed: boolean;
   guest: number;
   property: RentalPropertyInterface;
   billingInformation: BillingInformationInterface;

@@ -12,30 +12,10 @@
     padding-right: var(--page-padding);
   }
 
-  .sm\:px-page {
-    padding-left: var(--sm-page-padding);
-    padding-right: var(--sm-page-padding);
-  }
-
-  .md\:px-page {
-    padding-left: var(--md-page-padding);
-    padding-right: var(--md-page-padding);
-  }
-
-  .lg\:px-page {
-    padding-left: var(--lg-page-padding);
-    padding-right: var(--lg-page-padding);
-  }
-
-  .xl\:px-page {
-    padding-left: var(--xl-page-padding);
-    padding-right: var(--xl-page-padding);
-  }
-
   .text-h2 {
-    font-size: 64px;
-    font-family: 'Averia Serif Libre', serif;
+    font-size: var(--text-h2);
   }
+
 
   .text-h3 {
     font-size: 32px;
@@ -48,11 +28,6 @@
   }
 
   .font-heading {
-    font-family: 'Averia Serif Libre', serif;
-  }
-
-  .text-logo {
-    font-size: 32px;
     font-family: 'Averia Serif Libre', serif;
   }
 
@@ -137,6 +112,55 @@
   --md-page-padding: 16px;
   --lg-page-padding: 32px;
   --xl-page-padding: 64px;
+  --text-h2: 24px;
+  --sm-text-h2: 48px;
+  --md-text-h2: 48px;
+  --lg-text-h2: 48px;
+  --xl-text-h2: 64px;
   --accent-1-color: #455499;
   --accent-2-color: #5b71cc;
+}
+
+@media (min-width: 640px) {
+  .sm\:px-page {
+    padding-left: var(--sm-page-padding);
+    padding-right: var(--sm-page-padding);
+  }
+
+  .sm\:text-h2 {
+    font-size: var(--sm-text-h2);
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:px-page {
+    padding-left: var(--md-page-padding);
+    padding-right: var(--md-page-padding);
+  }
+
+  .md\:text-h2 {
+    font-size: var(--md-text-h2);
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:px-page {
+    padding-left: var(--lg-page-padding);
+    padding-right: var(--lg-page-padding);
+  }
+
+  .lg\:text-h2 {
+    font-size: var(--lg-text-h2);
+  }
+}
+
+@media (min-width: 1280px) {
+  .xl\:px-page {
+    padding-left: var(--xl-page-padding);
+    padding-right: var(--xl-page-padding);
+  }
+
+  .xl\:text-h2 {
+    font-size: var(--xl-text-h2);
+  }
 }

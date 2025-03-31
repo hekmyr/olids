@@ -1,4 +1,4 @@
-import { Component, inject, Output, EventEmitter } from '@angular/core';
+import { Component, inject, Output, EventEmitter, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -17,6 +17,7 @@ import { firstValueFrom } from 'rxjs';
 import { PrimaryButtonComponent } from '../primary-button/primary-button.component';
 import { LucideAngularModule } from 'lucide-angular';
 import { SecondaryButtonComponent } from '../secondary-button/secondary-button.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-modal',
@@ -27,14 +28,11 @@ import { SecondaryButtonComponent } from '../secondary-button/secondary-button.c
     InputTextModule,
     FormsModule,
     ReactiveFormsModule,
-    ToastComponent,
-    ToastModule,
     TabViewModule,
     PrimaryButtonComponent,
     SecondaryButtonComponent
   ],
   template: `
-    <p-toast></p-toast>
       <p-tabView>
         <p-tabPanel header="Se connecter">
           <form [formGroup]="loginForm" (ngSubmit)="onSignInSubmit()" class="flex flex-col gap-8 mt-4">
@@ -42,7 +40,7 @@ import { SecondaryButtonComponent } from '../secondary-button/secondary-button.c
             <div class="flex flex-col gap-2">
               <label for="email">Email</label>
               <input pInputText id="email" type="email" formControlName="email" />
-              @if (loginForm.controls.email.invalid && (loginForm.controls.email.dirty || loginForm.controls.email.touched)) {
+              @if (loginForm.controls.email.invalid && loginForm.controls.email.touched) {
                 @if (loginForm.controls.email.errors?.['required']) {
                   <span class="text-sm text-red-500">Email is required.</span>
                 }
@@ -54,13 +52,16 @@ import { SecondaryButtonComponent } from '../secondary-button/secondary-button.c
             <div class="flex flex-col gap-2">
               <label for="password">Password</label>
               <input pInputText id="password" type="password" formControlName="password" />
-              @if (loginForm.controls.password.invalid && (loginForm.controls.password.dirty || loginForm.controls.password.touched)) {
+              @if (loginForm.controls.password.invalid && loginForm.controls.password.touched) {
                 @if (loginForm.controls.password.errors?.['required']) {
                   <span class="text-sm text-red-500">Password is required.</span>
                 }
               }
             </div>
           </div>
+          @if (signInError()) {
+            <span class="text-sm text-red-500">Adresse e-mail ou mot de passe incorrect.</span>
+          }
             <div class="flex gap-4">
               <app-primary-button type="submit">Se connecter</app-primary-button>
               <app-secondary-button (click)="onClose()">Fermer</app-secondary-button>
@@ -73,7 +74,7 @@ import { SecondaryButtonComponent } from '../secondary-button/secondary-button.c
               <div class="flex flex-col gap-2">
               <label for="signUpEmail">Email</label>
               <input pInputText id="signUpEmail" type="email" formControlName="email" />
-              @if (signUpForm.controls.email.invalid && (signUpForm.controls.email.dirty || signUpForm.controls.email.touched)) {
+              @if (signUpForm.controls.email.invalid && signUpForm.controls.email.touched) {
                 @if (signUpForm.controls.email.errors?.['required']) {
                   <span class="text-sm text-red-500">Email is required.</span>
                 }
@@ -85,13 +86,16 @@ import { SecondaryButtonComponent } from '../secondary-button/secondary-button.c
               <div class="flex flex-col gap-2">
               <label for="signUpPassword">Password</label>
               <input pInputText id="signUpPassword" type="password" formControlName="password" />
-              @if (signUpForm.controls.password.invalid && (signUpForm.controls.password.dirty || signUpForm.controls.password.touched)) {
+              @if (signUpForm.controls.password.invalid &&  signUpForm.controls.password.touched) {
                 @if (signUpForm.controls.password.errors?.['required']) {
                   <span class="text-sm text-red-500">Password is required.</span>
                 }
               }
               </div>
             </div>
+            @if (signUpError()) {
+              <span class="text-sm text-red-500">L'inscription a échoué. Veuillez réessayer.</span>
+            }
               <div class="flex gap-4">
               <app-primary-button type="submit">S'inscrire</app-primary-button>
               <app-secondary-button (click)="onClose()">Fermer</app-secondary-button>
@@ -124,6 +128,7 @@ export class LoginModalComponent {
   private ref = inject(DynamicDialogRef);
   private authService = inject(AuthService);
   private apiService = inject(ApiService);
+  private router = inject(Router);
   
   public signUpClicked = output<void>();
 
@@ -137,6 +142,9 @@ export class LoginModalComponent {
     password: ['', Validators.required]
   });
   
+  signInError = signal<boolean>(false);
+  signUpError = signal<boolean>(false);
+
   public onSignInSubmit() {
     if (!this.loginForm.valid) {
       this.loginForm.markAllAsTouched();
@@ -146,7 +154,13 @@ export class LoginModalComponent {
       this.loginForm.value.email ?? '',
       this.loginForm.value.password ?? ''
     );
-    this.authService.signIn(signInDto).then(() => { this.ref.close(true) });
+    this.authService.signIn(signInDto)
+      .then(() => {
+        this.ref.close(true);
+      })
+      .catch(() => {
+        this.signInError.set(true);
+      });
   }
   
   public onSignUpSubmit() {
@@ -161,6 +175,14 @@ export class LoginModalComponent {
     );
     
     firstValueFrom(this.apiService.signUp(signUpDto))
+      .then(() => {
+        this.router.navigate(['/signup-success']);
+        this.ref.close();
+      })
+      .catch((error) => {
+        console.error('Signup failed', error);
+        this.signUpError.set(true);
+      });
   }
 
   public onClose(): void {

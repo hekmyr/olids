@@ -8,7 +8,7 @@ import dev.hekmyr.olids.api.dto.RentalPropertyRequestDTO;
 import dev.hekmyr.olids.api.dto.UserCreateDTO;
 import dev.hekmyr.olids.api.intf.repository.RentalPropertyRepository;
 import dev.hekmyr.olids.api.model.ErrorCodes;
-import dev.hekmyr.olids.api.model.ErrorResponseDTO;
+import dev.hekmyr.olids.api.dto.ErrorResponseDTO;
 import dev.hekmyr.olids.api.model.MessageResponseModel;
 import dev.hekmyr.olids.api.service.RentalPropertyService;
 import java.util.List;

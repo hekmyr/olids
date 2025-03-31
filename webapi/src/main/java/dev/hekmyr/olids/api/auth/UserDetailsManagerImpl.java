@@ -50,15 +50,11 @@ public class UserDetailsManagerImpl implements UserDetailsManager {
 
   public UserDTO createUser(UserCreateDTO dto) {
     if (userRepository.findByEmail(dto.getEmail()) != null) {
-      throw new IllegalArgumentException(ErrorCodes.EMAIL_ALREADY_EXISTS.getMessage());
+      throw new IllegalArgumentException(ErrorCodes.EMAIL_ALREADY_EXISTS.getCode());
     }
 
     if (!isValidPassword(dto.getPassword())) {
-        throw new IllegalArgumentException(ErrorCodes.WEAK_PASSWORD.getMessage());
-    }
-
-    if (!dto.getPassword().equals(dto.getPasswordConfirmation())) {
-        throw new IllegalArgumentException(ErrorCodes.PASSWORD_MISMATCH.getMessage());
+        throw new IllegalArgumentException(ErrorCodes.WEAK_PASSWORD.getCode());
     }
 
     var entity = new User(dto);

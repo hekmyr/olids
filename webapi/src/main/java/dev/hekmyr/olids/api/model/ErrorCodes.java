@@ -5,13 +5,13 @@ public enum ErrorCodes {
   WEAK_PASSWORD("weak_password"),
   PASSWORD_MISMATCH("password_mismatch");
 
-  private final String message;
+  private final String code;
 
-  ErrorCodes(String message) {
-    this.message = message;
+  ErrorCodes(String code) {
+    this.code = code;
   }
 
-  public String getMessage() {
-    return message;
+  public String getCode() {
+    return code;
   }
 } 

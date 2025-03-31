@@ -1,7 +1,6 @@
 package dev.hekmyr.olids.api.service;
 
 import dev.hekmyr.olids.api.auth.AuthenticationProviderImpl;
-import dev.hekmyr.olids.api.auth.UserDetailsManagerImpl;
 import dev.hekmyr.olids.api.dto.UserDTO;
 import dev.hekmyr.olids.api.dto.UserUpdateDTO;
 import dev.hekmyr.olids.api.entity.User;
@@ -16,11 +15,9 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
   private final UserRepository userRepository;
-  private final AuthenticationProviderImpl authenticationProviderImpl;
 
   UserService(UserRepository userRepository, AuthenticationProviderImpl authenticationProviderImpl) {
     this.userRepository = userRepository;
-    this.authenticationProviderImpl = authenticationProviderImpl;
   }
   
   public User loadUserByUsername(String username) {

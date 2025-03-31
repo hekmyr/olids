@@ -7,7 +7,6 @@ import dev.hekmyr.olids.api.entity.User;
 import dev.hekmyr.olids.api.intf.repository.RentalPropertyRepository;
 import dev.hekmyr.olids.api.intf.repository.ReservationRepository;
 import dev.hekmyr.olids.api.intf.repository.UserRepository;
-import dev.hekmyr.olids.api.intf.repository.BillingInformationRepository;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,18 +21,15 @@ public class ReservationService {
   private final ReservationRepository reservationRepository;
   private final UserRepository userRepository;
   private final RentalPropertyRepository rentalPropertyRepository;
-  private final BillingInformationRepository billingInformationRepository;
 
   public ReservationService(
     ReservationRepository reservationRepository,
     UserRepository userRepository,
-    RentalPropertyRepository rentalPropertyRepository,
-    BillingInformationRepository billingInformationRepository
+    RentalPropertyRepository rentalPropertyRepository
   ) {
     this.reservationRepository = reservationRepository;
     this.userRepository = userRepository;
     this.rentalPropertyRepository = rentalPropertyRepository;
-    this.billingInformationRepository = billingInformationRepository;
   }
 
   @Transactional

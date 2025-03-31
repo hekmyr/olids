@@ -1,8 +1,6 @@
 package dev.hekmyr.olids.api.controller;
 
 import dev.hekmyr.olids.api.Constant;
-import dev.hekmyr.olids.api.dto.UserDTO;
-import dev.hekmyr.olids.api.dto.UserUpdateDTO;
 import dev.hekmyr.olids.api.model.MessageResponseModel;
 import dev.hekmyr.olids.api.service.*;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package dev.hekmyr.olids.api.model;
+package dev.hekmyr.olids.api.dto;
 
 public class ErrorResponseDTO {
   private String errorCode;

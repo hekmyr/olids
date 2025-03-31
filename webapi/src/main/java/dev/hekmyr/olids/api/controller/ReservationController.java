@@ -1,10 +1,8 @@
 package dev.hekmyr.olids.api.controller;
 
 import dev.hekmyr.olids.api.Constant;
-import dev.hekmyr.olids.api.auth.UserDetailsManagerImpl;
 import dev.hekmyr.olids.api.dto.ReservationCreateDTO;
 import dev.hekmyr.olids.api.dto.ReservationDTO;
-import dev.hekmyr.olids.api.intf.repository.RentalPropertyRepository;
 import dev.hekmyr.olids.api.service.ReservationService;
 import dev.hekmyr.olids.api.service.UserService;
 import java.util.List;

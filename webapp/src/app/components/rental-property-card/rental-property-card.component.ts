@@ -11,13 +11,14 @@ import { PriceComponent } from '../price/price.component';
   imports: [CommonModule, H4Component, BedGuestRoomComponent, PriceComponent],
   template: `
     <div
-      class="flex flex-col gap-2 p-3 bg-white rounded-md inline-flex shadow-md shadow-black/25">
-      <img
+      class="flex flex-col gap-2 p-3 bg-white rounded-md inline-flex shadow-md shadow-black/25 w-full max-w-[700px] {{ class() }}">
+      <a href="/property/{{ property().id }}"><img
         src="images/rental_property.jpg"
         alt="Rental Property Image"
-        class="w-[276px] h-[276px] rounded-md object-cover" />
+        class="w-full aspect-square rounded-md object-cover" />
+      </a>
       <div class="flex flex-col gap-1">
-        <app-h4>{{ property().name }}</app-h4>
+        <a href="/property/{{property().id}}"><app-h4>{{ property().name }}</app-h4></a>
         <app-bed-guest-room
           [beds]="property().beds"
           [guests]="3"
@@ -37,4 +38,5 @@ import { PriceComponent } from '../price/price.component';
 })
 export class RentalPropertyCardComponent {
   public property = input.required<RentalPropertyInterface>();
+  public class = input<string>('');
 }

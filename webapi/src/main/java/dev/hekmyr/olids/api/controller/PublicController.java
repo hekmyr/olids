@@ -7,6 +7,8 @@ import dev.hekmyr.olids.api.dto.RentalPropertyDTO;
 import dev.hekmyr.olids.api.dto.RentalPropertyRequestDTO;
 import dev.hekmyr.olids.api.dto.UserCreateDTO;
 import dev.hekmyr.olids.api.intf.repository.RentalPropertyRepository;
+import dev.hekmyr.olids.api.model.ErrorCodes;
+import dev.hekmyr.olids.api.model.ErrorResponseDTO;
 import dev.hekmyr.olids.api.model.MessageResponseModel;
 import dev.hekmyr.olids.api.service.RentalPropertyService;
 import java.util.List;
@@ -42,6 +44,8 @@ public class PublicController {
         try {
             var responseDTO = userDetailsManagerImpl.createUser(dto);
             return ResponseEntity.ok(responseDTO);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ErrorResponseDTO(ErrorCodes.EMAIL_ALREADY_EXISTS.getCode()));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();

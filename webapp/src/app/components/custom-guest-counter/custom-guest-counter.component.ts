@@ -8,7 +8,7 @@ import { input, output } from '@angular/core';
   imports: [LucideAngularModule],
   template: `
     <div
-      class="flex items-center w-full input-min-width input-max-width gap-5 p-3 border border-disabled-color rounded-lg">
+      class="flex items-center w-full input-min-width gap-5 p-3 border border-disabled-color rounded-lg">
       <div class="flex items-center gap-4">
         <i-lucide
           [img]="Minus"

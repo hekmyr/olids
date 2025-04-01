@@ -17,7 +17,6 @@ import { CustomGuestCounterComponent } from '../../components/custom-guest-count
 import { TotalPriceComponent } from '../../components/total-price/total-price.component';
 import { ThreeDButtonComponent } from '../../components/three-d-button/three-d-button.component';
 import { AmenityGridComponent } from '../../components/amenity-grid/amenity-grid.component';
-import { Router } from '@angular/router';
 import { AccessibilityGridComponent } from '../../components/accessibility-grid/accessibility-grid.component';
 import { ReservationCreateDTO } from '../../dtos/reservation-create.dto';
 
@@ -39,61 +38,59 @@ import { ReservationCreateDTO } from '../../dtos/reservation-create.dto';
     AccessibilityGridComponent
   ],
   template: `
-    <div class="h-screen flex flex-col">
-      <app-menubar></app-menubar>
-      @if (property) {
-        <div class="px-page pt-page flex gap-16">
-          <img
-            src="images/rental_property.jpg"
-            alt="Property Image"
-            class="flex h-[calc(100vh-160px)] w-full object-cover pb-page" />
-          <div class="min-w-[384px] max-w-[500px] flex flex-col gap-8">
-            <div class="flex flex-col gap-3">
-              <app-h3>{{ property.name }}</app-h3>
-              <app-bed-guest-room-large
-                [beds]="property.beds"
-                [guests]="property.maxGuests"
-                [rooms]="property.bedrooms" />
-              <div class="inline-block">
-                <app-price-large [price]="property.pricePerNight" />
-              </div>
-            </div>
-            <div class="flex flex-col gap-6">
-              <div class="flex flex-col gap-3">
-                <app-custom-date-picker
-                  (startDateChange)="onStartDateChange($event)"
-                  (endDateChange)="
-                    onEndDateChange($event)
-                  "></app-custom-date-picker>
-                <app-custom-guest-counter
-                  [maxGuests]="property.maxGuests"
-                  (valueChange)="
-                    onGuestCountChange($event)
-                  "></app-custom-guest-counter>
-              </div>
-              <app-total-price
-                [days]="calculateDays()"
-                [price]="property.pricePerNight"></app-total-price>
-              <app-three-d-button (click)="createReservation()">Réserver</app-three-d-button>
-            </div>
-            <div class="flex flex-col gap-6">
-              <div class="flex flex-col gap-4">
-                <app-h4>Commodités</app-h4>
-                <app-amenity-grid
-                  [amenity]="property.amenity"></app-amenity-grid>
-              </div>
-              <div class="flex flex-col gap-4">
-                <app-h4>Accessibilités</app-h4>
-                <app-accessibility-grid
-                  [accessibility]="
-                    property.accessibility
-                  "></app-accessibility-grid>
-              </div>
-            </div>
-          </div>
-        </div>
-      }
+  <div class="xl:h-screen pb-8 xl:pb-0">
+    <app-menubar></app-menubar>
+    <div>
+    <div class="h-screen flex xl:absolute xl:w-[calc(100vw-384px-128px-64px)] xl:left-[64px] xl:top-[calc(112px+64px)] xl:h-[calc(100vh-112px-64px-64px)]">
+      <img
+        src="images/rental_property.jpg"
+        alt="Property Image"
+        class="h-full flex-1 object-cover xl:rounded-[8px]" />
     </div>
+    <div class="px-page xl:w-[384px] xl:ml-[calc(100vw-384px-64px)]">
+    @if (property) {
+      <div class="flex flex-col gap-8 pt-6 xl:mt-16 xl:h-[calc(100vh-112px-64px)] xl:overflow-y-auto xl:hide-scrollbar">
+        <div class="flex flex-col gap-3">
+          <app-h3>{{ property.name }}</app-h3>
+          <app-bed-guest-room-large
+            [beds]="property.beds"
+            [guests]="property.maxGuests"
+            [rooms]="property.bedrooms" />
+            <app-price-large [price]="property.pricePerNight" />
+        </div> 
+        <div class="flex flex-col gap-6">
+          <div class="flex flex-col gap-3">
+            <app-custom-date-picker
+              (startDateChange)="onStartDateChange($event)"
+              (endDateChange)="onEndDateChange($event)"></app-custom-date-picker>
+            <app-custom-guest-counter
+              [maxGuests]="property.maxGuests"
+              (valueChange)="onGuestCountChange($event)"></app-custom-guest-counter>
+          </div>          
+          <app-total-price
+            [days]="calculateDays()"
+            [price]="property.pricePerNight"></app-total-price>
+          <app-three-d-button (click)="createReservation()">Réserver</app-three-d-button>
+        </div>
+        <div class="flex flex-col gap-4">
+            <app-h4>Commodités</app-h4>
+            <app-amenity-grid
+              [amenity]="property.amenity"></app-amenity-grid>
+        </div>
+        <div class="flex flex-col gap-4">
+            <app-h4>Accessibilités</app-h4>
+            <app-accessibility-grid
+              [accessibility]="
+                property.accessibility
+              "></app-accessibility-grid>
+        </div>
+      </div>
+    }
+    </div>
+    </div>
+    </div>
+   `,
+  styles: `
   `
 })
 export class PropertyPage implements OnInit {

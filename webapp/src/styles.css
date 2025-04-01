@@ -89,7 +89,7 @@
   }
 
   .input-max-width {
-    max-width: 500px;
+    max-width: 580px;
   }
 
   .input-min-width {
@@ -151,6 +151,31 @@
 
   .lg\:text-h2 {
     font-size: var(--lg-text-h2);
+  }
+  
+  .lg\:px-page {
+    padding-left: var(--lg-page-padding);
+    padding-right: var(--lg-page-padding);
+  }
+
+  .lg\:text-h2 {
+    font-size: var(--lg-text-h2);
+  }
+
+  .lg\:hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .lg\:hide-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .lg\:hide-scrollbar {
+    -ms-overflow-style: none;
+  }
+
+  .lg\:hide-scrollbar {
+    overflow-y: auto;
   }
 }
 

@@ -32,7 +32,8 @@ import { RentalPropertyRequestDTO } from '../../dtos/rental-property-request.dto
         </div>
       </div>
 
-      <div class="px-page sm:px-page md:px-page lg:px-page xl:px-page flex flex-col gap-8">
+      <div
+        class="px-page sm:px-page md:px-page lg:px-page xl:px-page flex flex-col gap-8">
         <app-h2>Découvrez nos propriétés</app-h2>
         <app-rental-property-grid [properties]="properties" />
       </div>

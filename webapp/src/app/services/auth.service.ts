@@ -30,11 +30,9 @@ export class AuthService {
   public setAuthenticated(isAuthenticated: boolean): void {
     localStorage.setItem(this.isAuthenticatedKey, isAuthenticated.toString());
     if (isAuthenticated === false) {
-      firstValueFrom(this.apiService.logout()).then(
-        () => {
-          this.authStateSubject.next(isAuthenticated);
-        }
-      );
+      firstValueFrom(this.apiService.logout()).then(() => {
+        this.authStateSubject.next(isAuthenticated);
+      });
     }
   }
 

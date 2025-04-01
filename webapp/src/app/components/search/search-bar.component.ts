@@ -7,7 +7,8 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <div class="px-page sm:px-page md:px-page lg:px-page xl:px-page py-4 bg-white">
+    <div
+      class="px-page sm:px-page md:px-page lg:px-page xl:px-page py-4 bg-white">
       <div class="flex items-center">
         <input
           type="text"

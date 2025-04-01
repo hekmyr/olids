@@ -38,60 +38,67 @@ import { ReservationCreateDTO } from '../../dtos/reservation-create.dto';
     AccessibilityGridComponent
   ],
   template: `
-  <div class="xl:h-screen pb-8 xl:pb-0">
-    <app-menubar></app-menubar>
-    <div>
-    <div class="h-screen flex xl:absolute xl:w-[calc(100vw-384px-128px-64px)] xl:left-[64px] xl:top-[calc(112px+64px)] xl:h-[calc(100vh-112px-64px-64px)]">
-      <img
-        src="images/rental_property.jpg"
-        alt="Property Image"
-        class="h-full flex-1 object-cover xl:rounded-[8px]" />
-    </div>
-    <div class="px-page xl:w-[384px] xl:ml-[calc(100vw-384px-64px)]">
-    @if (property) {
-      <div class="flex flex-col gap-8 pt-6 xl:mt-16 xl:h-[calc(100vh-112px-64px)] xl:overflow-y-auto xl:hide-scrollbar">
-        <div class="flex flex-col gap-3">
-          <app-h3>{{ property.name }}</app-h3>
-          <app-bed-guest-room-large
-            [beds]="property.beds"
-            [guests]="property.maxGuests"
-            [rooms]="property.bedrooms" />
-            <app-price-large [price]="property.pricePerNight" />
-        </div> 
-        <div class="flex flex-col gap-6">
-          <div class="flex flex-col gap-3">
-            <app-custom-date-picker
-              (startDateChange)="onStartDateChange($event)"
-              (endDateChange)="onEndDateChange($event)"></app-custom-date-picker>
-            <app-custom-guest-counter
-              [maxGuests]="property.maxGuests"
-              (valueChange)="onGuestCountChange($event)"></app-custom-guest-counter>
-          </div>          
-          <app-total-price
-            [days]="calculateDays()"
-            [price]="property.pricePerNight"></app-total-price>
-          <app-three-d-button (click)="createReservation()">Réserver</app-three-d-button>
+    <div class="xl:h-screen pb-8 xl:pb-0">
+      <app-menubar></app-menubar>
+      <div>
+        <div
+          class="h-screen flex xl:absolute xl:w-[calc(100vw-384px-128px-64px)] xl:left-[64px] xl:top-[calc(112px+64px)] xl:h-[calc(100vh-112px-64px-64px)]">
+          <img
+            src="images/rental_property.jpg"
+            alt="Property Image"
+            class="h-full flex-1 object-cover xl:rounded-[8px]" />
         </div>
-        <div class="flex flex-col gap-4">
-            <app-h4>Commodités</app-h4>
-            <app-amenity-grid
-              [amenity]="property.amenity"></app-amenity-grid>
-        </div>
-        <div class="flex flex-col gap-4">
-            <app-h4>Accessibilités</app-h4>
-            <app-accessibility-grid
-              [accessibility]="
-                property.accessibility
-              "></app-accessibility-grid>
+        <div class="px-page xl:w-[384px] xl:ml-[calc(100vw-384px-64px)]">
+          @if (property) {
+            <div
+              class="flex flex-col gap-8 pt-6 xl:mt-16 xl:h-[calc(100vh-112px-64px)] xl:overflow-y-auto xl:hide-scrollbar">
+              <div class="flex flex-col gap-3">
+                <app-h3>{{ property.name }}</app-h3>
+                <app-bed-guest-room-large
+                  [beds]="property.beds"
+                  [guests]="property.maxGuests"
+                  [rooms]="property.bedrooms" />
+                <app-price-large [price]="property.pricePerNight" />
+              </div>
+              <div class="flex flex-col gap-6">
+                <div class="flex flex-col gap-3">
+                  <app-custom-date-picker
+                    (startDateChange)="onStartDateChange($event)"
+                    (endDateChange)="
+                      onEndDateChange($event)
+                    "></app-custom-date-picker>
+                  <app-custom-guest-counter
+                    [maxGuests]="property.maxGuests"
+                    (valueChange)="
+                      onGuestCountChange($event)
+                    "></app-custom-guest-counter>
+                </div>
+                <app-total-price
+                  [days]="calculateDays()"
+                  [price]="property.pricePerNight"></app-total-price>
+                <app-three-d-button (click)="createReservation()"
+                  >Réserver</app-three-d-button
+                >
+              </div>
+              <div class="flex flex-col gap-4">
+                <app-h4>Commodités</app-h4>
+                <app-amenity-grid
+                  [amenity]="property.amenity"></app-amenity-grid>
+              </div>
+              <div class="flex flex-col gap-4">
+                <app-h4>Accessibilités</app-h4>
+                <app-accessibility-grid
+                  [accessibility]="
+                    property.accessibility
+                  "></app-accessibility-grid>
+              </div>
+            </div>
+          }
         </div>
       </div>
-    }
     </div>
-    </div>
-    </div>
-   `,
-  styles: `
-  `
+  `,
+  styles: ``
 })
 export class PropertyPage implements OnInit {
   private fb = inject(FormBuilder);
@@ -149,24 +156,24 @@ export class PropertyPage implements OnInit {
     this.stayForm.controls.guests.setValue(count);
     console.log('Form values:', this.stayForm.value);
   }
-  
+
   public createReservation() {
     if (this.stayForm.invalid || !this.property) {
       return;
     }
-    
-    const values = this.stayForm.getRawValue();  
-    
+
+    const values = this.stayForm.getRawValue();
+
     if (!values.stayStart || !values.stayEnd || !values.guests) {
       return;
     }
 
-    const payload = new ReservationCreateDTO(      
+    const payload = new ReservationCreateDTO(
       this.property.id,
       values.stayStart,
       values.stayEnd,
       values.guests
-    )
+    );
 
     firstValueFrom(this.apiService.createReservation(payload));
   }

@@ -12,11 +12,6 @@ export const routes: Routes = [
     title: 'Home page'
   },
   // {
-  //   path: 'about',
-  //   component: AboutPage,
-  //   title: 'Sign in'
-  // },
-  // {
   //   path: 'dashboard/profile',
   //   component: AccountPage,
   //   title: 'Mon profile'

@@ -107,9 +107,9 @@
 
 :root {
   --disabled: #737373;
-  --page-padding: 4px;
-  --sm-page-padding: 8px;
-  --md-page-padding: 16px;
+  --page-padding: 12px;
+  --sm-page-padding: 16px;
+  --md-page-padding: 24px;
   --lg-page-padding: 32px;
   --xl-page-padding: 64px;
   --text-h2: 24px;
@@ -162,5 +162,21 @@
 
   .xl\:text-h2 {
     font-size: var(--xl-text-h2);
+  }
+
+  .xl\:hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .xl\:hide-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .xl\:hide-scrollbar {
+    -ms-overflow-style: none;
+  }
+
+  .xl\:hide-scrollbar {
+    overflow-y: auto;
   }
 }

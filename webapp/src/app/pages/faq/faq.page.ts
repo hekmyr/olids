@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AccordionComponent } from '../../components/accordion/accordion.component';
 import { MenubarComponent } from '../../components/navigation/menubar.component';
 import { RouterLink } from '@angular/router';
+import { H2Component } from '../../components/typography/h2.component';
 
 interface FaqItem {
   question: string;
@@ -12,14 +13,14 @@ interface FaqItem {
 @Component({
   selector: 'app-faq-page',
   standalone: true,
-  imports: [CommonModule, AccordionComponent, MenubarComponent, RouterLink],
+  imports: [CommonModule, AccordionComponent, MenubarComponent, H2Component, RouterLink],
   template: `
     <app-menubar />
     <div
-      class="flex justify-center bg-alternative px-page pt-page pb-page min-h-screen">
+      class="flex justify-center bg-alternative pt-page pb-page min-h-screen px-page sm:px-page md:px-page lg:px-page xl:px-page">
       <div class="flex flex-col gap-16">
-        <h1 class="text-h2 text-center">Les questions les plus fréquentes</h1>
-        <div class="flex flex-col gap-8 w-[1000px]">
+        <app-h2 class="text-h2 text-center">Les questions les plus fréquentes</app-h2>
+        <div class="flex flex-col gap-8 w-full max-w-[1000px]">
           @for (item of faqItems; track $index) {
             <app-accordion
               [question]="item.question"

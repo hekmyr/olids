@@ -4,7 +4,7 @@ import dev.hekmyr.holidays.api.auth.AuthenticationProviderImpl;
 import dev.hekmyr.holidays.api.dto.UserDTO;
 import dev.hekmyr.holidays.api.dto.UserUpdateDTO;
 import dev.hekmyr.holidays.api.entity.User;
-import dev.hekmyr.holidays.api.intf.repository.UserRepository;
+import dev.hekmyr.holidays.api.repository.UserRepository;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.springframework.security.core.Authentication;

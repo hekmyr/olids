@@ -2,8 +2,8 @@ package dev.hekmyr.holidays.api.service;
 
 import dev.hekmyr.holidays.api.dto.*;
 import dev.hekmyr.holidays.api.entity.BillingInformation;
-import dev.hekmyr.holidays.api.intf.repository.BillingInformationRepository;
-import dev.hekmyr.holidays.api.intf.repository.UserRepository;
+import dev.hekmyr.holidays.api.repository.BillingInformationRepository;
+import dev.hekmyr.holidays.api.repository.UserRepository;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;

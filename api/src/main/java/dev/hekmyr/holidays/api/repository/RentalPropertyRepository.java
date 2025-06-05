@@ -1,4 +1,4 @@
-package dev.hekmyr.holidays.api.intf.repository;
+package dev.hekmyr.holidays.api.repository;
 
 import dev.hekmyr.holidays.api.dto.RentalPropertyDTO;
 import dev.hekmyr.holidays.api.entity.RentalProperty;
@@ -47,4 +47,9 @@ public interface RentalPropertyRepository
         "SELECT NEW dev.hekmyr.holidays.api.dto.RentalPropertyDTO(rp) FROM RentalProperty rp"
     )
     List<RentalPropertyDTO> findAllDTOs();
+
+    @Query(
+        "SELECT NEW dev.hekmyr.holidays.api.dto.RentalPropertyDTO(rp) FROM RentalProperty rp ORDER BY rp.dateUpdated DESC LIMIT 1"
+    )
+    RentalPropertyDTO findLastUpdated();
 }

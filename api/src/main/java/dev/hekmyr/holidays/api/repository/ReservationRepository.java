@@ -1,4 +1,4 @@
-package dev.hekmyr.holidays.api.intf.repository;
+package dev.hekmyr.holidays.api.repository;
 
 import dev.hekmyr.holidays.api.dto.ReservationDTO;
 import dev.hekmyr.holidays.api.entity.Reservation;

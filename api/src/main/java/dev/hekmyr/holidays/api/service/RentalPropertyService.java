@@ -2,7 +2,7 @@ package dev.hekmyr.holidays.api.service;
 
 import dev.hekmyr.holidays.api.dto.RentalPropertyDTO;
 import dev.hekmyr.holidays.api.dto.RentalPropertyRequestDTO;
-import dev.hekmyr.holidays.api.intf.repository.RentalPropertyRepository;
+import dev.hekmyr.holidays.api.repository.RentalPropertyRepository;
 import java.time.LocalTime;
 import java.util.List;
 import org.springframework.stereotype.Service;

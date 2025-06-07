@@ -1,0 +1,44 @@
+meta {
+  name: get_user_by_email
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:8069/jsonrpc
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "jsonrpc": "2.0",
+    "method": "call",
+    "params": {
+      "service": "object",
+      "method": "execute",
+      "args": [
+        "odoo_db",
+        2,
+        "progiciel",
+        "res.partner",
+        "search_read",
+        [
+          [
+            "email",
+            "=",
+            "example@contact.be"
+          ]
+        ],
+        [
+          "id",
+          "email"
+        ]
+      ]
+    }
+  }
+}

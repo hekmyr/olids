@@ -1,0 +1,39 @@
+meta {
+  name: create_user
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:8069/jsonrpc
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "jsonrpc": "2.0",
+    "method": "call",
+    "params": {
+      "service": "object",
+      "method": "execute",
+      "args": [
+        "odoo_db",
+        2,
+        "progiciel",
+        "res.partner",
+        "create",
+        {
+          "name": "User - example@email.com",
+          "email": "example@email.com",
+          "customer_rank": 1,
+          "password": "somerandomhash"
+        }
+      ]
+    }
+  }
+}

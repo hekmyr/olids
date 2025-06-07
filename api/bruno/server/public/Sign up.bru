@@ -1,0 +1,18 @@
+meta {
+  name: Sign up
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{server_url}}/api/v1/public/sign-up
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "email": "example@email.be",
+    "password": "V3rystrongp@ssword"
+  }
+}

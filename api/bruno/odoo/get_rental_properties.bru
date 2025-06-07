@@ -1,0 +1,50 @@
+meta {
+  name: get_rental_properties
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8069/jsonrpc
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "jsonrpc": "2.0",
+    "method": "call",
+    "params": {
+      "service": "object",
+      "method": "execute",
+      "args": [
+        "odoo_db",
+        2,
+        "progiciel",
+        "product.template",
+        "search_read",
+        [
+          [
+            "categ_id",
+            "=",
+            "All / Rental property"
+          ]
+        ],
+        [
+          "id",
+          "name",
+          "categ_id",
+          "list_price",
+          "base_unit_price",
+          "description_ecommerce",
+          "is_published",
+          "write_date"
+        ]
+      ]
+    }
+  }
+}

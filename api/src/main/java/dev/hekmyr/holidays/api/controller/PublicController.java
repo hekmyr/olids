@@ -6,17 +6,23 @@ import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.hekmyr.holidays.api.Constant;
+import dev.hekmyr.holidays.api.auth.AuthenticationProviderImpl;
 import dev.hekmyr.holidays.api.auth.UserDetailsManagerImpl;
 import dev.hekmyr.holidays.api.dto.ContactRequestDTO;
 import dev.hekmyr.holidays.api.dto.RentalPropertyDTO;
 import dev.hekmyr.holidays.api.dto.RentalPropertyRequestDTO;
+import dev.hekmyr.holidays.api.dto.SignInDTO;
 import dev.hekmyr.holidays.api.dto.UserCreateDTO;
 import dev.hekmyr.holidays.api.dto.UserDTO;
 import dev.hekmyr.holidays.api.exception.BadRequestException;
@@ -34,15 +40,18 @@ public class PublicController {
     private final UserDetailsManagerImpl userDetailsManagerImpl;
     private final RentalPropertyRepository rentalPropertyRepository;
     private final RentalPropertyService rentalPropertyService;
+    private final AuthenticationProviderImpl authenticationProviderImpl;
 
     PublicController(
         UserDetailsManagerImpl userDetailsManagerImpl,
         RentalPropertyRepository rentalPropertyRepository,
-        RentalPropertyService rentalPropertyService
+        RentalPropertyService rentalPropertyService,
+        AuthenticationProviderImpl authenticationProviderImpl
     ) {
         this.userDetailsManagerImpl = userDetailsManagerImpl;
         this.rentalPropertyRepository = rentalPropertyRepository;
         this.rentalPropertyService = rentalPropertyService;
+        this.authenticationProviderImpl = authenticationProviderImpl;
     }
 
     @GetMapping("/ping")
@@ -75,6 +84,36 @@ public class PublicController {
             );
         }
     }
+
+    @PostMapping("/sign-in")
+    public ResponseEntity<MessageResponseModel> signIn(@RequestBody SignInDTO dto) {
+        try {
+            Authentication authenticationToken = new UsernamePasswordAuthenticationToken(
+                dto.getEmail(),
+                dto.getPassword()
+            );
+            Authentication authenticatedAuth = authenticationProviderImpl.authenticate(authenticationToken);
+            SecurityContextHolder.getContext().setAuthentication(authenticatedAuth);
+
+            return ResponseEntity.ok(
+                new MessageResponseModel("Sign-in successful")
+            );
+        } catch (AuthenticationException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                new MessageResponseModel("Invalid username or password")
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                new MessageResponseModel(
+                    "An internal error has occurred",
+                    ErrorCodes.UNKNOWN
+                )
+            );
+        }
+    }
+
 
     @GetMapping("/rental-property/{id}")
     public ResponseEntity<RentalPropertyDTO> rentalProperty(

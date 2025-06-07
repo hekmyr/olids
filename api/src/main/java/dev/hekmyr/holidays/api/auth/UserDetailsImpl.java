@@ -1,10 +1,14 @@
 package dev.hekmyr.holidays.api.auth;
 
-import dev.hekmyr.holidays.api.entity.User;
 import java.util.ArrayList;
 import java.util.Collection;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import dev.hekmyr.holidays.api.dto.OdooUserDTO;
+import dev.hekmyr.holidays.api.exception.InternalErrorException;
 
 public class UserDetailsImpl implements UserDetails {
 
@@ -13,12 +17,12 @@ public class UserDetailsImpl implements UserDetails {
 
     public UserDetailsImpl() {}
 
-    public UserDetailsImpl(User entity) {
-        if (entity == null) {
-            throw new IllegalArgumentException("User entity cannot be null");
+    public UserDetailsImpl(OdooUserDTO dto) throws InternalErrorException {
+        if (dto == null) {
+            throw new UsernameNotFoundException("User cannot be null");
         }
-        username = entity.getEmail();
-        password = entity.getPassword();
+        username = dto.getEmail();
+        password = dto.getPassword();
     }
 
     @Override

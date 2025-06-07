@@ -18,19 +18,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/sign-in")
-    public ResponseEntity<?> signIn() {
-        var auth = UserService.getAuthentication();
-        if (auth != null && auth.isAuthenticated()) {
-            return ResponseEntity.ok(
-                new MessageResponseModel("You are authenticated")
-            );
-        }
-        return ResponseEntity.status(401).body(
-            new MessageResponseModel("Authentication required")
-        );
-    }
-
     @GetMapping("/logout")
     public ResponseEntity<MessageResponseModel> logout(
         HttpServletRequest request

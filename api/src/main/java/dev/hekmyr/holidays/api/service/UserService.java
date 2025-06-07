@@ -56,7 +56,7 @@ public class UserService {
 
     public List<OdooUserDTO> findByEmail(String email) throws InternalErrorException {
         List<List<String>> conditions = List.of(List.of("email", "=", email));
-        List<String> fields = List.of("id", "email");
+        List<String> fields = List.of("id", "email", "password");
         OdooUserGetDTO response = odooService.<OdooUserGetDTO>find(
             MODEL_NAME,
             fields,

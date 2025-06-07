@@ -19,7 +19,6 @@ import dev.hekmyr.holidays.api.dto.UserDTO;
 import dev.hekmyr.holidays.api.exception.BadRequestException;
 import dev.hekmyr.holidays.api.exception.InternalErrorException;
 import dev.hekmyr.holidays.api.model.ErrorCodes;
-import dev.hekmyr.holidays.api.repository.UserRepository;
 import dev.hekmyr.holidays.api.service.UserService;
 
 @Service
@@ -29,26 +28,30 @@ public class UserDetailsManagerImpl implements UserDetailsManager {
 
     public static PasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public final UserRepository userRepository;
     public final UserService userService;
 
     public UserDetailsManagerImpl(
-            UserRepository userRepository,
-            UserService userService) {
-        this.userRepository = userRepository;
+        UserService userService
+    ) {
         this.userService = userService;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email)
-        throws UsernameNotFoundException {
-        var user = userRepository.findByEmail(email);
-        if (user == null) {
-            throw new UsernameNotFoundException(
-                "User not found with email: " + email
-            );
+            throws UsernameNotFoundException {
+        var usernameNotFound = new UsernameNotFoundException(
+                "User not found with email: " + email);
+        try {
+            var result = userService.findByEmail(email);
+            if (result.size() == 0) {
+                throw usernameNotFound;
+            }
+            return new UserDetailsImpl(result.getFirst());
+
+        } catch (InternalErrorException ex) {
+            ex.printStackTrace();
+            throw usernameNotFound;
         }
-        return new UserDetailsImpl(user);
     }
 
     @Override

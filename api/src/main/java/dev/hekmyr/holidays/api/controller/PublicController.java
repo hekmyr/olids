@@ -1,20 +1,31 @@
 package dev.hekmyr.holidays.api.controller;
 
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import dev.hekmyr.holidays.api.Constant;
 import dev.hekmyr.holidays.api.auth.UserDetailsManagerImpl;
 import dev.hekmyr.holidays.api.dto.ContactRequestDTO;
-import dev.hekmyr.holidays.api.dto.ErrorResponseDTO;
 import dev.hekmyr.holidays.api.dto.RentalPropertyDTO;
 import dev.hekmyr.holidays.api.dto.RentalPropertyRequestDTO;
 import dev.hekmyr.holidays.api.dto.UserCreateDTO;
+import dev.hekmyr.holidays.api.dto.UserDTO;
+import dev.hekmyr.holidays.api.exception.BadRequestException;
+import dev.hekmyr.holidays.api.exception.InternalErrorException;
+import dev.hekmyr.holidays.api.model.DataResponseModel;
 import dev.hekmyr.holidays.api.model.ErrorCodes;
 import dev.hekmyr.holidays.api.model.MessageResponseModel;
 import dev.hekmyr.holidays.api.repository.RentalPropertyRepository;
 import dev.hekmyr.holidays.api.service.RentalPropertyService;
-import java.util.List;
-import java.util.UUID;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(Constant.API_V1_ENDPOINT + "/public")
@@ -42,18 +53,26 @@ public class PublicController {
     @PostMapping("/sign-up")
     public ResponseEntity<?> signUp(@RequestBody UserCreateDTO dto) {
         try {
-            var responseDTO = userDetailsManagerImpl.createUser(dto);
-            return ResponseEntity.ok(responseDTO);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest()
-                .body(
-                    new ErrorResponseDTO(
-                        ErrorCodes.EMAIL_ALREADY_EXISTS.getCode()
-                    )
-                );
+            var response = userDetailsManagerImpl.createUser(dto);
+            return ResponseEntity.ok(new DataResponseModel<UserDTO>(response));
+        } catch (BadRequestException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new MessageResponseModel("Bad request", e.getCode())
+            );
+        } catch(InternalErrorException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                new MessageResponseModel("An internal error has occured", e.getCode())
+            );
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                new MessageResponseModel(
+                    "An internal error has occured",
+                    ErrorCodes.UNKNOWN
+                )
+            );
         }
     }
 

@@ -1,26 +1,32 @@
 package dev.hekmyr.holidays.api.service;
 
-import dev.hekmyr.holidays.api.auth.AuthenticationProviderImpl;
-import dev.hekmyr.holidays.api.dto.UserDTO;
-import dev.hekmyr.holidays.api.dto.UserUpdateDTO;
-import dev.hekmyr.holidays.api.entity.User;
-import dev.hekmyr.holidays.api.repository.UserRepository;
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import dev.hekmyr.holidays.api.dto.OdooResponseDTO;
+import dev.hekmyr.holidays.api.dto.OdooUserCreateDTO;
+import dev.hekmyr.holidays.api.dto.OdooUserDTO;
+import dev.hekmyr.holidays.api.dto.OdooUserGetDTO;
+import dev.hekmyr.holidays.api.dto.UserDTO;
+import dev.hekmyr.holidays.api.entity.User;
+import dev.hekmyr.holidays.api.exception.InternalErrorException;
+import dev.hekmyr.holidays.api.repository.UserRepository;
+
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
+    private final String MODEL_NAME = "res.partner";
 
-    UserService(
-        UserRepository userRepository,
-        AuthenticationProviderImpl authenticationProviderImpl
-    ) {
+    private final UserRepository userRepository;
+    private final OdooService odooService;
+
+    UserService(UserRepository userRepository, OdooService odooService) {
         this.userRepository = userRepository;
+        this.odooService = odooService;
     }
 
     public User loadUserByUsername(String username) {
@@ -46,5 +52,21 @@ public class UserService {
 
     public UUID getAuthenticatedUserId() {
         return userRepository.findIdByEmail(getAuthenticatedUsername());
+    }
+
+    public List<OdooUserDTO> findByEmail(String email) throws InternalErrorException {
+        List<List<String>> conditions = List.of(List.of("email", "=", email));
+        List<String> fields = List.of("id", "email");
+        OdooUserGetDTO response = odooService.<OdooUserGetDTO>find(
+            MODEL_NAME,
+            fields,
+            conditions,
+            OdooUserGetDTO.class
+        );
+        return response.getResult();
+    }
+
+    public void save(OdooUserCreateDTO dto) throws InternalErrorException {
+        odooService.save(MODEL_NAME, dto, OdooResponseDTO.class);
     }
 }

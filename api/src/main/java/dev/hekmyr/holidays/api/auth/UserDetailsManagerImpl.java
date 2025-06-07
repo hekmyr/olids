@@ -1,11 +1,8 @@
 package dev.hekmyr.holidays.api.auth;
 
-import dev.hekmyr.holidays.api.dto.UserCreateDTO;
-import dev.hekmyr.holidays.api.dto.UserDTO;
-import dev.hekmyr.holidays.api.entity.User;
-import dev.hekmyr.holidays.api.model.ErrorCodes;
-import dev.hekmyr.holidays.api.repository.UserRepository;
+import java.util.List;
 import java.util.regex.Pattern;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +12,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
+import dev.hekmyr.holidays.api.dto.OdooUserCreateDTO;
+import dev.hekmyr.holidays.api.dto.OdooUserDTO;
+import dev.hekmyr.holidays.api.dto.UserCreateDTO;
+import dev.hekmyr.holidays.api.dto.UserDTO;
+import dev.hekmyr.holidays.api.exception.BadRequestException;
+import dev.hekmyr.holidays.api.exception.InternalErrorException;
+import dev.hekmyr.holidays.api.model.ErrorCodes;
+import dev.hekmyr.holidays.api.repository.UserRepository;
+import dev.hekmyr.holidays.api.service.UserService;
+
 @Service
 public class UserDetailsManagerImpl implements UserDetailsManager {
 
@@ -23,9 +30,13 @@ public class UserDetailsManagerImpl implements UserDetailsManager {
     public static PasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public final UserRepository userRepository;
+    public final UserService userService;
 
-    public UserDetailsManagerImpl(UserRepository userRepository) {
+    public UserDetailsManagerImpl(
+            UserRepository userRepository,
+            UserService userService) {
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -48,22 +59,28 @@ public class UserDetailsManagerImpl implements UserDetailsManager {
         );
     }
 
-    public UserDTO createUser(UserCreateDTO dto) {
-        if (userRepository.findByEmail(dto.getEmail()) != null) {
-            throw new IllegalArgumentException(
-                ErrorCodes.EMAIL_ALREADY_EXISTS.getCode()
+    public UserDTO createUser(UserCreateDTO dto) throws InternalErrorException, BadRequestException {
+        List<OdooUserDTO> users = userService.findByEmail(dto.getEmail());
+        if (users.size() != 0) {
+            throw new BadRequestException(
+                ErrorCodes.EMAIL_ALREADY_EXISTS
             );
         }
 
         if (!isValidPassword(dto.getPassword())) {
-            throw new IllegalArgumentException(
-                ErrorCodes.WEAK_PASSWORD.getCode()
+            throw new BadRequestException(
+                ErrorCodes.WEAK_PASSWORD
             );
         }
 
-        var entity = new User(dto);
-        entity.setPassword(encoder.encode(entity.getPassword()));
-        return UserDTO.fromUserDTO(userRepository.save(entity));
+        var odooDto = new OdooUserCreateDTO(
+            dto.getEmail(),
+            encoder.encode(dto.getPassword())
+        );
+
+        userService.save(odooDto);
+
+        return UserDTO.fromOdooUserDTO(odooDto);
     }
 
     private boolean isValidPassword(String password) {

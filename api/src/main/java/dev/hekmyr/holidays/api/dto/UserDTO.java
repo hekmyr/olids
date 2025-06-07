@@ -1,7 +1,8 @@
 package dev.hekmyr.holidays.api.dto;
 
-import dev.hekmyr.holidays.api.entity.User;
 import java.time.LocalDate;
+
+import dev.hekmyr.holidays.api.entity.User;
 
 public class UserDTO {
 
@@ -14,7 +15,8 @@ public class UserDTO {
     private String postalCode;
     private LocalDate birthDate;
 
-    public UserDTO() {}
+    public UserDTO() {
+    }
 
     public String getLastName() {
         return lastName;
@@ -103,6 +105,12 @@ public class UserDTO {
         user.number = model.getNumber();
         user.postalCode = model.getPostalCode();
         user.birthDate = model.getBirthDate();
+        return user;
+    }
+
+    public static UserDTO fromOdooUserDTO(OdooUserCreateDTO dto) {
+        var user = new UserDTO();
+        user.email = dto.getEmail();
         return user;
     }
 }

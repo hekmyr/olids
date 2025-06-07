@@ -1,18 +1,17 @@
 package dev.hekmyr.holidays.api.model;
 
-public class MessageResponseModel {
+public class DataResponseModel<T> {
 
     private String message;
     private String code;
+    private T data;
 
-    public MessageResponseModel(String message) {
-        this.message = message;
+    public DataResponseModel(T data) {
+        this.data = data;
     }
 
-    public MessageResponseModel(String message, ErrorCodes errorCode) {
-        this.message = message;
-        if (errorCode != null) this.code = errorCode.toString();
-        else this.code = ErrorCodes.UNKNOWN.toString();
+    public T getData() {
+        return data;
     }
 
     public String getMessage() {

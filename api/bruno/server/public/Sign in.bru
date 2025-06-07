@@ -4,8 +4,8 @@ meta {
   seq: 3
 }
 
-get {
-  url: {{server_url}}/api/v1/user/sign-in
+post {
+  url: {{server_url}}/api/v1/public/sign-in
   body: json
   auth: inherit
 }
@@ -13,6 +13,6 @@ get {
 body:json {
   {
     "email": "example@email.be",
-    "password": "verystrongpassword"
+    "password": "V3rystrongp@ssword"
   }
 }

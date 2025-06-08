@@ -1,17 +1,16 @@
 package dev.hekmyr.holidays.api.controller;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,17 +20,16 @@ import dev.hekmyr.holidays.api.auth.AuthenticationProviderImpl;
 import dev.hekmyr.holidays.api.auth.UserDetailsManagerImpl;
 import dev.hekmyr.holidays.api.dto.ContactRequestDTO;
 import dev.hekmyr.holidays.api.dto.OdooRentalPropertyDTO;
-import dev.hekmyr.holidays.api.dto.RentalPropertyDTO;
 import dev.hekmyr.holidays.api.dto.RentalPropertyRequestDTO;
 import dev.hekmyr.holidays.api.dto.SignInDTO;
 import dev.hekmyr.holidays.api.dto.UserCreateDTO;
 import dev.hekmyr.holidays.api.dto.UserDTO;
 import dev.hekmyr.holidays.api.exception.BadRequestException;
 import dev.hekmyr.holidays.api.exception.InternalErrorException;
+import dev.hekmyr.holidays.api.exception.NotFoundException;
 import dev.hekmyr.holidays.api.model.DataResponseModel;
 import dev.hekmyr.holidays.api.model.ErrorCodes;
 import dev.hekmyr.holidays.api.model.MessageResponseModel;
-import dev.hekmyr.holidays.api.repository.RentalPropertyRepository;
 import dev.hekmyr.holidays.api.service.RentalPropertyService;
 
 @RestController
@@ -39,18 +37,15 @@ import dev.hekmyr.holidays.api.service.RentalPropertyService;
 public class PublicController {
 
     private final UserDetailsManagerImpl userDetailsManagerImpl;
-    private final RentalPropertyRepository rentalPropertyRepository;
     private final RentalPropertyService rentalPropertyService;
     private final AuthenticationProviderImpl authenticationProviderImpl;
 
     PublicController(
         UserDetailsManagerImpl userDetailsManagerImpl,
-        RentalPropertyRepository rentalPropertyRepository,
         RentalPropertyService rentalPropertyService,
         AuthenticationProviderImpl authenticationProviderImpl
     ) {
         this.userDetailsManagerImpl = userDetailsManagerImpl;
-        this.rentalPropertyRepository = rentalPropertyRepository;
         this.rentalPropertyService = rentalPropertyService;
         this.authenticationProviderImpl = authenticationProviderImpl;
     }
@@ -117,11 +112,29 @@ public class PublicController {
 
 
     @GetMapping("/rental-property/{id}")
-    public ResponseEntity<RentalPropertyDTO> rentalProperty(
-        @PathVariable UUID id
+    public ResponseEntity<DataResponseModel<OdooRentalPropertyDTO>> rentalProperty(
+        @PathVariable int id
     ) {
-        var property = rentalPropertyRepository.findDTOById(id).get();
-        return ResponseEntity.ok(property);
+        try {
+            OdooRentalPropertyDTO property = rentalPropertyService.findById(id);
+            return ResponseEntity.ok(new DataResponseModel<OdooRentalPropertyDTO>(property));
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                new DataResponseModel<OdooRentalPropertyDTO>("Rental property was not found", ErrorCodes.NOT_FOUND));
+        }  catch(InternalErrorException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                new DataResponseModel<OdooRentalPropertyDTO>("An internal error has occured", e.getCode())
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                new DataResponseModel<OdooRentalPropertyDTO>(
+                    "An internal error has occured",
+                    ErrorCodes.UNKNOWN
+                )
+            );
+        }
     }
 
     @PostMapping("/rental-properties")

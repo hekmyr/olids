@@ -6,5 +6,6 @@ public enum ErrorCodes {
     PASSWORD_MISMATCH,
     ODOO_ERROR,
     RESPONSE_NOT_OK,
+    NOT_FOUND,
     UNKNOWN;
 }

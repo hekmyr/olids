@@ -4,8 +4,12 @@ meta {
   seq: 4
 }
 
-get {
-  url: 
-  body: none
+post {
+  url: {{server_url}}/api/v1/public/rental-properties
+  body: json
   auth: inherit
+}
+
+body:json {
+  {}
 }

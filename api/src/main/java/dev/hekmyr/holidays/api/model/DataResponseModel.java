@@ -1,10 +1,14 @@
 package dev.hekmyr.holidays.api.model;
 
-public class DataResponseModel<T> {
+public class DataResponseModel<T> extends BaseResponseModel {
 
-    private String message;
-    private String code;
     private T data;
+
+    public DataResponseModel() {}
+
+    public DataResponseModel(String message, ErrorCodes errorCode) {
+        super(message, errorCode);
+    }
 
     public DataResponseModel(T data) {
         this.data = data;
@@ -12,21 +16,5 @@ public class DataResponseModel<T> {
 
     public T getData() {
         return data;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 }

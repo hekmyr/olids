@@ -1,33 +1,12 @@
 package dev.hekmyr.holidays.api.model;
 
-public class MessageResponseModel {
-
-    private String message;
-    private String code;
+public class MessageResponseModel extends BaseResponseModel {
 
     public MessageResponseModel(String message) {
-        this.message = message;
+        super(message);
     }
 
     public MessageResponseModel(String message, ErrorCodes errorCode) {
-        this.message = message;
-        if (errorCode != null) this.code = errorCode.toString();
-        else this.code = ErrorCodes.UNKNOWN.toString();
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
+        super(message, errorCode);
     }
 }

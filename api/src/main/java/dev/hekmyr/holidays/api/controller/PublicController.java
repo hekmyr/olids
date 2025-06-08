@@ -20,6 +20,7 @@ import dev.hekmyr.holidays.api.Constant;
 import dev.hekmyr.holidays.api.auth.AuthenticationProviderImpl;
 import dev.hekmyr.holidays.api.auth.UserDetailsManagerImpl;
 import dev.hekmyr.holidays.api.dto.ContactRequestDTO;
+import dev.hekmyr.holidays.api.dto.OdooRentalPropertyDTO;
 import dev.hekmyr.holidays.api.dto.RentalPropertyDTO;
 import dev.hekmyr.holidays.api.dto.RentalPropertyRequestDTO;
 import dev.hekmyr.holidays.api.dto.SignInDTO;
@@ -124,10 +125,19 @@ public class PublicController {
     }
 
     @PostMapping("/rental-properties")
-    public ResponseEntity<List<RentalPropertyDTO>> rentalProperties(
+    public ResponseEntity<DataResponseModel<List<OdooRentalPropertyDTO>>> rentalProperties(
         @RequestBody RentalPropertyRequestDTO dto
     ) {
-        return ResponseEntity.ok(rentalPropertyService.findAvailableDTOs(dto));
+        try {
+            return ResponseEntity.ok(
+                new DataResponseModel<List<OdooRentalPropertyDTO>>(rentalPropertyService.findAvailableDTOs(dto))
+            );
+        } catch(InternalErrorException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                new DataResponseModel<List<OdooRentalPropertyDTO>>()
+            );
+        }
     }
 
     @PostMapping("/contact")

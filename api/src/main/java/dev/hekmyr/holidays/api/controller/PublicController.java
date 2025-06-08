@@ -31,6 +31,8 @@ import dev.hekmyr.holidays.api.model.DataResponseModel;
 import dev.hekmyr.holidays.api.model.ErrorCodes;
 import dev.hekmyr.holidays.api.model.MessageResponseModel;
 import dev.hekmyr.holidays.api.service.RentalPropertyService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping(Constant.API_V1_ENDPOINT + "/public")
@@ -82,7 +84,7 @@ public class PublicController {
     }
 
     @PostMapping("/sign-in")
-    public ResponseEntity<MessageResponseModel> signIn(@RequestBody SignInDTO dto) {
+    public ResponseEntity<MessageResponseModel> signIn(@RequestBody SignInDTO dto, HttpServletRequest request) {
         try {
             Authentication authenticationToken = new UsernamePasswordAuthenticationToken(
                 dto.getEmail(),
@@ -90,6 +92,10 @@ public class PublicController {
             );
             Authentication authenticatedAuth = authenticationProviderImpl.authenticate(authenticationToken);
             SecurityContextHolder.getContext().setAuthentication(authenticatedAuth);
+
+            // Persist SecurityContext to session
+            HttpSession session = request.getSession(true);
+            session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
 
             return ResponseEntity.ok(
                 new MessageResponseModel("Sign-in successful")

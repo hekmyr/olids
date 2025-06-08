@@ -1,7 +1,6 @@
 package dev.hekmyr.holidays.api.service;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +13,8 @@ import dev.hekmyr.holidays.api.dto.OdooUserGetDTO;
 import dev.hekmyr.holidays.api.dto.UserDTO;
 import dev.hekmyr.holidays.api.entity.User;
 import dev.hekmyr.holidays.api.exception.InternalErrorException;
+import dev.hekmyr.holidays.api.exception.NotFoundException;
+import dev.hekmyr.holidays.api.model.ErrorCodes;
 import dev.hekmyr.holidays.api.repository.UserRepository;
 
 @Service
@@ -50,8 +51,16 @@ public class UserService {
         return UserDTO.fromUserDTO(entity);
     }
 
-    public UUID getAuthenticatedUserId() {
-        return userRepository.findIdByEmail(getAuthenticatedUsername());
+    public int getAuthenticatedUserId() throws InternalErrorException, NotFoundException {
+        return this.findIdByEmail(getAuthenticatedUsername());
+    }
+
+    public int findIdByEmail(String email) throws InternalErrorException, NotFoundException {
+        List<OdooUserDTO> users = findByEmail(email);
+        if (users.isEmpty()) {
+            throw new NotFoundException(ErrorCodes.NOT_FOUND, "User not found with email: " + email);
+        }
+        return users.getFirst().getId();
     }
 
     public List<OdooUserDTO> findByEmail(String email) throws InternalErrorException {

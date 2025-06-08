@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class OdooUserDTO {
 
     @JsonProperty("id")
-    private String id;
+    private int id;
 
     @JsonProperty("email")
     private String email;
@@ -13,11 +13,11 @@ public class OdooUserDTO {
     @JsonProperty("password")
     private String password;
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

@@ -1,0 +1,11 @@
+meta {
+  name: Get reservation
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{server_url}}/api/v1/reservation/get-all
+  body: none
+  auth: inherit
+}

@@ -61,7 +61,7 @@ public class OdooService {
         return response.getBody();
     }
 
-    public <T, K extends OdooResponseDTO> void save(
+    public <T, K extends OdooResponseDTO> K save(
         String model_name,
         T object,
         Class<K> responseType
@@ -85,6 +85,8 @@ public class OdooService {
         );
 
         handleError(response);
+
+        return response.getBody();
     }
 
     private <T extends OdooResponseDTO> void handleError(ResponseEntity<T> response) throws InternalErrorException {

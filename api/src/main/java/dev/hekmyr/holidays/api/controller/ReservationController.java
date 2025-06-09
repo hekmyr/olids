@@ -4,16 +4,14 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import dev.hekmyr.holidays.api.Constant;
 import dev.hekmyr.holidays.api.dto.OdooReservationDTO;
+import dev.hekmyr.holidays.api.dto.ReservationCreateDTO;
 import dev.hekmyr.holidays.api.exception.InternalErrorException;
 import dev.hekmyr.holidays.api.exception.NotFoundException;
-import dev.hekmyr.holidays.api.model.DataResponseModel;
-import dev.hekmyr.holidays.api.model.ErrorCodes;
+import dev.hekmyr.holidays.api.model.*;
 import dev.hekmyr.holidays.api.service.ReservationService;
 import dev.hekmyr.holidays.api.service.UserService;
 
@@ -32,17 +30,24 @@ public class ReservationController {
         this.reservationService = reservationService;
     }
 
-    // @PostMapping
-    // public ResponseEntity<ReservationDTO> createReservation(
-    //     @RequestBody ReservationCreateDTO payload
-    // ) {
-    //     var userId = userService.getAuthenticatedUserId();
-    //     var reservation = reservationService.createReservation(userId, payload);
-    //     var reservationDTO = reservationService.findDTOById(
-    //         reservation.getId()
-    //     );
-    //     return ResponseEntity.ok(reservationDTO);
-    // }
+    @PostMapping("new")
+    public ResponseEntity<MessageResponseModel> createReservation(
+        @RequestBody ReservationCreateDTO payload
+    ) {
+        try {
+            int userId = userService.getAuthenticatedUserId();
+            reservationService.createReservation(userId, payload);
+            return ResponseEntity.ok(new MessageResponseModel("Created a new reservation successfully"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                new MessageResponseModel(
+                    "An internal error has occured",
+                    ErrorCodes.UNKNOWN
+                )
+            );
+        }
+    }
 
     @GetMapping("get-all")
     public ResponseEntity<DataResponseModel<List<OdooReservationDTO>>> getReservations() {

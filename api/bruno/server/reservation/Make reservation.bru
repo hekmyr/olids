@@ -1,0 +1,20 @@
+meta {
+  name: Make reservation
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{server_url}}/api/v1/reservation/new
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "propertyId": 1,
+    "dateStayBegin": "2025-06-09T12:34:56.789Z",
+    "dateStayEnd": "2025-06-23T12:34:56.789Z",
+    "guests": 3
+  }
+}

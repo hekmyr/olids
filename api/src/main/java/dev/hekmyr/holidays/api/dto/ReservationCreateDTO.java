@@ -1,61 +1,60 @@
 package dev.hekmyr.holidays.api.dto;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class ReservationCreateDTO {
 
-    private UUID propertyId;
-    private LocalDateTime stayStart;
-    private LocalDateTime stayEnd;
+    private int propertyId;
+    private LocalDateTime dateStayBegin;
+    private LocalDateTime dateStayEnd;
     private int guests;
 
     public ReservationCreateDTO() {}
 
     public ReservationCreateDTO(
-        UUID propertyId,
-        LocalDateTime stayStart,
-        LocalDateTime stayEnd
+        int propertyId,
+        LocalDateTime dateStayBegin,
+        LocalDateTime dateStayEnd
     ) {
         this.propertyId = propertyId;
-        this.stayStart = stayStart;
-        this.stayEnd = stayEnd;
+        this.dateStayBegin = dateStayBegin;
+        this.dateStayEnd = dateStayEnd;
     }
 
     public ReservationCreateDTO(
-        UUID propertyId,
-        LocalDateTime stayStart,
-        LocalDateTime stayEnd,
+        int propertyId,
+        LocalDateTime dateStayBegin,
+        LocalDateTime dateStayEnd,
         int guests
     ) {
         this.propertyId = propertyId;
-        this.stayStart = stayStart;
-        this.stayEnd = stayEnd;
+        this.dateStayBegin = dateStayBegin;
+        this.dateStayEnd = dateStayEnd;
         this.guests = guests;
     }
 
-    public UUID getPropertyId() {
+    public int getPropertyId() {
         return propertyId;
     }
 
-    public void setPropertyId(UUID propertyId) {
+    public void setPropertyId(int propertyId) {
         this.propertyId = propertyId;
     }
 
-    public LocalDateTime getStayStart() {
-        return stayStart;
+    public LocalDateTime getDateStayBegin() {
+        return dateStayBegin;
     }
 
-    public void setStayStart(LocalDateTime stayStart) {
-        this.stayStart = stayStart;
+    public void setDateStayBegin(LocalDateTime dateStayBegin) {
+        this.dateStayBegin = dateStayBegin;
     }
 
-    public LocalDateTime getStayEnd() {
-        return stayEnd;
+    public LocalDateTime getDateStayEnd() {
+        return dateStayEnd;
     }
 
-    public void setStayEnd(LocalDateTime stayEnd) {
-        this.stayEnd = stayEnd;
+    public void setDateStayEnd(LocalDateTime dateStayEnd) {
+        this.dateStayEnd = dateStayEnd;
     }
 
     public int getGuests() {

@@ -1,0 +1,39 @@
+meta {
+  name: Create a order line
+  type: http
+  seq: 7
+}
+
+post {
+  url: http://localhost:8069/jsonrpc
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "jsonrpc": "2.0",
+    "method": "call",
+    "params": {
+      "service": "object",
+      "method": "execute",
+      "args": [
+        "odoo_db",
+        2,
+        "progiciel",
+        "sale.order.line",
+        "create",
+        {
+          "order_id": 11,
+          "product_id": 1,
+          "date_stay_begin": "2025-06-08",
+          "date_stay_end": "2025-06-23"
+        }
+      ]
+    }
+  }
+}

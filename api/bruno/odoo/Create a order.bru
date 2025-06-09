@@ -1,0 +1,36 @@
+meta {
+  name: Create a order
+  type: http
+  seq: 6
+}
+
+post {
+  url: http://localhost:8069/jsonrpc
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "jsonrpc": "2.0",
+    "method": "call",
+    "params": {
+      "service": "object",
+      "method": "execute",
+      "args": [
+        "odoo_db",
+        2,
+        "progiciel",
+        "sale.order",
+        "create",
+        {
+          "partner_id": 7
+        }
+      ]
+    }
+  }
+}

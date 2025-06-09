@@ -7,5 +7,9 @@ public enum ErrorCodes {
     ODOO_ERROR,
     RESPONSE_NOT_OK,
     NOT_FOUND,
+    TOO_MANY_GUEST,
+    NO_DATE_PROVIDED,
+    END_DATE_BEFORE_START,
+    TOO_SHORT_DURATION,
     UNKNOWN;
 }

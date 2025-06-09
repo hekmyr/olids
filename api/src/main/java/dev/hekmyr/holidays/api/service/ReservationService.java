@@ -1,33 +1,30 @@
 package dev.hekmyr.holidays.api.service;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import dev.hekmyr.holidays.api.dto.OdooOrderCreateDTO;
+import dev.hekmyr.holidays.api.dto.OdooOrderCreateResponseDTO;
+import dev.hekmyr.holidays.api.dto.OdooOrderLineCreateDTO;
+import dev.hekmyr.holidays.api.dto.OdooRentalPropertyDTO;
 import dev.hekmyr.holidays.api.dto.OdooReservationDTO;
 import dev.hekmyr.holidays.api.dto.OdooReservationGetDTO;
+import dev.hekmyr.holidays.api.dto.OdooResponseDTO;
 import dev.hekmyr.holidays.api.dto.ReservationCreateDTO;
-import dev.hekmyr.holidays.api.dto.ReservationDTO;
-import dev.hekmyr.holidays.api.entity.Reservation;
-import dev.hekmyr.holidays.api.entity.User;
+import dev.hekmyr.holidays.api.exception.*;
 import dev.hekmyr.holidays.api.exception.InternalErrorException;
-import dev.hekmyr.holidays.api.repository.RentalPropertyRepository;
-import dev.hekmyr.holidays.api.repository.ReservationRepository;
-import dev.hekmyr.holidays.api.repository.UserRepository;
+import dev.hekmyr.holidays.api.exception.NotFoundException;
+import dev.hekmyr.holidays.api.model.ErrorCodes;
 
 @Service
 public class ReservationService {
 
     private static final Duration MINIMUM_STAY_DURATION = Duration.ofDays(1);
 
-    private final ReservationRepository reservationRepository;
-    private final UserRepository userRepository;
-    private final RentalPropertyRepository rentalPropertyRepository;
     private final OdooService odooService;
+    private final RentalPropertyService rentalPropertyService;
 
     private final String MODEL_NAME = "sale.order.line";
     private final List<String> FIELDS = List.of(
@@ -38,38 +35,23 @@ public class ReservationService {
     );
 
     public ReservationService(
-        ReservationRepository reservationRepository,
-        UserRepository userRepository,
         OdooService odooService,
-        RentalPropertyRepository rentalPropertyRepository
+        RentalPropertyService rentalPropertyService
     ) {
-        this.reservationRepository = reservationRepository;
-        this.userRepository = userRepository;
         this.odooService = odooService;
-        this.rentalPropertyRepository = rentalPropertyRepository;
+        this.rentalPropertyService = rentalPropertyService;
     }
 
-    @Transactional
-    public Reservation createReservation(
-        UUID userId,
+    public void createReservation(
+        int userId,
         ReservationCreateDTO dto
-    ) {
-        User user = userRepository
-            .findById(userId)
-            .orElseThrow(() ->
-                new RuntimeException("User not found with ID: " + userId)
-            );
+    ) throws BadRequestException, InternalErrorException, NotFoundException {
 
-        var property = rentalPropertyRepository
-            .findById(dto.getPropertyId())
-            .orElseThrow(() ->
-                new RuntimeException(
-                    "Rental property not found with ID: " + dto.getPropertyId()
-                )
-            );
+        OdooRentalPropertyDTO property = rentalPropertyService.findById(dto.getPropertyId());
 
         if (dto.getGuests() > property.getMaxGuests()) {
-            throw new IllegalArgumentException(
+            throw new BadRequestException(
+                ErrorCodes.TOO_MANY_GUEST,
                 "Number of guests exceeds property capacity."
             );
         }
@@ -78,43 +60,44 @@ public class ReservationService {
         // This check will be used after paying aswell so the reservation can be
         // refunded in case of overlap
 
-        if (dto.getStayStart() == null || dto.getStayEnd() == null) {
-            throw new IllegalArgumentException(
+        if (dto.getDateStayBegin() == null || dto.getDateStayEnd() == null) {
+            throw new BadRequestException(
+                ErrorCodes.NO_DATE_PROVIDED,
                 "Stay start and end dates must be provided."
             );
         }
-        if (!dto.getStayStart().isBefore(dto.getStayEnd())) {
-            throw new IllegalArgumentException(
+        if (!dto.getDateStayBegin().isBefore(dto.getDateStayEnd())) {
+            throw new BadRequestException(
+                ErrorCodes.END_DATE_BEFORE_START,
                 "Stay start date must be before stay end date."
             );
         }
 
         var stayDuration = Duration.between(
-            dto.getStayStart(),
-            dto.getStayEnd()
+            dto.getDateStayBegin(),
+            dto.getDateStayEnd()
         );
         if (stayDuration.compareTo(MINIMUM_STAY_DURATION) < 0) {
-            throw new IllegalArgumentException(
+            throw new BadRequestException(
+                ErrorCodes.TOO_SHORT_DURATION,
                 "Minimum stay duration is " +
                 MINIMUM_STAY_DURATION.toDays() +
                 " night(s)."
             );
         }
 
-        var reservation = new Reservation();
-        reservation.setUser(user);
-        reservation.setRentalProperty(property);
-        reservation.setBillingInformation(null);
-        reservation.setPricePerNight(property.getPricePerNight());
-        reservation.setGuests(dto.getGuests());
-        reservation.setCancelled(false);
-        reservation.setPayed(false);
-        reservation.setDateStayStart(dto.getStayStart());
-        reservation.setDateStayEnd(dto.getStayEnd());
-        reservation.setDateCreated(LocalDateTime.now());
-        reservation.setDateUpdated(LocalDateTime.now());
+        OdooOrderCreateDTO orderDTO = new OdooOrderCreateDTO();
+        orderDTO.setPartnerId(userId);
 
-        return reservationRepository.save(reservation);
+        OdooOrderCreateResponseDTO response = odooService.save("sale.order", orderDTO, OdooOrderCreateResponseDTO.class);
+
+        OdooOrderLineCreateDTO orderLineDTO = new OdooOrderLineCreateDTO();
+        orderLineDTO.setOrderId(response.getResult().intValue());
+        orderLineDTO.setProductId(dto.getPropertyId());
+        orderLineDTO.setDateStayEnd(dto.getDateStayEnd());
+        orderLineDTO.setDateStayBegin(dto.getDateStayBegin());
+
+        odooService.save("sale.order.line", orderLineDTO, OdooResponseDTO.class);
     }
 
     public List<OdooReservationDTO> findAllByUserId(int userId) throws InternalErrorException {
@@ -123,11 +106,11 @@ public class ReservationService {
         return response.getResult();
     }
 
-    public ReservationDTO findDTOById(UUID id) {
-        return reservationRepository
-            .findDTOById(id)
-            .orElseThrow(() ->
-                new RuntimeException("Reservation not found with ID: " + id)
-            );
-    }
+    // public ReservationDTO findDTOById(UUID id) {
+    //     return reservationRepository
+    //         .findDTOById(id)
+    //         .orElseThrow(() ->
+    //             new RuntimeException("Reservation not found with ID: " + id)
+    //         );
+    // }
 }

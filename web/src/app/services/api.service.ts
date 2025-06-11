@@ -16,6 +16,7 @@ import { BillingInformationUpdateDTO } from '../dtos/billing-information-update.
 import { User } from '../interfaces/user.interface';
 import { BillingInformationSetDefaultDTO } from '../dtos/billing-information-set-default.dto';
 import { ResponseInterface } from '../interfaces/response.interface';
+import { DataResponse } from '../interfaces/data-response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -42,15 +43,15 @@ export class ApiService {
 
   public rentalProperties(
     body: RentalPropertyRequestDTO
-  ): Observable<Array<RentalPropertyInterface>> {
-    return this.http.post<Array<RentalPropertyInterface>>(
+  ): Observable<DataResponse<Array<RentalPropertyInterface>>> {
+    return this.http.post<DataResponse<Array<RentalPropertyInterface>>>(
       `${this.apiUrl}/public/rental-properties`,
       body
     );
   }
 
-  public rentalProperty(id: string): Observable<RentalPropertyInterface> {
-    return this.http.get<RentalPropertyInterface>(
+  public rentalProperty(id: string): Observable<DataResponse<RentalPropertyInterface>> {
+    return this.http.get<DataResponse<RentalPropertyInterface>>(
       `${this.apiUrl}/public/rental-property/${id}`
     );
   }

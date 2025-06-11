@@ -10,14 +10,14 @@ export class RentalPropertyModel {
     private _name: string,
     private _description: string,
     private _listed: boolean,
-    private _pricePerNight: number,
+    private _list_price: number,
     private _beds: number,
     private _bedrooms: number,
     private _bathrooms: number,
     private _street: string,
     private _number: string,
     private _postalCode: string
-  ) {}
+  ) { }
 
   public get id(): string {
     return this._id;
@@ -63,12 +63,12 @@ export class RentalPropertyModel {
     this._listed = listed;
   }
 
-  public get pricePerNight(): number {
-    return this._pricePerNight;
+  public get list_price(): number {
+    return this._list_price;
   }
 
-  public set pricePerNight(pricePerNight: number) {
-    this._pricePerNight = pricePerNight;
+  public set list_price(list_price: number) {
+    this._list_price = list_price;
   }
 
   public get beds(): number {
@@ -128,7 +128,7 @@ export class RentalPropertyModel {
       property.name,
       property.description || '',
       property.listed,
-      property.pricePerNight,
+      property.list_price,
       property.beds,
       property.bedrooms,
       property.bathrooms,

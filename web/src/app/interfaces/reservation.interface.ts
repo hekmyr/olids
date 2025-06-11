@@ -3,7 +3,7 @@ import { RentalPropertyInterface } from './rental-property.interface';
 
 export interface ReservationInterface {
   id: string;
-  pricePerNight: number;
+  list_price: number;
   dateStayStart: Date;
   dateStayEnd: Date;
   isCancelled: boolean;

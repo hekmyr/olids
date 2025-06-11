@@ -56,9 +56,9 @@ import { ReservationCreateDTO } from '../../dtos/reservation-create.dto';
                 <app-h3>{{ property.name }}</app-h3>
                 <app-bed-guest-room-large
                   [beds]="property.beds"
-                  [guests]="property.maxGuests"
+                  [guests]="property.max_guests"
                   [rooms]="property.bedrooms" />
-                <app-price-large [price]="property.pricePerNight" />
+                <app-price-large [price]="property.list_price" />
               </div>
               <div class="flex flex-col gap-6">
                 <div class="flex flex-col gap-3">
@@ -68,29 +68,19 @@ import { ReservationCreateDTO } from '../../dtos/reservation-create.dto';
                       onEndDateChange($event)
                     "></app-custom-date-picker>
                   <app-custom-guest-counter
-                    [maxGuests]="property.maxGuests"
+                    [max_guests]="property.max_guests"
                     (valueChange)="
                       onGuestCountChange($event)
                     "></app-custom-guest-counter>
                 </div>
                 <app-total-price
                   [days]="calculateDays()"
-                  [price]="property.pricePerNight"></app-total-price>
+                  [price]="property.list_price"></app-total-price>
                 <app-three-d-button (click)="createReservation()"
                   >Réserver</app-three-d-button
                 >
               </div>
               <div class="flex flex-col gap-4">
-                <app-h4>Commodités</app-h4>
-                <app-amenity-grid
-                  [amenity]="property.amenity"></app-amenity-grid>
-              </div>
-              <div class="flex flex-col gap-4">
-                <app-h4>Accessibilités</app-h4>
-                <app-accessibility-grid
-                  [accessibility]="
-                    property.accessibility
-                  "></app-accessibility-grid>
               </div>
             </div>
           }
@@ -119,10 +109,10 @@ export class PropertyPage implements OnInit {
       return;
     }
     firstValueFrom(this.apiService.rentalProperty(id))
-      .then((data) => {
-        this.property = data;
+      .then((response) => {
+        this.property = response.data;
         this.stayForm.controls.guests.addValidators([
-          Validators.max(this.property.maxGuests ?? 1)
+          Validators.max(this.property.max_guests ?? 1)
         ]);
         this.stayForm.controls.guests.updateValueAndValidity();
       })

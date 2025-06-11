@@ -39,7 +39,7 @@ import { input, output } from '@angular/core';
   ]
 })
 export class CustomGuestCounterComponent {
-  public maxGuests = input.required<number>();
+  public max_guests = input.required<number>();
   public valueChange = output<number>();
 
   readonly Minus = Minus;
@@ -49,7 +49,7 @@ export class CustomGuestCounterComponent {
   count = 1;
 
   increment() {
-    if (this.count < this.maxGuests()) {
+    if (this.count < this.max_guests()) {
       this.count++;
       this.valueChange.emit(this.count);
     }

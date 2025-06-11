@@ -31,7 +31,7 @@ import { PriceComponent } from '../price/price.component';
         <span class="text-xs text-disabled italic">Disponible</span>
       </div>
       <div class="flex items-center justify-between">
-        <app-price [price]="property().pricePerNight"></app-price>
+        <app-price [price]="property().list_price"></app-price>
         <a
           href="/property/{{ property().id }}"
           class="text-accent-1 font-bold ml-2"

@@ -3,11 +3,11 @@ import { ReservationDetailInterface } from '../interfaces/reservation-detail.int
 export class ReservationDetailModel {
   constructor(
     private _id: string,
-    private _pricePerNight: number,
+    private _list_price: number,
     private _dateStayStart: Date,
     private _dateStayEnd: Date,
     private _isCancelled: boolean
-  ) {}
+  ) { }
 
   public get id(): string {
     return this._id;
@@ -17,12 +17,12 @@ export class ReservationDetailModel {
     this._id = value;
   }
 
-  public get pricePerNight(): number {
-    return this._pricePerNight;
+  public get list_price(): number {
+    return this._list_price;
   }
 
-  public set pricePerNight(value: number) {
-    this._pricePerNight = value;
+  public set list_price(value: number) {
+    this._list_price = value;
   }
 
   public get dateStayStart(): Date {
@@ -54,7 +54,7 @@ export class ReservationDetailModel {
   ): ReservationDetailModel {
     return new ReservationDetailModel(
       reservationDetail.id,
-      reservationDetail.pricePerNight,
+      reservationDetail.list_price,
       reservationDetail.dateStayStart,
       reservationDetail.dateStayEnd,
       reservationDetail.isCancelled

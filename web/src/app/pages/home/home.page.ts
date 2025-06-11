@@ -47,8 +47,8 @@ export class HomePage implements OnInit {
   ngOnInit(): void {
     firstValueFrom(
       this.apiService.rentalProperties(new RentalPropertyRequestDTO())
-    ).then((properties) => {
-      this.properties = properties;
+    ).then((response) => {
+      this.properties = response.data;
     });
   }
 }

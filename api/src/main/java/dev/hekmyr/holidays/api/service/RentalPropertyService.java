@@ -21,6 +21,7 @@ public class RentalPropertyService {
         "description",
         "beds",
         "bedrooms",
+        "list_price",
         "bathrooms",
         "street",
         "number",

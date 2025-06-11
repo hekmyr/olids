@@ -11,5 +11,6 @@ public enum ErrorCodes {
     NO_DATE_PROVIDED,
     END_DATE_BEFORE_START,
     TOO_SHORT_DURATION,
+    PAYMENT_FAILED,
     UNKNOWN;
 }

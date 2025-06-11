@@ -6,14 +6,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.stripe.model.checkout.Session;
+
 import dev.hekmyr.holidays.api.Constant;
-import dev.hekmyr.holidays.api.dto.OdooReservationDTO;
-import dev.hekmyr.holidays.api.dto.ReservationCreateDTO;
-import dev.hekmyr.holidays.api.exception.InternalErrorException;
-import dev.hekmyr.holidays.api.exception.NotFoundException;
+import dev.hekmyr.holidays.api.dto.*;
+import dev.hekmyr.holidays.api.exception.*;
 import dev.hekmyr.holidays.api.model.*;
-import dev.hekmyr.holidays.api.service.ReservationService;
-import dev.hekmyr.holidays.api.service.UserService;
+import dev.hekmyr.holidays.api.service.*;
 
 @RestController
 @RequestMapping(Constant.API_V1_ENDPOINT + "/reservation")
@@ -31,17 +30,17 @@ public class ReservationController {
     }
 
     @PostMapping("new")
-    public ResponseEntity<MessageResponseModel> createReservation(
+    public ResponseEntity<DataResponseModel<String>> createReservation(
         @RequestBody ReservationCreateDTO payload
     ) {
         try {
             int userId = userService.getAuthenticatedUserId();
-            reservationService.createReservation(userId, payload);
-            return ResponseEntity.ok(new MessageResponseModel("Created a new reservation successfully"));
+            Session session = reservationService.createReservation(userId, payload);
+            return ResponseEntity.ok(new DataResponseModel<String>(session.getId()));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                new MessageResponseModel(
+                new DataResponseModel<String>(
                     "An internal error has occured",
                     ErrorCodes.UNKNOWN
                 )

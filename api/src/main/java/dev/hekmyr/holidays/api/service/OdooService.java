@@ -24,6 +24,9 @@ public class OdooService {
     @Value("${ODOO_DB}")
     private String DB_NAME;
 
+    @Value("${ODOO_ADMIN_PASSWORD}")
+    private String PASSWORD;
+
     private final String VERSION = "2.0";
     private final RestTemplateBuilder templateBuilder;
     private final RestTemplate restTemplate;
@@ -45,7 +48,7 @@ public class OdooService {
         var args = List.of(
             DB_NAME,
             2,
-            "progiciel",
+            PASSWORD,
             model_name,
             "search_read",
             conditions,
@@ -69,7 +72,7 @@ public class OdooService {
         var args = List.of(
             DB_NAME,
             2,
-            "progiciel",
+            PASSWORD,
             model_name,
             "create",
             object
@@ -86,6 +89,23 @@ public class OdooService {
 
         handleError(response);
 
+        return response.getBody();
+    }
+
+    public OdooResponseDTO execute(String model, String method, List<Integer> ids, java.util.Map<String, Object> values) throws InternalErrorException {
+        var args = List.of(
+            DB_NAME,
+            2,
+            PASSWORD,
+            model,
+            method,
+            List.of(ids),
+            values
+        );
+        OdooRequestDTO.Params params = new OdooRequestDTO.Params("object", "execute", args);
+        OdooRequestDTO dto = new OdooRequestDTO(VERSION, "call", params);
+        ResponseEntity<OdooResponseDTO> response = restTemplate.postForEntity(URL, dto, OdooResponseDTO.class);
+        handleError(response);
         return response.getBody();
     }
 

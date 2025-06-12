@@ -18,6 +18,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.resend:resend-java:3.1.0'
     implementation "com.stripe:stripe-java:29.2.0"
     implementation 'org.hibernate.orm:hibernate-core:6.6.7.Final'
     implementation 'org.postgresql:postgresql:42.7.5'

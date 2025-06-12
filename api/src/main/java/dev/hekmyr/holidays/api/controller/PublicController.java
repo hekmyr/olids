@@ -8,29 +8,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import dev.hekmyr.holidays.api.Constant;
-import dev.hekmyr.holidays.api.auth.AuthenticationProviderImpl;
-import dev.hekmyr.holidays.api.auth.UserDetailsManagerImpl;
-import dev.hekmyr.holidays.api.dto.ContactRequestDTO;
-import dev.hekmyr.holidays.api.dto.OdooRentalPropertyDTO;
-import dev.hekmyr.holidays.api.dto.RentalPropertyRequestDTO;
-import dev.hekmyr.holidays.api.dto.SignInDTO;
-import dev.hekmyr.holidays.api.dto.UserCreateDTO;
-import dev.hekmyr.holidays.api.dto.UserDTO;
-import dev.hekmyr.holidays.api.exception.BadRequestException;
-import dev.hekmyr.holidays.api.exception.InternalErrorException;
-import dev.hekmyr.holidays.api.exception.NotFoundException;
-import dev.hekmyr.holidays.api.model.DataResponseModel;
-import dev.hekmyr.holidays.api.model.ErrorCodes;
-import dev.hekmyr.holidays.api.model.MessageResponseModel;
-import dev.hekmyr.holidays.api.service.RentalPropertyService;
+import dev.hekmyr.holidays.api.auth.*;
+import dev.hekmyr.holidays.api.dto.*;
+import dev.hekmyr.holidays.api.exception.*;
+import dev.hekmyr.holidays.api.model.*;
+import dev.hekmyr.holidays.api.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -41,15 +26,18 @@ public class PublicController {
     private final UserDetailsManagerImpl userDetailsManagerImpl;
     private final RentalPropertyService rentalPropertyService;
     private final AuthenticationProviderImpl authenticationProviderImpl;
+    private final ContactService contactService;
 
     PublicController(
         UserDetailsManagerImpl userDetailsManagerImpl,
         RentalPropertyService rentalPropertyService,
-        AuthenticationProviderImpl authenticationProviderImpl
+        AuthenticationProviderImpl authenticationProviderImpl,
+        ContactService contactService
     ) {
         this.userDetailsManagerImpl = userDetailsManagerImpl;
         this.rentalPropertyService = rentalPropertyService;
         this.authenticationProviderImpl = authenticationProviderImpl;
+        this.contactService = contactService;
     }
 
     @GetMapping("/ping")
@@ -163,6 +151,14 @@ public class PublicController {
     public ResponseEntity<MessageResponseModel> contact(
         @RequestBody ContactRequestDTO request
     ) {
-        return ResponseEntity.ok(new MessageResponseModel("Message sent"));
+        try {
+            contactService.send(request);
+            return ResponseEntity.ok(new MessageResponseModel("Message sent"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                new MessageResponseModel("Message could not be sent", ErrorCodes.UNKNOWN)
+            );
+        }
     }
 }

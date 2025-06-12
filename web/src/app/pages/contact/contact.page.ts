@@ -1,10 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { MenubarComponent } from '../../components/navigation/menubar.component';
 import { H3Component } from '../../components/typography/h3.component';
-import { CustomInputComponent } from '../../components/custom-input.component';
-import { CustomTextareaComponent } from '../../components/custom-textarea.component';
-import { FormsModule } from '@angular/forms';
+// Removed: import { CustomInputComponent } from '../../components/custom-input.component';
+// Removed: import { CustomTextareaComponent } from '../../components/custom-textarea.component';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ThreeDButtonComponent } from '../../components/three-d-button/three-d-button.component';
+import { ApiService } from '../../services/api.service';
+import { ContactRequestDTO } from '../../dtos/contact-request.dto';
+import { firstValueFrom } from 'rxjs';
+import { CustomInputDirective } from '../../directives/custom-input.directive';
+import { CustomTextareaDirective } from '../../directives/custom-textarea.directive'; // Added
 
 @Component({
   selector: 'app-contact',
@@ -13,8 +18,9 @@ import { ThreeDButtonComponent } from '../../components/three-d-button/three-d-b
     MenubarComponent,
     H3Component,
     FormsModule,
-    CustomInputComponent,
-    CustomTextareaComponent,
+    ReactiveFormsModule,
+    CustomInputDirective,
+    CustomTextareaDirective,
     ThreeDButtonComponent
   ],
   template: `
@@ -42,13 +48,13 @@ import { ThreeDButtonComponent } from '../../components/three-d-button/three-d-b
           </div>
           <div class="flex flex-col gap-4">
             <app-h3>Nous contacter</app-h3>
-            <form class="flex flex-col gap-6">
+            <form [formGroup]="contactForm" (ngSubmit)="send()" class="flex flex-col gap-6">
               <div class="flex flex-col gap-3">
-                <app-custom-input placeholder="Email"> </app-custom-input>
-                <app-custom-input placeholder="Subject"> </app-custom-input>
+                <input type="email" formControlName="email" appCustomInput="Email" />
+                <input type="text" formControlName="subject" appCustomInput="Subject" />
               </div>
-              <app-custom-textarea placeholder="Message"> </app-custom-textarea>
-              <app-three-d-button>Submit</app-three-d-button>
+              <textarea formControlName="message" appCustomTextarea="Message"></textarea>
+              <app-three-d-button type="submit">Submit</app-three-d-button>
             </form>
           </div>
         </div>
@@ -60,4 +66,29 @@ import { ThreeDButtonComponent } from '../../components/three-d-button/three-d-b
     </div>
   `
 })
-export class ContactPage {}
+export class ContactPage {
+
+  public fb = inject(FormBuilder);
+  public apiService = inject(ApiService);
+
+  contactForm = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    subject: ['', Validators.required],
+    message: ['', Validators.required]
+  });
+
+  public send() {
+    if (this.contactForm.valid) {
+      const form = this.contactForm.getRawValue();
+      firstValueFrom(this.apiService.sendContactRequest(new ContactRequestDTO(form.email!, form.subject!, form.message!)))
+        .then((res) => {
+          this.contactForm.reset();
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    } else {
+      this.contactForm.markAllAsTouched();
+    }
+  }
+}

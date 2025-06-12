@@ -23,65 +23,89 @@ public class OdooRentalPropertyDTO {
     @JsonProperty("is_published")
     private boolean isPublished;
 
+    @JsonProperty("image_1920")
+    private String image1920;
+
     @JsonProperty("write_date")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime writeDate;
 
     @JsonProperty("description")
     private String description;
+
     @JsonProperty("beds")
     private int beds;
+
     @JsonProperty("bedrooms")
     private int bedrooms;
+
     @JsonProperty("bathrooms")
     private int bathrooms;
+
     @JsonProperty("street")
     private String street;
+
     @JsonProperty("number")
     private String number;
+
     @JsonProperty("postal_code")
     private String postalCode;
+
     @JsonProperty("max_guests")
     private Integer maxGuests;
 
     // Amenity
     @JsonProperty("air_conditioning_available")
     private boolean airConditioningAvailable;
+
     @JsonProperty("terrace_available")
     private boolean terraceAvailable;
+
     @JsonProperty("garden_available")
     private boolean gardenAvailable;
+
     @JsonProperty("pool_available")
     private boolean poolAvailable;
+
     @JsonProperty("hot_tub_available")
     private boolean hotTubAvailable;
+
     @JsonProperty("ev_charger_available")
     private boolean evChargerAvailable;
+
     @JsonProperty("indoor_fireplace_available")
     private boolean indoorFireplaceAvailable;
+
     @JsonProperty("outdoor_fireplace_available")
     private boolean outdoorFireplaceAvailable;
+
     @JsonProperty("dedicated_workspace_available")
     private boolean dedicatedWorkspaceAvailable;
+
     @JsonProperty("gym_available")
     private boolean gymAvailable;
 
     // Accessibiliy
     @JsonProperty("toilet_grab_bar_available")
     private boolean toiletGrabBarAvailable;
+
     @JsonProperty("shower_grab_bar_available")
     private boolean showerGrabBarAvailable;
+
     @JsonProperty("step_free_shower_available")
     private boolean stepFreeShowerAvailable;
+
     @JsonProperty("shower_bath_chair_available")
     private boolean showerBathChairAvailable;
+
     @JsonProperty("step_free_bedroom_access_available")
     private boolean stepFreeBedroomAccessAvailable;
+
     @JsonProperty("wide_bedroom_entrance_available")
     private boolean wideBedroomEntranceAvailable;
+
     @JsonProperty("step_free_access_available")
     private boolean stepFreeAccessAvailable;
-
 
     public int getId() {
         return id;

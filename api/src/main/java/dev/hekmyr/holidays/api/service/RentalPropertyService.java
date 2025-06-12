@@ -20,6 +20,7 @@ public class RentalPropertyService {
         "name",
         "description",
         "beds",
+        "image_1920",
         "bedrooms",
         "list_price",
         "bathrooms",

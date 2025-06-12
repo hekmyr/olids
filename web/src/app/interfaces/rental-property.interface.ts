@@ -10,7 +10,7 @@ export interface RentalPropertyInterface {
   street: string;
   number: string;
   postalCode: string;
-  image: string;
+  image_1920?: string;
   max_guests: number;
 
   // Amenities

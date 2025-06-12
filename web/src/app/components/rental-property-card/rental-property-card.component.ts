@@ -1,9 +1,10 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RentalPropertyInterface } from '../../interfaces/rental-property.interface';
 import { H4Component } from '../typography/h4.component';
 import { BedGuestRoomComponent } from '../bed-guest-room/bed-guest-room.component';
 import { PriceComponent } from '../price/price.component';
+import { ImageService } from '../../services/image.service';
 
 @Component({
   selector: 'app-rental-property-card',
@@ -16,7 +17,7 @@ import { PriceComponent } from '../price/price.component';
       }}">
       <a href="/property/{{ property().id }}"
         ><img
-          src="images/rental_property.jpg"
+          [src]="getPropertyImage()"
           alt="Rental Property Image"
           class="w-full aspect-square rounded-md object-cover" />
       </a>
@@ -44,4 +45,12 @@ import { PriceComponent } from '../price/price.component';
 export class RentalPropertyCardComponent {
   public property = input.required<RentalPropertyInterface>();
   public class = input<string>('');
+
+  private imageService = inject(ImageService);
+
+  public getPropertyImage() {
+    const image = this.property().image_1920;
+    if (!image) return image;
+    return this.imageService.handleBase64(image);
+  }
 }

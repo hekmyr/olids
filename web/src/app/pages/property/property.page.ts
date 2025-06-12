@@ -21,6 +21,7 @@ import { AccessibilityGridComponent } from '../../components/accessibility-grid/
 import { ReservationCreateDTO } from '../../dtos/reservation-create.dto';
 import { loadStripe, Stripe } from '@stripe/stripe-js';
 import { environment } from '../../../environments/environment';
+import { ImageService } from '../../services/image.service';
 
 @Component({
   selector: 'app-property',
@@ -46,7 +47,7 @@ import { environment } from '../../../environments/environment';
         <div
           class="h-screen flex xl:absolute xl:w-[calc(100vw-384px-128px-64px)] xl:left-[64px] xl:top-[calc(112px+64px)] xl:h-[calc(100vh-112px-64px-64px)]">
           <img
-            src="images/rental_property.jpg"
+            [src]="getPropertyImage()"
             alt="Property Image"
             class="h-full flex-1 object-cover xl:rounded-[8px]" />
         </div>
@@ -132,6 +133,15 @@ export class PropertyPage implements OnInit {
         this.stayForm.controls.guests.updateValueAndValidity();
       })
       .catch((error) => console.error('Error fetching property:', error));
+  }
+
+  private imageService = inject(ImageService);
+
+  public getPropertyImage() {
+    if (!this.property) return null;
+    const image = this.property.image_1920;
+    if (!image) return null;
+    return this.imageService.handleBase64(image);
   }
 
   public calculateDays(): number {

@@ -4,6 +4,8 @@ import { PropertyPage } from './pages/property/property.page';
 import { ContactPage } from './pages/contact/contact.page';
 import { FaqPage } from './pages/faq/faq.page';
 import { SignupSuccessPage } from './pages/signup-success/signup-success.page';
+import { ReservationsPage } from './pages/reservations/reservations.page';
+import { ProfilePage } from './pages/profile/profile.page';
 
 export const routes: Routes = [
   {
@@ -11,11 +13,11 @@ export const routes: Routes = [
     component: HomePage,
     title: 'Home page'
   },
-  // {
-  //   path: 'dashboard/profile',
-  //   component: AccountPage,
-  //   title: 'Mon profile'
-  // },
+  {
+    path: 'profile',
+    component: ProfilePage,
+    title: 'Mon profile'
+  },
   {
     path: 'contact',
     component: ContactPage,
@@ -35,10 +37,10 @@ export const routes: Routes = [
     path: 'signup-success',
     component: SignupSuccessPage,
     title: 'Sign Up Success'
+  },
+  {
+    path: 'reservations',
+    component: ReservationsPage,
+    title: 'Reservations'
   }
-  // {
-  //   path: 'dashboard/reservations',
-  //   component: ReservationsPage,
-  //   title: 'Reservations'
-  // }
 ];

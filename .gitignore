@@ -1,4 +1,6 @@
 .env
+environment.ts
+environment.prod.ts
 
 ### Zed editor ###
 .zed

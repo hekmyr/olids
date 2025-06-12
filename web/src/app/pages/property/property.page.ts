@@ -19,6 +19,8 @@ import { ThreeDButtonComponent } from '../../components/three-d-button/three-d-b
 import { AmenityGridComponent } from '../../components/amenity-grid/amenity-grid.component';
 import { AccessibilityGridComponent } from '../../components/accessibility-grid/accessibility-grid.component';
 import { ReservationCreateDTO } from '../../dtos/reservation-create.dto';
+import { loadStripe, Stripe } from '@stripe/stripe-js';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-property',
@@ -95,6 +97,7 @@ export class PropertyPage implements OnInit {
   private route = inject(ActivatedRoute);
   private apiService = inject(ApiService);
   public property: RentalPropertyInterface | null = null;
+  private stripe: Stripe | null = null;
 
   public stayForm = this.fb.group({
     stayStart: [new Date(), [Validators.required]],
@@ -103,6 +106,18 @@ export class PropertyPage implements OnInit {
   });
 
   public ngOnInit(): void {
+    loadStripe(environment.stripeApiKey)
+      .then(stripeInstance => {
+        if (stripeInstance) {
+          this.stripe = stripeInstance;
+        } else {
+          console.error('Stripe.js failed to load.');
+        }
+      })
+      .catch(err => {
+        console.error(err);
+      });
+
     const id = this.route.snapshot.paramMap.get('id');
     if (!id) {
       console.error('Property ID not found in route');
@@ -129,6 +144,7 @@ export class PropertyPage implements OnInit {
     }
     return 0;
   }
+
   public onStartDateChange(date: Date) {
     console.log('Start date changed:', date);
     this.stayForm.controls.stayStart.setValue(date);
@@ -147,8 +163,13 @@ export class PropertyPage implements OnInit {
     console.log('Form values:', this.stayForm.value);
   }
 
-  public createReservation() {
+  public async createReservation() {
     if (this.stayForm.invalid || !this.property) {
+      return;
+    }
+
+    if (!this.stripe) {
+      console.error('Stripe.js has not loaded yet.');
       return;
     }
 
@@ -165,6 +186,14 @@ export class PropertyPage implements OnInit {
       values.guests
     );
 
-    firstValueFrom(this.apiService.createReservation(payload));
+    try {
+      const response = await firstValueFrom(this.apiService.createReservation(payload));
+      const sessionId = response.data;
+
+      const stripeResponse = await this.stripe.redirectToCheckout({ sessionId });
+      if (stripeResponse.error.message) console.error('Stripe redirectToCheckout error:', stripeResponse.error.message);
+    } catch (err) {
+      console.error(err);
+    }
   }
 }

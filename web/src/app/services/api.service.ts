@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 import { Observable, throwError } from 'rxjs';
 import { SignInDTO } from '../dtos/sign-in.dto';
 import { SignUpDTO } from '../dtos/sign-up.dto';
@@ -22,7 +23,7 @@ import { BaseResponse } from '../interfaces/base-response.interface';
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'http://localhost:8080/api/v1';
+  private apiUrl = environment.apiUrl;
 
   private http = inject(HttpClient);
 

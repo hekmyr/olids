@@ -15,8 +15,8 @@ import { BillingInformationCreateDTO } from '../dtos/billing-information-create.
 import { BillingInformationUpdateDTO } from '../dtos/billing-information-update.dto';
 import { User } from '../interfaces/user.interface';
 import { BillingInformationSetDefaultDTO } from '../dtos/billing-information-set-default.dto';
-import { ResponseInterface } from '../interfaces/response.interface';
 import { DataResponse } from '../interfaces/data-response.interface';
+import { BaseResponse } from '../interfaces/base-response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -26,13 +26,8 @@ export class ApiService {
 
   private http = inject(HttpClient);
 
-  public signIn(body: SignInDTO): Observable<Object> {
-    const headers = new HttpHeaders({
-      Authorization: 'Basic ' + btoa(body.email + ':' + body.password)
-    });
-    return this.http.get(`${this.apiUrl}/user/sign-in`, {
-      headers: headers,
-      responseType: 'text',
+  public signIn(body: SignInDTO): Observable<BaseResponse> {
+    return this.http.post<BaseResponse>(`${this.apiUrl}/public/sign-in`, body, {
       withCredentials: true
     });
   }
@@ -138,8 +133,8 @@ export class ApiService {
     );
   }
 
-  public logout(): Observable<ResponseInterface> {
-    return this.http.get<ResponseInterface>(`${this.apiUrl}/user/logout`, {
+  public logout(): Observable<BaseResponse> {
+    return this.http.get<BaseResponse>(`${this.apiUrl}/user/logout`, {
       withCredentials: true
     });
   }

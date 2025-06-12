@@ -62,7 +62,7 @@ public class RentalPropertyService {
         if (result.isEmpty()) {
             throw new NotFoundException(ErrorCodes.NOT_FOUND);
         }
-        return result.getFirst();
+        return result.get(0);
     }
 
     public List<OdooRentalPropertyDTO> findAvailableDTOs(

@@ -116,6 +116,6 @@ public class ReservationService {
             conditions,
             OdooSaleOrderGetResponseDTO.class
         );
-        return response.getResult().getFirst();
+        return response.getResult().get(0);
     }
 }

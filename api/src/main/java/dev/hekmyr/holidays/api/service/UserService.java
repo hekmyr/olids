@@ -60,7 +60,7 @@ public class UserService {
         if (users.isEmpty()) {
             throw new NotFoundException(ErrorCodes.NOT_FOUND, "User not found with email: " + email);
         }
-        return users.getFirst().getId();
+        return users.get(0).getId();
     }
 
     public List<OdooUserDTO> findByEmail(String email) throws InternalErrorException {

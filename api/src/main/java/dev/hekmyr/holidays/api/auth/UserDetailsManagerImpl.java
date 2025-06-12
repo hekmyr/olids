@@ -46,7 +46,7 @@ public class UserDetailsManagerImpl implements UserDetailsManager {
             if (result.size() == 0) {
                 throw usernameNotFound;
             }
-            return new UserDetailsImpl(result.getFirst());
+            return new UserDetailsImpl(result.get(0));
 
         } catch (InternalErrorException ex) {
             ex.printStackTrace();

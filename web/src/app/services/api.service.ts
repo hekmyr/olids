@@ -53,9 +53,9 @@ export class ApiService {
 
   public createReservation(
     payload: ReservationCreateDTO
-  ): Observable<ReservationInterface> {
-    return this.http.post<ReservationInterface>(
-      `${this.apiUrl}/reservation`,
+  ): Observable<DataResponse<string>> {
+    return this.http.post<DataResponse<string>>(
+      `${this.apiUrl}/reservation/new`,
       payload,
       {
         withCredentials: true

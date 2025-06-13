@@ -1,11 +1,8 @@
-export class UserUpdate {
+export class UserUpdateDTO {
   constructor(
-    public lastName: string,
-    public firstName: string,
-    public phoneNumber: string,
-    public street: string,
-    public number: string,
-    public postalCode: string,
-    public birthDate: Date
-  ) {}
+    public name: string,
+    public phone: string | null,
+    public street: string | null,
+    public zip: string | null
+  ) { }
 }

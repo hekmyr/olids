@@ -14,7 +14,6 @@ import { RentalPropertyRequestDTO } from '../../dtos/rental-property-request.dto
   standalone: true,
   imports: [
     MenubarComponent,
-    SearchBarComponent,
     FooterComponent,
     RentalPropertyGridComponent,
     H2Component
@@ -28,7 +27,6 @@ import { RentalPropertyRequestDTO } from '../../dtos/rental-property-request.dto
             src="images/header.jpg"
             alt="Header Image"
             class="w-full h-[60vh] object-cover object-[75%]" />
-          <app-search-bar />
         </div>
       </div>
 

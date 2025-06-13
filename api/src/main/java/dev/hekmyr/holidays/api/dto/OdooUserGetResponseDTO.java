@@ -2,7 +2,7 @@ package dev.hekmyr.holidays.api.dto;
 
 import java.util.List;
 
-public class OdooUserGetDTO extends OdooResponseDTO {
+public class OdooUserGetResponseDTO extends OdooResponseDTO {
 
     private List<OdooUserDTO> result;
 

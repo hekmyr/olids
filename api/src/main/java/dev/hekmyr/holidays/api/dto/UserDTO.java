@@ -82,19 +82,6 @@ public class UserDTO {
         this.number = number;
     }
 
-    public static UserDTO fromUserUpdateDTO(String email, UserUpdateDTO model) {
-        var user = new UserDTO();
-        user.lastName = model.getLastName();
-        user.firstName = model.getFirstName();
-        user.email = email;
-        user.phoneNumber = model.getPhoneNumber();
-        user.street = model.getStreet();
-        user.number = model.getNumber();
-        user.postalCode = model.getPostalCode();
-        user.birthDate = model.getBirthDate();
-        return user;
-    }
-
     public static UserDTO fromUserDTO(User model) {
         var user = new UserDTO();
         user.lastName = model.getLastName();

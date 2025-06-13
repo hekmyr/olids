@@ -64,6 +64,35 @@ public class OdooService {
         return response.getBody();
     }
 
+    public <K, T extends OdooResponseDTO> T update(
+        String model_name,
+        List<Integer> identifiers,
+        K object,
+        Class<T> responseType
+    ) throws InternalErrorException {
+        var args = List.of(
+            DB_NAME,
+            2,
+            PASSWORD,
+            model_name,
+            "write",
+            identifiers,
+            object
+        );
+        OdooRequestDTO.Params params = new OdooRequestDTO.Params("object", "execute", args);
+        OdooRequestDTO dto = new OdooRequestDTO(VERSION, "call", params);
+
+        ResponseEntity<T> response = restTemplate.postForEntity(
+            URL,
+            dto,
+            responseType
+        );
+
+        handleError(response);
+
+        return response.getBody();
+    }
+
     public <T, K extends OdooResponseDTO> K save(
         String model_name,
         T object,

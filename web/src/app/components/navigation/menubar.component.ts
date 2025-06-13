@@ -136,7 +136,22 @@ export class MenubarComponent {
       }
     });
   }
-  items: MenuItem[] = [
+  private _items: MenuItem[] = [
+    {
+      label: 'Contact',
+      routerLink: '/contact'
+    },
+    {
+      label: 'FAQ',
+      routerLink: '/faq'
+    }
+  ];
+
+  private _authItems: MenuItem[] = [
+    {
+      label: 'Profile',
+      routerLink: '/profile'
+    },
     {
       label: 'Reservations',
       routerLink: '/reservations'
@@ -149,5 +164,10 @@ export class MenubarComponent {
       label: 'FAQ',
       routerLink: '/faq'
     }
-  ];
+  ]
+
+  public get items() {
+    if (this.authService.getIsAuthenticated()) return this._authItems;
+    return this._items;
+  }
 }

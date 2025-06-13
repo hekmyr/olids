@@ -1,68 +1,35 @@
 package dev.hekmyr.holidays.api.dto;
 
-import dev.hekmyr.holidays.api.entity.User;
-import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UserUpdateDTO {
 
-    private String lastName;
-    private String firstName;
-    private String phoneNumber;
+    @JsonProperty("name")
+    private String name;
+
+    @JsonProperty("phone")
+    private String phone;
+    
+    @JsonProperty("street")
     private String street;
-    private String number;
-    private String postalCode;
-    private LocalDate birthDate;
 
-    public UserUpdateDTO() {}
+    @JsonProperty("zip")
+    private String zip;
 
-    public UserUpdateDTO(User model) {
-        this.lastName = model.getLastName();
-        this.firstName = model.getFirstName();
-        this.phoneNumber = model.getPhoneNumber();
-        this.street = model.getStreet();
-        this.number = model.getNumber();
-        this.postalCode = model.getPostalCode();
-        this.birthDate = model.getBirthDate();
+    public String getPhone() {
+        return phone;
     }
 
-    public String getLastName() {
-        return lastName;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public String getZip() {
+        return zip;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
+    public void setZip(String zip) {
+        this.zip = zip;
     }
 
     public String getStreet() {
@@ -73,11 +40,11 @@ public class UserUpdateDTO {
         this.street = street;
     }
 
-    public String getNumber() {
-        return number;
+    public String getName() {
+        return name;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setName(String name) {
+        this.name = name;
     }
 }

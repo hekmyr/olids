@@ -4,36 +4,50 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OdooUserDTO {
 
-    @JsonProperty("id")
-    private int id;
+    @JsonProperty("name")
+    private String name;
 
     @JsonProperty("email")
     private String email;
 
-    @JsonProperty("password")
-    private String password;
+    @JsonProperty("phone")
+    private String phone;
+    
+    @JsonProperty("street")
+    private String street;
 
-	public int getId() {
-		return id;
-	}
+    @JsonProperty("zip")
+    private String zip;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getZip() {
+        return zip;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

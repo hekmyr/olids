@@ -1,15 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { MenubarComponent } from '../../components/navigation/menubar.component';
 import { H3Component } from '../../components/typography/h3.component';
-// Removed: import { CustomInputComponent } from '../../components/custom-input.component';
-// Removed: import { CustomTextareaComponent } from '../../components/custom-textarea.component';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ThreeDButtonComponent } from '../../components/three-d-button/three-d-button.component';
 import { ApiService } from '../../services/api.service';
 import { ContactRequestDTO } from '../../dtos/contact-request.dto';
 import { firstValueFrom } from 'rxjs';
-import { CustomInputDirective } from '../../directives/custom-input.directive';
-import { CustomTextareaDirective } from '../../directives/custom-textarea.directive'; // Added
+import { InputDirective } from '../../directives/custom-input.directive';
+import { CustomTextareaDirective } from '../../directives/custom-textarea.directive';
 
 @Component({
   selector: 'app-contact',
@@ -19,7 +17,7 @@ import { CustomTextareaDirective } from '../../directives/custom-textarea.direct
     H3Component,
     FormsModule,
     ReactiveFormsModule,
-    CustomInputDirective,
+    InputDirective,
     CustomTextareaDirective,
     ThreeDButtonComponent
   ],
@@ -50,8 +48,8 @@ import { CustomTextareaDirective } from '../../directives/custom-textarea.direct
             <app-h3>Nous contacter</app-h3>
             <form [formGroup]="contactForm" (ngSubmit)="send()" class="flex flex-col gap-6">
               <div class="flex flex-col gap-3">
-                <input type="email" formControlName="email" appCustomInput="Email" />
-                <input type="text" formControlName="subject" appCustomInput="Subject" />
+                <input type="email" placeholder="Email" formControlName="email" inputStyle="invisible" />
+                <input type="text" placeholder="Subject" formControlName="subject" inputStyle="invisible" />
               </div>
               <textarea formControlName="message" appCustomTextarea="Message"></textarea>
               <app-three-d-button type="submit">Submit</app-three-d-button>

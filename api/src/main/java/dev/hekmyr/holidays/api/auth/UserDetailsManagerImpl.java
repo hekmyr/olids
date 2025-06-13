@@ -13,11 +13,11 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
 import dev.hekmyr.holidays.api.dto.OdooUserCreateDTO;
-import dev.hekmyr.holidays.api.dto.OdooUserDTO;
 import dev.hekmyr.holidays.api.dto.UserCreateDTO;
 import dev.hekmyr.holidays.api.dto.UserDTO;
 import dev.hekmyr.holidays.api.exception.BadRequestException;
 import dev.hekmyr.holidays.api.exception.InternalErrorException;
+import dev.hekmyr.holidays.api.exception.NotFoundException;
 import dev.hekmyr.holidays.api.model.ErrorCodes;
 import dev.hekmyr.holidays.api.service.UserService;
 
@@ -43,11 +43,10 @@ public class UserDetailsManagerImpl implements UserDetailsManager {
                 "User not found with email: " + email);
         try {
             var result = userService.findByEmail(email);
-            if (result.size() == 0) {
-                throw usernameNotFound;
-            }
-            return new UserDetailsImpl(result.get(0));
-
+            return new UserDetailsImpl(result);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+            throw usernameNotFound;
         } catch (InternalErrorException ex) {
             ex.printStackTrace();
             throw usernameNotFound;
@@ -63,12 +62,12 @@ public class UserDetailsManagerImpl implements UserDetailsManager {
     }
 
     public UserDTO createUser(UserCreateDTO dto) throws InternalErrorException, BadRequestException {
-        List<OdooUserDTO> users = userService.findByEmail(dto.getEmail());
-        if (users.size() != 0) {
+       try {
+            userService.findByEmail(dto.getEmail());
             throw new BadRequestException(
                 ErrorCodes.EMAIL_ALREADY_EXISTS
             );
-        }
+       } catch (NotFoundException e) {}
 
         if (!isValidPassword(dto.getPassword())) {
             throw new BadRequestException(

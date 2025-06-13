@@ -19,13 +19,6 @@ import { APP_TITLE } from '../../constant';
           <ul class="flex flex-col gap-2">
             <li>
               <a
-                href="/reservations"
-                class="text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-averia"
-                >Reservations</a
-              >
-            </li>
-            <li>
-              <a
                 href="/contact"
                 class="text-sm sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-averia"
                 >Contactez-nous</a

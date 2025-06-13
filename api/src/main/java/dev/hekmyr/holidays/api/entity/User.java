@@ -2,7 +2,6 @@ package dev.hekmyr.holidays.api.entity;
 
 import dev.hekmyr.holidays.api.auth.UserDetailsManagerImpl;
 import dev.hekmyr.holidays.api.dto.UserCreateDTO;
-import dev.hekmyr.holidays.api.dto.UserUpdateDTO;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -59,32 +58,6 @@ public class User {
     private LocalDateTime dateUpdated;
 
     public User() {}
-
-    public User(String email, UserUpdateDTO model) {
-        this.lastName = model.getLastName();
-        this.firstName = model.getFirstName();
-        this.email = email;
-        this.phoneNumber = model.getPhoneNumber();
-        this.street = model.getStreet();
-        this.number = model.getNumber();
-        this.postalCode = model.getPostalCode();
-        this.birthDate = model.getBirthDate();
-        this.dateCreated = LocalDateTime.now();
-        this.dateUpdated = LocalDateTime.now();
-    }
-
-    public User(UUID id, String email, UserUpdateDTO model) {
-        this.id = id;
-        this.lastName = model.getLastName();
-        this.firstName = model.getFirstName();
-        this.email = email;
-        this.phoneNumber = model.getPhoneNumber();
-        this.street = model.getStreet();
-        this.number = model.getNumber();
-        this.postalCode = model.getPostalCode();
-        this.birthDate = model.getBirthDate();
-        this.dateUpdated = LocalDateTime.now();
-    }
 
     public User(UserCreateDTO dto) {
         this.email = dto.getEmail();

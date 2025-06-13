@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import dev.hekmyr.holidays.api.dto.OdooUserDTO;
+import dev.hekmyr.holidays.api.dto.OdooUserDetails;
 import dev.hekmyr.holidays.api.exception.InternalErrorException;
 
 public class UserDetailsImpl implements UserDetails {
@@ -17,7 +17,7 @@ public class UserDetailsImpl implements UserDetails {
 
     public UserDetailsImpl() {}
 
-    public UserDetailsImpl(OdooUserDTO dto) throws InternalErrorException {
+    public UserDetailsImpl(OdooUserDetails dto) throws InternalErrorException {
         if (dto == null) {
             throw new UsernameNotFoundException("User cannot be null");
         }

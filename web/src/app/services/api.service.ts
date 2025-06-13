@@ -10,7 +10,7 @@ import { ReservationCreateDTO } from '../dtos/reservation-create.dto';
 import { ReservationInterface } from '../interfaces/reservation.interface';
 import { ContactRequestDTO } from '../dtos/contact-request.dto';
 import { UserModel } from '../models/user.model';
-import { UserUpdateModel } from '../models/user-update.model';
+import { UserUpdateDTO } from '../dtos/user-update.dto';
 import { BillingInformationInterface } from '../interfaces/billing-information.interface';
 import { BillingInformationCreateDTO } from '../dtos/billing-information-create.dto';
 import { BillingInformationUpdateDTO } from '../dtos/billing-information-update.dto';
@@ -77,14 +77,14 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/public/contact`, body);
   }
 
-  public getUser(): Observable<User> {
-    return this.http.get<UserModel>(`${this.apiUrl}/user`, {
+  public getUser() {
+    return this.http.get<DataResponse<UserModel>>(`${this.apiUrl}/user/get`, {
       withCredentials: true
     });
   }
 
-  public updateUser(body: UserUpdateModel): Observable<User> {
-    return this.http.put<UserModel>(`${this.apiUrl}/user`, body, {
+  public updateUser(body: UserUpdateDTO): Observable<BaseResponse> {
+    return this.http.put<BaseResponse>(`${this.apiUrl}/user/update`, body, {
       withCredentials: true
     });
   }

@@ -9,8 +9,11 @@ import org.springframework.stereotype.Service;
 import dev.hekmyr.holidays.api.dto.OdooResponseDTO;
 import dev.hekmyr.holidays.api.dto.OdooUserCreateDTO;
 import dev.hekmyr.holidays.api.dto.OdooUserDTO;
-import dev.hekmyr.holidays.api.dto.OdooUserGetDTO;
+import dev.hekmyr.holidays.api.dto.OdooUserDetails;
+import dev.hekmyr.holidays.api.dto.OdooUserDetailsGetResponseDTO;
+import dev.hekmyr.holidays.api.dto.OdooUserGetResponseDTO;
 import dev.hekmyr.holidays.api.dto.UserDTO;
+import dev.hekmyr.holidays.api.dto.UserUpdateDTO;
 import dev.hekmyr.holidays.api.entity.User;
 import dev.hekmyr.holidays.api.exception.InternalErrorException;
 import dev.hekmyr.holidays.api.exception.NotFoundException;
@@ -56,23 +59,57 @@ public class UserService {
     }
 
     public int findIdByEmail(String email) throws InternalErrorException, NotFoundException {
-        List<OdooUserDTO> users = findByEmail(email);
-        if (users.isEmpty()) {
-            throw new NotFoundException(ErrorCodes.NOT_FOUND, "User not found with email: " + email);
-        }
-        return users.get(0).getId();
+        return findByEmail(email).getId();
     }
 
-    public List<OdooUserDTO> findByEmail(String email) throws InternalErrorException {
+    public OdooUserDetails findByEmail(String email) throws InternalErrorException, NotFoundException {
         List<List<String>> conditions = List.of(List.of("email", "=", email));
         List<String> fields = List.of("id", "email", "password");
-        OdooUserGetDTO response = odooService.<OdooUserGetDTO>find(
+
+        OdooUserDetailsGetResponseDTO response = odooService.<OdooUserDetailsGetResponseDTO>find(
             MODEL_NAME,
             fields,
             conditions,
-            OdooUserGetDTO.class
+            OdooUserDetailsGetResponseDTO.class
         );
-        return response.getResult();
+        List<OdooUserDetails> result = response.getResult();
+
+        if (result.isEmpty()) {
+            throw new NotFoundException(ErrorCodes.NOT_FOUND, "User not found with email: " + email);
+        }
+
+        return result.get(0);
+    }
+
+    public OdooUserDTO findUserByEmail(String email) throws InternalErrorException, NotFoundException {
+        List<List<String>> conditions = List.of(List.of("email", "=", email));
+        List<String> fields = List.of(
+            "id",
+            "name",
+            "email",
+            "phone",
+            "street",
+            "zip"
+        );
+
+        OdooUserGetResponseDTO response = odooService.<OdooUserGetResponseDTO>find(
+            MODEL_NAME,
+            fields,
+            conditions,
+            OdooUserGetResponseDTO.class
+        );
+        List<OdooUserDTO> result = response.getResult();
+
+        if (result.isEmpty()) {
+            throw new NotFoundException(ErrorCodes.NOT_FOUND, "User not found with email: " + email);
+        }
+
+        return result.get(0);
+    }
+
+    public void update(UserUpdateDTO dto, int userId) throws InternalErrorException {
+        List<Integer> identifiants = List.of(userId);
+        odooService.update(MODEL_NAME, identifiants, dto, OdooResponseDTO.class);
     }
 
     public void save(OdooUserCreateDTO dto) throws InternalErrorException {

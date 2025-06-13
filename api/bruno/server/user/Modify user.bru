@@ -1,0 +1,20 @@
+meta {
+  name: Modify user
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{server_url}}/api/v1/user/update
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "name": "New user name",
+      "phone": "",
+      "street": "",
+      "zip": ""
+  }
+}

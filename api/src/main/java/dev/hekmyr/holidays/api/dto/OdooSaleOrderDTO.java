@@ -7,7 +7,7 @@ public class OdooSaleOrderDTO {
     private int id;
 
     @JsonProperty("amount_total")
-    private long amountTotal;
+    private float amountTotal;
 
     public int getId() {
         return id;
@@ -17,11 +17,11 @@ public class OdooSaleOrderDTO {
         this.id = id;
     }
 
-    public long getAmountTotal() {
+    public float getAmountTotal() {
         return amountTotal;
     }
 
-    public void setAmountTotal(long amountTotal) {
+    public void setAmountTotal(float amountTotal) {
         this.amountTotal = amountTotal;
     }
 }

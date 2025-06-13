@@ -73,7 +73,7 @@ public class ReservationService {
             );
         }
 
-        var stayDuration = Duration.between(
+        Duration stayDuration = Duration.between(
             dto.getDateStayBegin(),
             dto.getDateStayEnd()
         );
@@ -97,10 +97,12 @@ public class ReservationService {
         orderLineDTO.setProductId(dto.getPropertyId());
         orderLineDTO.setDateStayEnd(dto.getDateStayEnd());
         orderLineDTO.setDateStayBegin(dto.getDateStayBegin());
+        orderLineDTO.setProductUomQty(stayDuration.toDays());
 
         odooService.save("sale.order.line", orderLineDTO, OdooResponseDTO.class);
         OdooSaleOrderDTO saleOrder = findSaleOrderById(orderId);
-        long amount = saleOrder.getAmountTotal();
+        float amountPerNight = saleOrder.getAmountTotal() * 100;
+        long amount = (long) amountPerNight;
 
         return paymentService.createCheckoutSession(amount);
     }

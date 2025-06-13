@@ -54,7 +54,7 @@ public class RentalPropertyService {
     }
 
     public OdooRentalPropertyDTO findById(int id) throws NotFoundException, InternalErrorException {
-        List<List<String>> conditions = List.of(
+        List<List<Object>> conditions = List.of(
             List.of("categ_id", "=", "All / Rental property"),
             List.of("id", "=", String.valueOf(id))
         );
@@ -69,17 +69,7 @@ public class RentalPropertyService {
     public List<OdooRentalPropertyDTO> findAvailableDTOs(
         RentalPropertyRequestDTO dto
     ) throws InternalErrorException {
-        // if (dto.getStartDate() != null) {
-        //     if (dto.getEndDate() != null) {
-        //         return rentalPropertyRepository.findAvailableDTOs(
-        //             dto.getStartDate().atTime(LocalTime.MIN),
-        //             dto.getEndDate().atTime(LocalTime.MIN)
-        //         );
-        //     } else return rentalPropertyRepository.findAvailableDTOsByStartDate(
-        //         dto.getStartDate().atTime(LocalTime.MIN)
-        //     );
-        // } else return rentalPropertyRepository.findAllDTOs();
-        List<List<String>> conditions = List.of(
+        List<List<Object>> conditions = List.of(
             List.of("categ_id", "=", "All / Rental property")
         );
         OdooRentalPropertyGetDTO response = odooService.<OdooRentalPropertyGetDTO>find("product.template", FIELDS, conditions, OdooRentalPropertyGetDTO.class);

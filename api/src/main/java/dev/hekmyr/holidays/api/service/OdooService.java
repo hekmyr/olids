@@ -42,7 +42,7 @@ public class OdooService {
     public <T extends OdooResponseDTO> T find(
         String model_name,
         List<String> fields,
-        List<List<String>> conditions,
+        List<List<Object>> conditions,
         Class<T> responseType
     ) throws InternalErrorException {
         var args = List.of(

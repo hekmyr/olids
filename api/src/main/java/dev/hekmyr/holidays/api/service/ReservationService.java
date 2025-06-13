@@ -108,13 +108,13 @@ public class ReservationService {
     }
 
     public List<OdooReservationDTO> findAllByUserId(int userId) throws InternalErrorException {
-        List<List<String>> conditions = List.of(List.of("partner_id", "=", Integer.toString(userId)));
+        List<List<Object>> conditions = List.of(List.of("order_partner_id", "=", userId));
         OdooReservationGetDTO response = odooService.find(SOL_MODEL_NAME, SALE_ORDER_LINE_FIELDS, conditions, OdooReservationGetDTO.class);
         return response.getResult();
     }
 
     public OdooSaleOrderDTO findSaleOrderById(int id) throws InternalErrorException {
-        List<List<String>> conditions = List.of(List.of("id", "=", Integer.toString(id)));
+        List<List<Object>> conditions = List.of(List.of("id", "=", Integer.toString(id)));
         OdooSaleOrderGetResponseDTO response = odooService.find(
             "sale.order",
             SALE_ORDER_FIELDS,

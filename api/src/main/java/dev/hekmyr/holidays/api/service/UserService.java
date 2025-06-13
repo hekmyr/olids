@@ -63,7 +63,7 @@ public class UserService {
     }
 
     public OdooUserDetails findByEmail(String email) throws InternalErrorException, NotFoundException {
-        List<List<String>> conditions = List.of(List.of("email", "=", email));
+        List<List<Object>> conditions = List.of(List.of("email", "=", email));
         List<String> fields = List.of("id", "email", "password");
 
         OdooUserDetailsGetResponseDTO response = odooService.<OdooUserDetailsGetResponseDTO>find(
@@ -82,7 +82,7 @@ public class UserService {
     }
 
     public OdooUserDTO findUserByEmail(String email) throws InternalErrorException, NotFoundException {
-        List<List<String>> conditions = List.of(List.of("email", "=", email));
+        List<List<Object>> conditions = List.of(List.of("email", "=", email));
         List<String> fields = List.of(
             "id",
             "name",

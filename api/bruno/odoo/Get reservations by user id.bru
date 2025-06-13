@@ -1,0 +1,44 @@
+meta {
+  name: Get reservations by user id
+  type: http
+  seq: 9
+}
+
+post {
+  url: http://localhost:8069/jsonrpc
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "jsonrpc": "2.0",
+    "method": "call",
+    "params": {
+      "service": "object",
+      "method": "execute",
+      "args": [
+        "odoo_db",
+        2,
+        "progiciel",
+        "sale.order.line",
+        "search_read",
+        [
+          [
+            "order_partner_id",
+            "=",
+            8
+          ]
+        ],
+        [
+          "id",
+          "name"
+        ]
+      ]
+    }
+  }
+}

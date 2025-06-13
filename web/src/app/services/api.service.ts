@@ -34,7 +34,7 @@ export class ApiService {
   }
 
   public signUp(body: SignUpDTO): Observable<Object> {
-    return this.http.post(`${this.apiUrl}/user/sign-up`, body);
+    return this.http.post(`${this.apiUrl}/public/sign-up`, body);
   }
 
   public rentalProperties(

@@ -106,7 +106,7 @@ public class ReservationService {
     }
 
     public List<OdooReservationDTO> findAllByUserId(int userId) throws InternalErrorException {
-        List<List<String>> conditions = List.of();
+        List<List<String>> conditions = List.of(List.of("partner_id", "=", Integer.toString(userId)));
         OdooReservationGetDTO response = odooService.find(SOL_MODEL_NAME, SALE_ORDER_LINE_FIELDS, conditions, OdooReservationGetDTO.class);
         return response.getResult();
     }

@@ -1,18 +1,32 @@
 package dev.hekmyr.holidays.api.dto;
 
+import java.util.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonAlias;
 
 public class OdooReservationDTO {
     @JsonProperty("id")
+    @JsonAlias("id")
     private int id;
 
-    @JsonProperty("product_id")
-    private int productId;
+    @JsonProperty("productId")
+    @JsonAlias("product_id")
+    private List<Object> productId;
 
-    @JsonProperty("date_stay_begin")
+    @JsonProperty("name")
+    @JsonAlias("name")
+    private String name;
+
+    @JsonProperty("priceTotal")
+    @JsonAlias("price_total")
+    private float priceTotal;
+
+    @JsonProperty("dateStayBegin")
+    @JsonAlias("date_stay_begin")
     private String dateStayBegin;
 
-    @JsonProperty("date_stay_end")
+    @JsonProperty("dateStayEnd")
+    @JsonAlias("date_stay_end")
     private String dateStayEnd;
 
     public int getId() {
@@ -23,11 +37,11 @@ public class OdooReservationDTO {
         this.id = id;
     }
 
-    public int getProductId() {
+    public List<Object> getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(List<Object> productId) {
         this.productId = productId;
     }
 
@@ -45,5 +59,21 @@ public class OdooReservationDTO {
 
     public void setDateStayEnd(String dateStayEnd) {
         this.dateStayEnd = dateStayEnd;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public float getPriceTotal() {
+        return priceTotal;
+    }
+
+    public void setPriceTotal(float priceTotal) {
+        this.priceTotal = priceTotal;
     }
 }

@@ -3,12 +3,9 @@ import { RentalPropertyInterface } from './rental-property.interface';
 
 export interface ReservationInterface {
   id: string;
-  list_price: number;
-  dateStayStart: Date;
-  dateStayEnd: Date;
-  isCancelled: boolean;
-  isPayed: boolean;
-  guest: number;
-  property: RentalPropertyInterface;
-  billingInformation: BillingInformationInterface;
+  productId: [number, string];
+  name: string;
+  priceTotal: number;
+  dateStayBegin: string;
+  dateStayEnd: string;
 }

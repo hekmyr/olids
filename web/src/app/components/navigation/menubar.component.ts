@@ -138,6 +138,10 @@ export class MenubarComponent {
   }
   items: MenuItem[] = [
     {
+      label: 'Reservations',
+      routerLink: '/reservations'
+    },
+    {
       label: 'Contact',
       routerLink: '/contact'
     },

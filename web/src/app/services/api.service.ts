@@ -64,9 +64,12 @@ export class ApiService {
     );
   }
 
-  public getReservations(): Observable<Array<ReservationInterface>> {
-    return this.http.get<Array<ReservationInterface>>(
-      `${this.apiUrl}/reservations`
+  public getReservations(): Observable<DataResponse<Array<ReservationInterface>>> {
+    return this.http.get<DataResponse<Array<ReservationInterface>>>(
+      `${this.apiUrl}/reservation/get-all`,
+      {
+        withCredentials: true
+      }
     );
   }
 

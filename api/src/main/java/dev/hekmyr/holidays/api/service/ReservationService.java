@@ -21,13 +21,16 @@ public class ReservationService {
     private final RentalPropertyService rentalPropertyService;
     private final PaymentService paymentService;
 
-    private final String MODEL_NAME = "sale.order.line";
-    private final List<String> FIELDS = List.of(
+    private final String SOL_MODEL_NAME = "sale.order.line";
+    private final List<String> SALE_ORDER_LINE_FIELDS = List.of(
         "id",
         "product_id",
+        "name",
+        "price_total",
         "date_stay_begin",
         "date_stay_end"
     );
+
     private final List<String> SALE_ORDER_FIELDS = List.of(
         "id",
         "amount_total"
@@ -104,7 +107,7 @@ public class ReservationService {
 
     public List<OdooReservationDTO> findAllByUserId(int userId) throws InternalErrorException {
         List<List<String>> conditions = List.of();
-        OdooReservationGetDTO response = odooService.find(MODEL_NAME, FIELDS, conditions, OdooReservationGetDTO.class);
+        OdooReservationGetDTO response = odooService.find(SOL_MODEL_NAME, SALE_ORDER_LINE_FIELDS, conditions, OdooReservationGetDTO.class);
         return response.getResult();
     }
 
